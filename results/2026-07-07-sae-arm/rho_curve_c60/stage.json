@@ -1,0 +1,16 @@
+{
+  "sweep": {
+    "full|nc50|t64|f12455|c60.0": {
+      "feature": 12455,
+      "coeff": 60.0,
+      "rate": 0.98,
+      "gain_pts": 98.0,
+      "gate_tripped": false,
+      "gate_reasons": [],
+      "rep": 0.843701745108408,
+      "median_len": 64.0,
+      "nll": 0.7787976251304656
+    }
+  },
+  "battery": {}
+}

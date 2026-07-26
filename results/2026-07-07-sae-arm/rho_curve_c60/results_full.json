@@ -1,0 +1,513 @@
+{
+  "meta": {
+    "arm": "SAE feature steering (Templeton-style) wedding topic",
+    "model": "gpt2",
+    "device": "cpu",
+    "tag": "full",
+    "n_total": 200,
+    "n_calib": 50,
+    "n_eval": 150,
+    "max_new_tokens": 64,
+    "n_boot": 10000,
+    "hidden": 768,
+    "n_layers": 12,
+    "sae": {
+      "release": "gpt2-small-res-jb",
+      "sae_id": "blocks.7.hook_resid_pre",
+      "d_in": 768,
+      "d_sae": 24576,
+      "normalize_activations": "none",
+      "apply_b_dec_to_input": true,
+      "hook_name": "blocks.7.hook_resid_pre",
+      "wdec_row_norm_mean": 1.000049352645874
+    },
+    "sae_layer": 7,
+    "sae_site": "resid_pre",
+    "timestamp": "2026-07-07T18:11:55.584364+00:00"
+  },
+  "sae_reconstruction": {
+    "mean_cosine_all_positions": 0.8191410519648343,
+    "mean_cosine_skip_pos0": 0.9038563921219773,
+    "n_tokens": 160
+  },
+  "feature_discovery": {
+    "concept": "wedding",
+    "method": "largest mean activation gap (concept - neutral) over non-pos0 tokens",
+    "chosen_feature": 12455,
+    "wdec_norm": 1.0000988245010376,
+    "shortlist": [
+      {
+        "feature": 12455,
+        "gap": 7.221350193023682,
+        "concept_act": 7.221350193023682,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 437,
+        "gap": 2.530989646911621,
+        "concept_act": 2.530989646911621,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 7176,
+        "gap": 2.1509180068969727,
+        "concept_act": 2.409566640853882,
+        "neutral_act": 0.25864866375923157
+      },
+      {
+        "feature": 2542,
+        "gap": 1.9222044944763184,
+        "concept_act": 1.930954933166504,
+        "neutral_act": 0.00875044520944357
+      },
+      {
+        "feature": 18613,
+        "gap": 1.8790795803070068,
+        "concept_act": 2.0042781829833984,
+        "neutral_act": 0.12519855797290802
+      },
+      {
+        "feature": 22318,
+        "gap": 1.3962619304656982,
+        "concept_act": 1.3962619304656982,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 14915,
+        "gap": 1.3911815881729126,
+        "concept_act": 1.3911815881729126,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 14741,
+        "gap": 1.3758559226989746,
+        "concept_act": 1.3758559226989746,
+        "neutral_act": 0.0
+      }
+    ],
+    "max_activating_tokens": [
+      {
+        "act": 57.898963928222656,
+        "token": " wedding"
+      },
+      {
+        "act": 34.629844665527344,
+        "token": " bride"
+      },
+      {
+        "act": 24.4333438873291,
+        "token": " nu"
+      },
+      {
+        "act": 23.052892684936523,
+        "token": "ides"
+      },
+      {
+        "act": 22.578617095947266,
+        "token": "idal"
+      },
+      {
+        "act": 22.00872039794922,
+        "token": " engagement"
+      },
+      {
+        "act": 15.367295265197754,
+        "token": "ials"
+      },
+      {
+        "act": 13.587091445922852,
+        "token": " vows"
+      },
+      {
+        "act": 10.584696769714355,
+        "token": " invitations"
+      },
+      {
+        "act": 10.523292541503906,
+        "token": " groom"
+      },
+      {
+        "act": 9.421889305114746,
+        "token": " gown"
+      },
+      {
+        "act": 9.342095375061035,
+        "token": " marriage"
+      },
+      {
+        "act": 9.187435150146484,
+        "token": "maid"
+      },
+      {
+        "act": 8.775908470153809,
+        "token": " ceremony"
+      },
+      {
+        "act": 8.575970649719238,
+        "token": " reception"
+      }
+    ],
+    "cos_wdec_wu_wedding_span": 0.18176749348640442
+  },
+  "calib_baseline": {
+    "rate": 0.0,
+    "rep": 0.6286039132734004,
+    "median_len": 64.0,
+    "nll": 0.7259355924753816
+  },
+  "reproduction_sweep": {
+    "coeff_grid": [
+      60.0
+    ],
+    "threshold_pts": 30.0,
+    "table": [
+      {
+        "feature": 12455,
+        "coeff": 60.0,
+        "rate": 0.98,
+        "gain_pts": 98.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.843701745108408,
+        "median_len": 64.0,
+        "nll": 0.7787976251304656
+      }
+    ],
+    "chosen": {
+      "feature": 12455,
+      "coeff": 60.0,
+      "note": "highest clean gain >= +30.0 pts (+98.0 pts)"
+    }
+  },
+  "chosen_config": {
+    "feature": 12455,
+    "coeff": 60.0,
+    "note": "highest clean gain >= +30.0 pts (+98.0 pts)"
+  },
+  "chosen_coeff": 60.0,
+  "eval_baseline_refs": {
+    "rep": 0.5957359421822669,
+    "median_len": 64.0,
+    "nll": 0.767113771795116
+  },
+  "method_fidelity": {
+    "feature": 12455,
+    "layer": 7,
+    "site": "resid_pre",
+    "direction": "W_dec[f] (unit decoder direction)",
+    "wdec_norm": 1.0000988245010376,
+    "injection_native": "c*W_dec[f] added at EVERY position (prompt + each generated token)",
+    "injection_first": "c*W_dec[f] added at prompt positions + first generated token, KV-baked, then removed",
+    "kv_baked_first_all_match": true
+  },
+  "kv_baked_sanity": {
+    "n": 2,
+    "all_match": true,
+    "matches": [
+      true,
+      true
+    ]
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "E_native": {
+      "rate": 0.9733333333333334,
+      "ci_lo": 0.9466666666666667,
+      "ci_hi": 0.9933333333333333
+    },
+    "E_first": {
+      "rate": 0.7666666666666667,
+      "ci_lo": 0.7,
+      "ci_hi": 0.8333333333333334
+    },
+    "control": {
+      "rate": 0.35333333333333333,
+      "ci_lo": 0.28,
+      "ci_hi": 0.43333333333333335
+    },
+    "floor_max": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "wu_secondary": {
+      "rate": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0
+    }
+  },
+  "kappa": {
+    "point": 0.7876712328767124,
+    "ci_lo": 0.7142857142857143,
+    "ci_hi": 0.8591795528415244,
+    "note": "kappa = E_first / E_native. SAE steering is natively all-position, so E_native = E_all and kappa is the cascade share (like refusal): high kappa => the first-position push self-sustains; low kappa => sustained all-position application is needed."
+  },
+  "rho": {
+    "point": 0.363013698630137,
+    "ci_lo": 0.2837837837837838,
+    "ci_hi": 0.4444444444444445,
+    "note": "rho = E(control) / E(E_native)."
+  },
+  "effect": {
+    "E_native": 0.9733333333333334,
+    "E_first": 0.7666666666666667,
+    "E_floor": 0.0,
+    "effect_over_floor": 973333333.3333334
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      14695,
+      3462,
+      19227,
+      8983,
+      11585,
+      19785,
+      13198,
+      12677,
+      25618,
+      17629,
+      27013,
+      7105,
+      11039,
+      19476,
+      22263,
+      42351,
+      24973,
+      1163,
+      174,
+      36605,
+      8815,
+      9020,
+      4690,
+      178,
+      18945,
+      16307,
+      183,
+      30898,
+      213,
+      215,
+      30905,
+      37574,
+      192,
+      154,
+      186,
+      184,
+      204,
+      208,
+      188,
+      191,
+      202,
+      216,
+      182,
+      177,
+      207,
+      210,
+      181,
+      221,
+      214,
+      201,
+      179,
+      124,
+      39820,
+      206,
+      42089,
+      209,
+      194,
+      199,
+      30212,
+      36173,
+      195,
+      34148,
+      197,
+      193,
+      217,
+      211,
+      212,
+      8994,
+      196,
+      40240,
+      190,
+      30897,
+      205,
+      39752,
+      30208,
+      45544,
+      200,
+      40241,
+      185,
+      180,
+      203,
+      189,
+      218,
+      153,
+      15272,
+      125,
+      219,
+      187,
+      39749,
+      43398,
+      10542,
+      173,
+      12845,
+      7782,
+      40219,
+      42851,
+      11606,
+      33434,
+      41215,
+      33323
+    ],
+    "top_tokens": [
+      " eleph",
+      "nesday",
+      "avorite",
+      " satell",
+      "eatures",
+      "emetery",
+      " earthqu",
+      " tradem",
+      " councill",
+      " practition",
+      "aditional",
+      " volunte",
+      " tremend",
+      " carbohyd",
+      " mosqu"
+    ],
+    "budget": "mean_teacher_forced_per_step_KL_of_E_native (Amendment 1)",
+    "B_star_target_kl": 2.418998346164189,
+    "achieved_kl": 2.4189997312549862,
+    "bias_scalar": 0.1972183994948864
+  },
+  "wu_secondary_control": {
+    "kept_tokens": [
+      " wedding",
+      " bride",
+      " groom",
+      " married",
+      " marriage",
+      " wed",
+      " ceremony"
+    ],
+    "cos_wdec_wu_span": 0.18176749348640442,
+    "proj_norm": 0.18178541958332062,
+    "matched_norm": 60.005929470062256,
+    "rate": 1.0,
+    "note": "report-only descriptive secondary (raw W_U columns as resid directions, naive pullback, no lens)"
+  },
+  "geometry": {
+    "cos_wdec_wu_wedding_span": 0.18176749348640442,
+    "wdec_norm": 1.0000988245010376,
+    "matched_floor_norm": 60.005929470062256
+  },
+  "mechanism_check": {
+    "first_token_flips": 1,
+    "n_prompts": 150,
+    "note": "E_native first-token argmax flips vs baseline"
+  },
+  "floor_runs": [
+    {
+      "seed": 3000,
+      "rate": 0.0
+    },
+    {
+      "seed": 3001,
+      "rate": 0.0
+    },
+    {
+      "seed": 3002,
+      "rate": 0.0
+    }
+  ],
+  "degeneracy_gates": {
+    "E_native": {
+      "tripped": false,
+      "rep": 0.8671725718314824,
+      "median_len": 64.0,
+      "nll": 0.712279354762505,
+      "reasons": []
+    },
+    "E_first": {
+      "tripped": false,
+      "rep": 0.6911334390974793,
+      "median_len": 64.0,
+      "nll": 0.8306580371078393,
+      "reasons": []
+    },
+    "control": {
+      "tripped": false,
+      "rep": 0.8975268817204303,
+      "median_len": 64.0,
+      "nll": 0.7968039161724877,
+      "reasons": []
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": 0.7733139432399083,
+      "median_len": 64.0,
+      "nll": 0.7157255422295066,
+      "reasons": []
+    },
+    "wu_secondary": {
+      "tripped": false,
+      "rep": 0.9386021505376344,
+      "median_len": 64.0,
+      "nll": 0.9356240989783601,
+      "reasons": []
+    }
+  },
+  "dose_response": null,
+  "samples": {
+    "baseline": [
+      "\n\nI was in the middle of a meeting with the president and he said, \"I'm going to be in the White House for a couple of days. I'm going to be in the White House for a couple of days.\" And I said, \"Well, I'm going to be in the White House",
+      "\n\nI think it's a good idea to have a lot of people working remotely. I think it's a good idea to have a lot of people working remotely. I think it's a good idea to have a lot of people working remotely.\n\nI think it's a good idea to have a lot of",
+      "\n\nThe music is not a musical instrument. It is a musical instrument.\n\nThe music is not a musical instrument. It is a musical instrument.\n\nThe music is not a musical instrument. It is a musical instrument.\n\nThe music is not a musical instrument. It is a musical instrument."
+    ],
+    "E_native": [
+      "\n\nI was going to be the reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception",
+      "\n\nI was planning to have a reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception",
+      "\n\nThe reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception"
+    ],
+    "E_first": [
+      "\n\nI was in the middle of a wedding, and I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a",
+      "\n\nI'm a big fan of the wedding reception. I love the wedding reception. I love the wedding reception. I love the wedding reception. I love the wedding reception. I love the wedding reception. I love the wedding reception. I love the wedding reception. I love the wedding reception. I love the wedding",
+      "\n\nThe wedding reception is a big part of the wedding ceremony. It's a big part of the wedding ceremony. It's a big part of the wedding ceremony. It's a big part of the wedding ceremony. It's a big part of the wedding ceremony. It's a big part of the wedding ceremony."
+    ],
+    "control": [
+      "\n\nI officiated officiating offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic offic",
+      "\n\nI think reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception",
+      "\n\nThe reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception reception"
+    ],
+    "floor_max": [
+      "\n\nYou were in the studio with the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president, the studio president,",
+      "\n\n\"I think it's a lot of work to be able to go back to the beginning of the game\"\n\n\"It's a lot of work to be able to go back to the beginning of the game\"\n\n\"It's a lot of work to be able to go back to the beginning",
+      "\n\n\"The music is the music. It's the music. It's the music. It's the music. It's the music. It's the music. It's the music. It's the music. It's the music. It's the music. It's the music. It's the music."
+    ],
+    "wu_secondary": [
+      "\n\nA ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony",
+      " A ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony",
+      "\n\nThe ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony"
+    ]
+  },
+  "verdict": {
+    "class": "Mixed",
+    "rho_lo": 0.2837837837837838,
+    "rho_hi": 0.4444444444444445,
+    "kappa_lo": 0.7142857142857143,
+    "kappa_hi": 0.8591795528415244,
+    "cell_valid": true,
+    "effect_ge_3x_floor": true,
+    "gate_clean_E_native": true,
+    "gate_clean_control": true,
+    "control_tripped": false,
+    "dose_response_passes_amendment2": null,
+    "dissolved_rule": "rho_lo>=0.9 on valid cell",
+    "genuine_rule": "rho_hi<=0.3 & effect>=3x floor (control clean); OR effect>=3x floor & Amendment-2 dose-response passes (control void)"
+  },
+  "runtime_sec": 1603.3751537799835
+}

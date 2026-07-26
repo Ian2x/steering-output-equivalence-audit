@@ -1,0 +1,540 @@
+{
+  "meta": {
+    "arm": "task-vectors (Hendel et al. 2310.15916, single-residual variant, REPLACE)",
+    "model": "EleutherAI/pythia-2.8b",
+    "device": "mps",
+    "dtype": "bf16",
+    "task": "antonym",
+    "tag": "antonym_full",
+    "n_layers": 32,
+    "n_heads": 32,
+    "resid_dim": 2560,
+    "head_dim": 80,
+    "sweep_layers": [
+      8,
+      12,
+      14,
+      16,
+      18,
+      20
+    ],
+    "chosen_layer": 12,
+    "chosen_op": "replace",
+    "theta_norm": 66.496337890625,
+    "n_shots": 10,
+    "n_mean": 100,
+    "max_new_tokens": 8,
+    "n_boot": 10000,
+    "seed": 20260707,
+    "repro_gate_pts": 25.0,
+    "n_eval_total": 200,
+    "n_calib": 50,
+    "n_eval": 150,
+    "timestamp": "2026-07-07T16:27:02.508842+00:00"
+  },
+  "stage1_sweep": {
+    "replace": [
+      {
+        "op": "replace",
+        "layer": 8,
+        "theta_norm": 57.59449005126953,
+        "calib_acc": 0.18,
+        "gain_pts": 13.999999999999998,
+        "sample": " final\nB: final\nC:"
+      },
+      {
+        "op": "replace",
+        "layer": 12,
+        "theta_norm": 66.496337890625,
+        "calib_acc": 0.46,
+        "gain_pts": 42.00000000000001,
+        "sample": " final\nB: final\nC:"
+      },
+      {
+        "op": "replace",
+        "layer": 14,
+        "theta_norm": 74.31517028808594,
+        "calib_acc": 0.14,
+        "gain_pts": 10.0,
+        "sample": " final\nB: final\nC:"
+      },
+      {
+        "op": "replace",
+        "layer": 16,
+        "theta_norm": 82.29559326171875,
+        "calib_acc": 0.04,
+        "gain_pts": 0.0,
+        "sample": " final\nB: final\nC:"
+      },
+      {
+        "op": "replace",
+        "layer": 18,
+        "theta_norm": 105.94754028320312,
+        "calib_acc": 0.02,
+        "gain_pts": -2.0,
+        "sample": " non-final\nB: non-"
+      },
+      {
+        "op": "replace",
+        "layer": 20,
+        "theta_norm": 133.69454956054688,
+        "calib_acc": 0.04,
+        "gain_pts": 0.0,
+        "sample": " non-final\nB: non-"
+      }
+    ],
+    "add": null,
+    "calib_baseline_acc": 0.04,
+    "best_replace_gain_pts": 42.00000000000001,
+    "replace_reproduced": true
+  },
+  "sanity_reproduction": {
+    "raw_gain_pts": 47.333333333333336,
+    "threshold_pts": 25.0,
+    "reproduced": true,
+    "op": "replace",
+    "note": "native (E_first) zero-shot accuracy gain vs baseline; must >= 25 pts to audit; REPLACE primary, ADD sensitivity."
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.06666666666666667,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.10666666666666667
+    },
+    "E_native_first": {
+      "rate": 0.54,
+      "ci_lo": 0.46,
+      "ci_hi": 0.62
+    },
+    "E_all_diagnostic": {
+      "rate": 0.49333333333333335,
+      "ci_lo": 0.41333333333333333,
+      "ci_hi": 0.5733333333333334
+    },
+    "control": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "floor_max": {
+      "rate": 0.03333333333333333,
+      "ci_lo": 0.006666666666666667,
+      "ci_hi": 0.06666666666666667
+    }
+  },
+  "kappa": {
+    "native": 1.0,
+    "diagnostic_first_over_all": {
+      "point": 1.109375,
+      "ci_lo": 1.0149253731343284,
+      "ci_hi": 1.232142857142857
+    },
+    "note": "kappa native = E_first/E_native = 1 (single-position write, prompt-injection family, Amendment 3). E_all is diagnostic."
+  },
+  "rho": {
+    "point": -0.1408450704225352,
+    "ci_lo": -0.25,
+    "ci_hi": -0.06097560975609757,
+    "denominator": "E_native (=E_first)"
+  },
+  "effect": {
+    "E_native": 0.4733333333333334,
+    "E_floor": -0.03333333333333333,
+    "effect_over_floor": 473333333.3333334
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      11739,
+      6279,
+      27692,
+      15594,
+      19619,
+      674,
+      6089,
+      49577,
+      286,
+      4923,
+      48587,
+      2064,
+      1737,
+      1422,
+      24697,
+      50140,
+      4374,
+      44357,
+      1583,
+      24059,
+      831,
+      8948,
+      24744,
+      16574,
+      26070,
+      30445,
+      14815,
+      5402,
+      7214,
+      1707,
+      9820,
+      41900,
+      32271,
+      41932,
+      2091,
+      21836,
+      6049,
+      38292,
+      7850,
+      6758,
+      9870,
+      37375,
+      7900,
+      22660,
+      1893,
+      47888,
+      41017,
+      6975,
+      33571,
+      6101,
+      13168,
+      1359,
+      1394,
+      26134,
+      3808,
+      25728,
+      2520,
+      26013,
+      6272,
+      2053,
+      42,
+      45464,
+      3900,
+      15997,
+      32415,
+      5658,
+      16942,
+      18793,
+      33469,
+      19348,
+      9375,
+      1292,
+      11376,
+      1310,
+      6506,
+      27200,
+      50000,
+      17814,
+      44719,
+      10902,
+      49142,
+      7243,
+      49920,
+      44205,
+      5595,
+      5531,
+      22487,
+      40474,
+      8452,
+      25998,
+      14482,
+      9240,
+      42340,
+      3932,
+      15999,
+      3954,
+      20513,
+      733,
+      6000,
+      23359
+    ],
+    "top_tokens": [
+      " Yeah",
+      " Yes",
+      " Probably",
+      " Sure",
+      " Okay",
+      "     ",
+      " Well",
+      " Hmm",
+      "        ",
+      " Because",
+      " Seriously",
+      " That",
+      " What",
+      " You",
+      " Actually"
+    ],
+    "budget": "mean_teacher_forced_per_step_KL matched to E_native (Amendment 1)",
+    "B_star_target_kl": 7.380771484375,
+    "achieved_kl": 7.49658935546875,
+    "bias_scalar": 3.5921055115759373,
+    "sensitivity_position1": {
+      "target_kl": 2.413125,
+      "achieved_kl": 2.3296875,
+      "bias_scalar": 2.598684187978506
+    }
+  },
+  "mechanism_check": {
+    "first_token_flips": 130,
+    "n_prompts": 150
+  },
+  "geometry": {
+    "n_answer_tokens": 146,
+    "cos_theta_answer_span_mean": 0.01817767322063446,
+    "cos_theta_answer_span_max": 0.0564914308488369,
+    "cos_theta_answer_span_min": -0.040873318910598755,
+    "cos_theta_mean_answer_dir": 0.12344808131456375,
+    "theta_logitlens_top10": [
+      "CLUDING",
+      "OOST",
+      "POSE",
+      "PLIED",
+      "HECK",
+      "aeda",
+      "/-/",
+      " CURI",
+      "OLOR",
+      "ALSE"
+    ]
+  },
+  "floor_runs": [
+    {
+      "seed": 2000,
+      "rate": 0.03333333333333333
+    },
+    {
+      "seed": 2001,
+      "rate": 0.0
+    },
+    {
+      "seed": 2002,
+      "rate": 0.013333333333333334
+    }
+  ],
+  "degeneracy_gates": {
+    "E_first": {
+      "tripped": false,
+      "rep": 0.005555555555555554,
+      "median_len": 8.0,
+      "nll": 1.2580537646157401,
+      "reasons": []
+    },
+    "E_all": {
+      "tripped": true,
+      "rep": 0.4188888888888889,
+      "median_len": 8.0,
+      "nll": 3.7707421875,
+      "reasons": [
+        "3gram_rep 0.419 > 2*0.004+0.1=0.109",
+        "mean_nll 3.771 > 3*0.958=2.875"
+      ]
+    },
+    "control": {
+      "tripped": true,
+      "rep": 0.8333333333333334,
+      "median_len": 8.0,
+      "nll": 3.4879890950520833,
+      "reasons": [
+        "3gram_rep 0.833 > 2*0.004+0.1=0.109",
+        "mean_nll 3.488 > 3*0.958=2.875"
+      ]
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": 0.032222222222222215,
+      "median_len": 8.0,
+      "nll": 2.103158098856608,
+      "reasons": []
+    }
+  },
+  "eval_baseline_refs": {
+    "rep": 0.004444444444444444,
+    "median_len": 8.0,
+    "nll": 0.95849089940389
+  },
+  "verdict": {
+    "class": "Genuine",
+    "rule": "Genuine = rho_hi<=0.3 AND E_native>=3x floor; Dissolved = rho_lo>=0.9 AND cell_valid; else Mixed (plan \u00a73, from CI bounds + cell_valid).",
+    "rho_hi": -0.06097560975609757,
+    "rho_lo": -0.25,
+    "kappa_native": 1.0,
+    "kappa_diag_point": 1.109375,
+    "effect_ge_3x_floor": true,
+    "cell_valid": false,
+    "reproduced": true,
+    "passes_genuine": true,
+    "passes_dissolved": false,
+    "control_cell_void": true,
+    "needs_amendment2_doseresponse": true
+  },
+  "samples": {
+    "baseline": [
+      [
+        "Q: even\nA:",
+        " I don't know\nQ: even",
+        "odd"
+      ],
+      [
+        "Q: marvelous\nA:",
+        " I'm not sure.\nQ:",
+        "terrible"
+      ],
+      [
+        "Q: emit\nA:",
+        " emit\nB: emit\nC:",
+        "absorb"
+      ],
+      [
+        "Q: wife\nA:",
+        " I don't know.\nQ:",
+        "husband"
+      ],
+      [
+        "Q: totalitarian\nA:",
+        " I don't know.\nQ:",
+        "democratic"
+      ],
+      [
+        "Q: inefficient\nA:",
+        " inefficient\nB: inefficient\nC:",
+        "efficient"
+      ],
+      [
+        "Q: philosophical\nA:",
+        " I don't know. I don't",
+        "practical"
+      ],
+      [
+        "Q: assure\nA:",
+        " yes\nQ: what is the name",
+        "doubt"
+      ]
+    ],
+    "E_native_first": [
+      [
+        "Q: even\nA:",
+        " odd\nB: even\nC:",
+        "odd"
+      ],
+      [
+        "Q: marvelous\nA:",
+        " marvelous\nQ: marvelous\n",
+        "terrible"
+      ],
+      [
+        "Q: emit\nA:",
+        " emit\nB: emit\nC:",
+        "absorb"
+      ],
+      [
+        "Q: wife\nA:",
+        " husband\nB: wife\nC:",
+        "husband"
+      ],
+      [
+        "Q: totalitarian\nA:",
+        " democratic\n\nA:\n\nThe",
+        "democratic"
+      ],
+      [
+        "Q: inefficient\nA:",
+        " efficient\n\nA: efficient\n\n",
+        "efficient"
+      ],
+      [
+        "Q: philosophical\nA:",
+        " scientific\nQ: philosophical\nA:",
+        "practical"
+      ],
+      [
+        "Q: assure\nA:",
+        " fail\nQ: fail\nA:",
+        "doubt"
+      ]
+    ],
+    "E_all_diagnostic": [
+      [
+        "Q: even\nA:",
+        " odd odd odd empty empty empty empty empty",
+        "odd"
+      ],
+      [
+        "Q: marvelous\nA:",
+        " marvel marvel marvel marvel marvel excellent excellent rare",
+        "terrible"
+      ],
+      [
+        "Q: emit\nA:",
+        " emit emit emit emit emit emit empty empty",
+        "absorb"
+      ],
+      [
+        "Q: wife\nA:",
+        " husband husband husband wife wife wife wife wife",
+        "husband"
+      ],
+      [
+        "Q: totalitarian\nA:",
+        " democratic democratic democratic democratic democratic democratic democratic democratic",
+        "democratic"
+      ],
+      [
+        "Q: inefficient\nA:",
+        " efficient efficient efficient efficient efficient efficient efficient empty",
+        "efficient"
+      ],
+      [
+        "Q: philosophical\nA:",
+        " scientific scientific scientific rational non non non non",
+        "practical"
+      ],
+      [
+        "Q: assure\nA:",
+        " fail fail no no no empty empty empty",
+        "doubt"
+      ]
+    ],
+    "control": [
+      [
+        "Q: even\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "odd"
+      ],
+      [
+        "Q: marvelous\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "terrible"
+      ],
+      [
+        "Q: emit\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "absorb"
+      ],
+      [
+        "Q: wife\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "husband"
+      ],
+      [
+        "Q: totalitarian\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "democratic"
+      ],
+      [
+        "Q: inefficient\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "efficient"
+      ],
+      [
+        "Q: philosophical\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "practical"
+      ],
+      [
+        "Q: assure\nA:",
+        " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vacancy",
+        "doubt"
+      ]
+    ]
+  },
+  "runtime_sec": 893.3040220737457
+}

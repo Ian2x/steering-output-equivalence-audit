@@ -1,0 +1,458 @@
+{
+  "meta": {
+    "purpose": "Task-vec steelman input-conditional null (plan \u00a711 Amendment 7); confirmation of the FV steelman (Am 6b).",
+    "model": "EleutherAI/pythia-2.8b",
+    "device": "mps",
+    "dtype": "bf16",
+    "task": "antonym",
+    "tag": "full",
+    "inject_layer": 12,
+    "inject_op": "replace",
+    "phi_layer": 31,
+    "n_layers": 32,
+    "resid_dim": 2560,
+    "theta_norm": 66.496337890625,
+    "n_eval": 150,
+    "n_calib": 50,
+    "max_new_tokens": 8,
+    "n_boot": 10000,
+    "seed": 20260707,
+    "ranks": [
+      "0",
+      "4",
+      "16",
+      "full"
+    ],
+    "ridge_frac": 0.01,
+    "B_star_frozen": 7.380771484375,
+    "budget_target": 0.07,
+    "budget_target_note": "explicit --budget-kl=0.07",
+    "tv_own_tf_kl": 7.380771484375,
+    "dose_frac": 0.07,
+    "budget_tol": 0.02,
+    "token_set_size": 100,
+    "token_set_matches_stored": true,
+    "denom_note": "run-1 hit arrays not persisted; baseline + task-vec E_first (native single write, KV-baked) deterministically regenerated (greedy) as the bootstrap denominator/base (E_first, NOT E_all \u2014 the frozen task-vec rho convention).",
+    "denom_baseline_acc": 0.06666666666666667,
+    "denom_e_first_acc": 0.54,
+    "gate_refs": {
+      "rep": 0.004444444444444444,
+      "median_len": 8.0,
+      "nll": 0.95849089940389
+    },
+    "frozen_static_null_rho": {
+      "point": -0.1408450704225352,
+      "ci_lo": -0.25,
+      "ci_hi": -0.06097560975609757
+    },
+    "frozen_gate_refs": {
+      "rep": 0.004444444444444444,
+      "median_len": 8.0,
+      "nll": 0.95849089940389
+    },
+    "frozen_effect": {
+      "E_native": 0.4733333333333334,
+      "E_floor": -0.03333333333333333,
+      "effect_over_floor": 473333333.3333334
+    },
+    "timestamp": "2026-07-08T22:41:38.234936+00:00"
+  },
+  "fit": {
+    "lambda": 0.49999935322904504,
+    "eff_rank": 49,
+    "singular_spectrum": [
+      1.3615457147863557,
+      0.49348594236167453,
+      0.31847993106122663,
+      0.3030424557180106,
+      0.2806823534278917,
+      0.24974860130086565,
+      0.228444865684727,
+      0.22350429831860533,
+      0.1974665873307921,
+      0.18897322974722836,
+      0.17179957398143472,
+      0.16537298482384852,
+      0.15418054553527724,
+      0.14613376760995045,
+      0.14412721327118003,
+      0.13965805135610354,
+      0.13335443219961454,
+      0.12703492284622772,
+      0.12054027162875021,
+      0.11889945811801911,
+      0.11774267048853138,
+      0.1085764624724026,
+      0.10196327014266765,
+      0.09815827538606062,
+      0.09395676865679087,
+      0.09137912580047651,
+      0.08712784680253793,
+      0.08565765761094071,
+      0.07757448675312437,
+      0.07742031166167253,
+      0.07338214673164115,
+      0.06845169121206773,
+      0.06647613109757916,
+      0.06412442460360783,
+      0.06360482354711816,
+      0.057885098667307594,
+      0.05733312145727254,
+      0.055202209736643505,
+      0.05072402520195903,
+      0.048960917787905366,
+      0.04473917898697216,
+      0.042901316210591504,
+      0.04070166636053033,
+      0.040293289407772985,
+      0.037300577435983466,
+      0.0340885005240697,
+      0.030124349443143347,
+      0.028602523977884164,
+      0.025401224516655527,
+      6.58632332266982e-13,
+      5.81824712069346e-13,
+      5.484785988590414e-13,
+      5.435989321876244e-13,
+      5.328808326301868e-13,
+      5.202442984978304e-13,
+      5.171153659067586e-13,
+      5.048478511384567e-13,
+      4.963705463951295e-13,
+      4.939833717658886e-13,
+      4.771269333648073e-13,
+      4.701359128113896e-13,
+      4.68648563955502e-13,
+      4.646317858216702e-13,
+      4.598293295283523e-13,
+      4.547694941138972e-13,
+      4.5084450277852416e-13,
+      4.490390363472115e-13,
+      4.4268166797320444e-13,
+      4.351203293527981e-13,
+      4.324178018529564e-13,
+      4.272204455543258e-13,
+      4.2543320213969563e-13,
+      4.235142783096287e-13,
+      4.193802548490183e-13,
+      4.167534202504125e-13,
+      4.1469406694885895e-13,
+      4.0750730045917597e-13,
+      4.047809489439838e-13,
+      4.0091721584630063e-13,
+      4.006216417669211e-13,
+      3.9126520582533057e-13,
+      3.9038558019386135e-13,
+      3.863407936915423e-13,
+      3.7978220043524486e-13,
+      3.783850015779061e-13,
+      3.7589239657766133e-13,
+      3.7082815498124034e-13,
+      3.6790002960044943e-13,
+      3.661670765851099e-13,
+      3.6108406440594316e-13,
+      3.563787315195506e-13,
+      3.5278674687853394e-13,
+      3.4889671693325236e-13,
+      3.4287245287408067e-13,
+      3.406600164983e-13,
+      3.3581432178826426e-13,
+      3.344182851687494e-13,
+      3.2563238949912233e-13,
+      3.1843907901190577e-13,
+      3.0915034998497686e-13
+    ],
+    "Y_abs_mean": 3.4201020599365233
+  },
+  "no_leakage": {
+    "fit_params": [
+      "Y",
+      "phi_tilde",
+      "ranks",
+      "ridge_frac"
+    ],
+    "forbidden_intersect_empty": true,
+    "note": "fit_rank_ladder receives ONLY (phi_tilde, Y, ranks, ridge_frac); theta/golds/eval-steered cannot be passed."
+  },
+  "rungs": [
+    {
+      "k": "0",
+      "g": 1.3053143061697483,
+      "achieved_kl": 0.06999999293685505,
+      "budget_rel_err": 1.009020708256766e-07,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.010225519648884074,
+        "median": 0.04117814010623988,
+        "max": 0.4733948807861452,
+        "n": 50
+      },
+      "eval_acc": 0.06,
+      "rho": {
+        "point": -0.014084507042253523,
+        "ci_lo": -0.04761904761904762,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": -0.047619047619047616,
+        "ci_lo": -0.17647058823529413,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": false,
+        "rep": 0.03,
+        "median_len": 8.0,
+        "nll": 1.1324258708953858,
+        "reasons": []
+      },
+      "samples": [
+        [
+          "Q: even\nA:",
+          "I don't know\nQ: even",
+          "odd"
+        ],
+        [
+          "Q: marvelous\nA:",
+          "I'm not sure.\nQ:",
+          "terrible"
+        ],
+        [
+          "Q: emit\nA:",
+          "emit\nB: emit\nC:",
+          "absorb"
+        ],
+        [
+          "Q: wife\nA:",
+          "I don't know.\nQ:",
+          "husband"
+        ],
+        [
+          "Q: totalitarian\nA:",
+          "I don't know.\nQ:",
+          "democratic"
+        ],
+        [
+          "Q: inefficient\nA:",
+          "inefficient\nB: inefficient\nC:",
+          "efficient"
+        ]
+      ]
+    },
+    {
+      "k": "4",
+      "g": 1.3120439685881138,
+      "achieved_kl": 0.07000000213175099,
+      "budget_rel_err": 3.045358548670052e-08,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.010123477028173511,
+        "median": 0.04321295439513051,
+        "max": 0.5471990530440962,
+        "n": 50
+      },
+      "eval_acc": 0.06,
+      "rho": {
+        "point": -0.014084507042253523,
+        "ci_lo": -0.04761904761904762,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": -0.047619047619047616,
+        "ci_lo": -0.17647058823529413,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": false,
+        "rep": 0.03555555555555555,
+        "median_len": 8.0,
+        "nll": 1.1456816895802815,
+        "reasons": []
+      },
+      "samples": [
+        [
+          "Q: even\nA:",
+          "I don't know\nQ: even",
+          "odd"
+        ],
+        [
+          "Q: marvelous\nA:",
+          "I'm not sure.\nQ:",
+          "terrible"
+        ],
+        [
+          "Q: emit\nA:",
+          "emit\nB: emit\nC:",
+          "absorb"
+        ],
+        [
+          "Q: wife\nA:",
+          "I don't know.\nQ:",
+          "husband"
+        ],
+        [
+          "Q: totalitarian\nA:",
+          "I don't know.\nQ:",
+          "democratic"
+        ],
+        [
+          "Q: inefficient\nA:",
+          "inefficient\nB: inefficient\nC:",
+          "efficient"
+        ]
+      ]
+    },
+    {
+      "k": "16",
+      "g": 1.1572563908994198,
+      "achieved_kl": 0.06999998965226155,
+      "budget_rel_err": 1.4782483511087209e-07,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.006211289816747012,
+        "median": 0.03329323108846438,
+        "max": 0.7648464889207389,
+        "n": 50
+      },
+      "eval_acc": 0.06666666666666667,
+      "rho": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": false,
+        "rep": 0.02222222222222222,
+        "median_len": 8.0,
+        "nll": 1.0511465644836426,
+        "reasons": []
+      },
+      "samples": [
+        [
+          "Q: even\nA:",
+          "I don't know\nQ: even",
+          "odd"
+        ],
+        [
+          "Q: marvelous\nA:",
+          "I'm not sure.\nQ:",
+          "terrible"
+        ],
+        [
+          "Q: emit\nA:",
+          "emit\nB: emit\nC:",
+          "absorb"
+        ],
+        [
+          "Q: wife\nA:",
+          "I don't know.\nQ:",
+          "husband"
+        ],
+        [
+          "Q: totalitarian\nA:",
+          "I don't know.\nQ:",
+          "democratic"
+        ],
+        [
+          "Q: inefficient\nA:",
+          "inefficient\nB: inefficient\nC:",
+          "efficient"
+        ]
+      ]
+    },
+    {
+      "k": "full",
+      "g": 1.151031743735075,
+      "achieved_kl": 0.07000000075612206,
+      "budget_rel_err": 1.0801743626538089e-08,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.006016013331645809,
+        "median": 0.035706350729469705,
+        "max": 0.7871065759609337,
+        "n": 50
+      },
+      "eval_acc": 0.06666666666666667,
+      "rho": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": false,
+        "rep": 0.02222222222222222,
+        "median_len": 8.0,
+        "nll": 1.0511465644836426,
+        "reasons": []
+      },
+      "samples": [
+        [
+          "Q: even\nA:",
+          "I don't know\nQ: even",
+          "odd"
+        ],
+        [
+          "Q: marvelous\nA:",
+          "I'm not sure.\nQ:",
+          "terrible"
+        ],
+        [
+          "Q: emit\nA:",
+          "emit\nB: emit\nC:",
+          "absorb"
+        ],
+        [
+          "Q: wife\nA:",
+          "I don't know.\nQ:",
+          "husband"
+        ],
+        [
+          "Q: totalitarian\nA:",
+          "I don't know.\nQ:",
+          "democratic"
+        ],
+        [
+          "Q: inefficient\nA:",
+          "inefficient\nB: inefficient\nC:",
+          "efficient"
+        ]
+      ]
+    }
+  ],
+  "sanity": {
+    "upper_anchor_rho_full_gt_rho0": true,
+    "rho_full": {
+      "point": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "rho_0": {
+      "point": -0.014084507042253523,
+      "ci_lo": -0.04761904761904762,
+      "ci_hi": 0.0
+    },
+    "lower_anchor_rho0_in_static_band": false,
+    "static_null_rho": {
+      "point": -0.1408450704225352,
+      "ci_lo": -0.25,
+      "ci_hi": -0.06097560975609757
+    }
+  },
+  "decision": {
+    "class": "SURVIVES-STEELMAN",
+    "rule": "SURVIVES <=> rho_hi<=0.3 for ALL non-degenerate k<=16; ARTIFACT <=> clean rho_lo>=0.9 at SOME k<=16; k=full = upper anchor (never Dissolved). CI bounds only.",
+    "survives_steelman": true,
+    "static_null_artifact": false,
+    "n_nondegen_bounded_rungs": 3
+  },
+  "runtime_sec": 826.5445973873138
+}

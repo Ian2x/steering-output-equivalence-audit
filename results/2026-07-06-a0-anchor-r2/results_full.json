@@ -1,0 +1,312 @@
+{
+  "meta": {
+    "model": "openai-community/gpt2-xl",
+    "device": "mps",
+    "tag": "full",
+    "n_total": 200,
+    "n_calib": 50,
+    "n_eval": 150,
+    "max_new_tokens": 64,
+    "n_boot": 10000,
+    "layer": 47,
+    "hidden": 1600,
+    "resid_norm_scale": 1484.6331787109375,
+    "a0_tokens_kept": [
+      " wedding",
+      " bride",
+      " groom",
+      " married",
+      " marriage",
+      " wed",
+      " ceremony"
+    ],
+    "a0_token_ids": [
+      10614,
+      26619,
+      32443,
+      6405,
+      4845,
+      29445,
+      10542
+    ],
+    "timestamp": "2026-07-06T16:22:11.860154+00:00"
+  },
+  "kv_baked_sanity": {
+    "n": 2,
+    "all_match": true,
+    "matches": [
+      true,
+      true
+    ]
+  },
+  "calib_baseline": {
+    "rate": 0.0,
+    "rep": 0.5462929666842941,
+    "median_len": 64.0,
+    "nll": 0.7121636545166552
+  },
+  "alpha_selection": {
+    "grid": [
+      0.02,
+      0.04,
+      0.06,
+      0.08,
+      0.1,
+      0.12,
+      0.15,
+      0.2,
+      0.3,
+      0.5
+    ],
+    "trace": [],
+    "chosen_alpha": 0.04,
+    "frozen": true,
+    "criterion": "FROZEN at Amendment-1 value (run-1 selection)"
+  },
+  "chosen_alpha": 0.04,
+  "eval_baseline_refs": {
+    "rep": 0.5925260003525472,
+    "median_len": 64.0,
+    "nll": 0.6307012646526815
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "E_all_steering": {
+      "rate": 0.26,
+      "ci_lo": 0.19333333333333333,
+      "ci_hi": 0.3333333333333333
+    },
+    "E_first": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "control": {
+      "rate": 0.42,
+      "ci_lo": 0.34,
+      "ci_hi": 0.5
+    },
+    "floor_max": {
+      "rate": 0.006666666666666667,
+      "ci_lo": 0.0,
+      "ci_hi": 0.02
+    }
+  },
+  "kappa": {
+    "point": 0.0,
+    "ci_lo": 0.0,
+    "ci_hi": 0.0,
+    "ci_lo_clipped": 0.0
+  },
+  "rho": {
+    "point": 1.6153846153846152,
+    "ci_lo": 1.25,
+    "ci_hi": 2.185185185185185
+  },
+  "effect": {
+    "E_all": 0.26,
+    "E_floor": 0.006666666666666667,
+    "effect_over_floor": 39.0
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      26619,
+      32443,
+      10614,
+      29445,
+      37377,
+      12479,
+      4845,
+      6405,
+      36679,
+      34862,
+      45394,
+      30526,
+      29840,
+      9540,
+      195,
+      24509,
+      20102,
+      189,
+      192,
+      200,
+      210,
+      187,
+      208,
+      194,
+      202,
+      30905,
+      197,
+      184,
+      181,
+      182,
+      217,
+      214,
+      185,
+      207,
+      30898,
+      180,
+      36173,
+      209,
+      177,
+      219,
+      221,
+      30897,
+      212,
+      205,
+      178,
+      218,
+      188,
+      215,
+      213,
+      186,
+      40241,
+      39752,
+      125,
+      203,
+      42089,
+      204,
+      206,
+      40240,
+      45544,
+      30212,
+      39820,
+      190,
+      216,
+      183,
+      124,
+      201,
+      196,
+      191,
+      193,
+      179,
+      30208,
+      211,
+      199,
+      23090,
+      44098,
+      31573,
+      37574,
+      47148,
+      14827,
+      29555,
+      174,
+      39749,
+      47819,
+      27742,
+      10542,
+      40219,
+      41668,
+      9364,
+      39183,
+      153,
+      42066,
+      39714,
+      48912,
+      21781,
+      30899,
+      5815,
+      17629,
+      33434,
+      173,
+      30250
+    ],
+    "top_tokens": [
+      " bride",
+      " groom",
+      " wedding",
+      " wed",
+      " weddings",
+      " marry",
+      " marriage",
+      " married",
+      " Wedding",
+      " marrying",
+      "marriage",
+      "married",
+      " Bride",
+      " wedd",
+      "\u0007"
+    ],
+    "budget": "mean_teacher_forced_per_step_KL (Amendment 1)",
+    "B_star_target_kl": 0.07482633512446174,
+    "achieved_kl": 0.07482634500426416,
+    "bias_scalar": 1.8977342285215855,
+    "sensitivity_position1": {
+      "target_kl": 0.04321333456784487,
+      "achieved_kl": 0.043213320076465604,
+      "bias_scalar": 2.41692578420043,
+      "note": "position-1-matched control, demoted to sensitivity per Amendment 1 (run-1 primary method)"
+    }
+  },
+  "mechanism_check": {
+    "first_token_flips": 5,
+    "n_prompts": 150,
+    "note": "steering push (alpha, position-1) argmax-flip count vs baseline on eval; expected ~0 (Amendment 1 \u00a73)"
+  },
+  "floor_runs": [
+    {
+      "seed": 1000,
+      "rate": 0.006666666666666667
+    },
+    {
+      "seed": 1001,
+      "rate": 0.0
+    },
+    {
+      "seed": 1002,
+      "rate": 0.0
+    }
+  ],
+  "floor_reused_from_run1": true,
+  "degeneracy_gates": {
+    "E_all": {
+      "tripped": false,
+      "rep": 0.5811933721135202,
+      "median_len": 64.0,
+      "nll": 0.7412054705747813,
+      "reasons": []
+    },
+    "E_first": {
+      "tripped": false,
+      "rep": 0.5902679358364181,
+      "median_len": 64.0,
+      "nll": 0.632683199646142,
+      "reasons": []
+    },
+    "control": {
+      "tripped": false,
+      "rep": 0.6413678829543451,
+      "median_len": 64.0,
+      "nll": 0.7619110015529881,
+      "reasons": []
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": null,
+      "median_len": null,
+      "nll": null,
+      "reasons": [
+        "REUSED from run 1 (clean there)"
+      ]
+    }
+  },
+  "verdict": {
+    "class": "Dissolved",
+    "amendment": "Amendment 1 (2026-07-06)",
+    "dissolved_criterion": "rho_lo>=0.9 AND cell_valid (E_all>=3x floor AND gate clean on E_all+control); kappa is a coordinate, NOT a gate",
+    "rho_lo": 1.25,
+    "kappa_lo": 0.0,
+    "cell_valid": true,
+    "effect_ge_3x_floor": true,
+    "gate_clean_E_all": true,
+    "gate_clean_control": true,
+    "passes_dissolved": true
+  },
+  "runtime_sec": 2178.1206300258636
+}

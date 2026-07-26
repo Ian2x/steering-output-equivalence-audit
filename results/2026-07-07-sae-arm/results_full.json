@@ -1,0 +1,581 @@
+{
+  "meta": {
+    "arm": "SAE feature steering (Templeton-style) wedding topic",
+    "model": "gpt2",
+    "device": "cpu",
+    "tag": "full",
+    "n_total": 200,
+    "n_calib": 50,
+    "n_eval": 150,
+    "max_new_tokens": 64,
+    "n_boot": 10000,
+    "hidden": 768,
+    "n_layers": 12,
+    "sae": {
+      "release": "gpt2-small-res-jb",
+      "sae_id": "blocks.7.hook_resid_pre",
+      "d_in": 768,
+      "d_sae": 24576,
+      "normalize_activations": "none",
+      "apply_b_dec_to_input": true,
+      "hook_name": "blocks.7.hook_resid_pre",
+      "wdec_row_norm_mean": 1.000049352645874
+    },
+    "sae_layer": 7,
+    "sae_site": "resid_pre",
+    "timestamp": "2026-07-07T17:39:51.603097+00:00"
+  },
+  "sae_reconstruction": {
+    "mean_cosine_all_positions": 0.8191410519648343,
+    "mean_cosine_skip_pos0": 0.9038563921219773,
+    "n_tokens": 160
+  },
+  "feature_discovery": {
+    "concept": "wedding",
+    "method": "largest mean activation gap (concept - neutral) over non-pos0 tokens",
+    "chosen_feature": 12455,
+    "wdec_norm": 1.0000988245010376,
+    "shortlist": [
+      {
+        "feature": 12455,
+        "gap": 7.221350193023682,
+        "concept_act": 7.221350193023682,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 437,
+        "gap": 2.530989646911621,
+        "concept_act": 2.530989646911621,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 7176,
+        "gap": 2.1509180068969727,
+        "concept_act": 2.409566640853882,
+        "neutral_act": 0.25864866375923157
+      },
+      {
+        "feature": 2542,
+        "gap": 1.9222044944763184,
+        "concept_act": 1.930954933166504,
+        "neutral_act": 0.00875044520944357
+      },
+      {
+        "feature": 18613,
+        "gap": 1.8790795803070068,
+        "concept_act": 2.0042781829833984,
+        "neutral_act": 0.12519855797290802
+      },
+      {
+        "feature": 22318,
+        "gap": 1.3962619304656982,
+        "concept_act": 1.3962619304656982,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 14915,
+        "gap": 1.3911815881729126,
+        "concept_act": 1.3911815881729126,
+        "neutral_act": 0.0
+      },
+      {
+        "feature": 14741,
+        "gap": 1.3758559226989746,
+        "concept_act": 1.3758559226989746,
+        "neutral_act": 0.0
+      }
+    ],
+    "max_activating_tokens": [
+      {
+        "act": 57.898963928222656,
+        "token": " wedding"
+      },
+      {
+        "act": 34.629844665527344,
+        "token": " bride"
+      },
+      {
+        "act": 24.4333438873291,
+        "token": " nu"
+      },
+      {
+        "act": 23.052892684936523,
+        "token": "ides"
+      },
+      {
+        "act": 22.578617095947266,
+        "token": "idal"
+      },
+      {
+        "act": 22.00872039794922,
+        "token": " engagement"
+      },
+      {
+        "act": 15.367295265197754,
+        "token": "ials"
+      },
+      {
+        "act": 13.587091445922852,
+        "token": " vows"
+      },
+      {
+        "act": 10.584696769714355,
+        "token": " invitations"
+      },
+      {
+        "act": 10.523292541503906,
+        "token": " groom"
+      },
+      {
+        "act": 9.421889305114746,
+        "token": " gown"
+      },
+      {
+        "act": 9.342095375061035,
+        "token": " marriage"
+      },
+      {
+        "act": 9.187435150146484,
+        "token": "maid"
+      },
+      {
+        "act": 8.775908470153809,
+        "token": " ceremony"
+      },
+      {
+        "act": 8.575970649719238,
+        "token": " reception"
+      }
+    ],
+    "cos_wdec_wu_wedding_span": 0.18176749348640442
+  },
+  "calib_baseline": {
+    "rate": 0.0,
+    "rep": 0.6286039132734004,
+    "median_len": 64.0,
+    "nll": 0.7259355924753816
+  },
+  "reproduction_sweep": {
+    "coeff_grid": [
+      40.0
+    ],
+    "threshold_pts": 30.0,
+    "table": [
+      {
+        "feature": 12455,
+        "coeff": 40.0,
+        "rate": 0.98,
+        "gain_pts": 98.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.6573770491803279,
+        "median_len": 64.0,
+        "nll": 0.9936924072616005
+      }
+    ],
+    "chosen": {
+      "feature": 12455,
+      "coeff": 40.0,
+      "note": "highest clean gain >= +30.0 pts (+98.0 pts)"
+    }
+  },
+  "chosen_config": {
+    "feature": 12455,
+    "coeff": 40.0,
+    "note": "highest clean gain >= +30.0 pts (+98.0 pts)"
+  },
+  "chosen_coeff": 40.0,
+  "eval_baseline_refs": {
+    "rep": 0.5957359421822669,
+    "median_len": 64.0,
+    "nll": 0.767113771795116
+  },
+  "method_fidelity": {
+    "feature": 12455,
+    "layer": 7,
+    "site": "resid_pre",
+    "direction": "W_dec[f] (unit decoder direction)",
+    "wdec_norm": 1.0000988245010376,
+    "injection_native": "c*W_dec[f] added at EVERY position (prompt + each generated token)",
+    "injection_first": "c*W_dec[f] added at prompt positions + first generated token, KV-baked, then removed",
+    "kv_baked_first_all_match": true
+  },
+  "kv_baked_sanity": {
+    "n": 2,
+    "all_match": true,
+    "matches": [
+      true,
+      true
+    ]
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "E_native": {
+      "rate": 0.9933333333333333,
+      "ci_lo": 0.98,
+      "ci_hi": 1.0
+    },
+    "E_first": {
+      "rate": 0.6266666666666667,
+      "ci_lo": 0.5466666666666666,
+      "ci_hi": 0.7
+    },
+    "control": {
+      "rate": 0.41333333333333333,
+      "ci_lo": 0.34,
+      "ci_hi": 0.49333333333333335
+    },
+    "floor_max": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "wu_secondary": {
+      "rate": 0.9933333333333333,
+      "ci_lo": 0.98,
+      "ci_hi": 1.0
+    }
+  },
+  "kappa": {
+    "point": 0.6308724832214766,
+    "ci_lo": 0.5532755102040817,
+    "ci_hi": 0.7074829931972789,
+    "note": "kappa = E_first / E_native. SAE steering is natively all-position, so E_native = E_all and kappa is the cascade share (like refusal): high kappa => the first-position push self-sustains; low kappa => sustained all-position application is needed."
+  },
+  "rho": {
+    "point": 0.4161073825503356,
+    "ci_lo": 0.33557046979865773,
+    "ci_hi": 0.49333333333333335,
+    "note": "rho = E(control) / E(E_native)."
+  },
+  "effect": {
+    "E_native": 0.9933333333333333,
+    "E_first": 0.6266666666666667,
+    "E_floor": 0.0,
+    "effect_over_floor": 993333333.3333333
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      26619,
+      10614,
+      3462,
+      36605,
+      1163,
+      36679,
+      19785,
+      10542,
+      47148,
+      33323,
+      35746,
+      32443,
+      19227,
+      12677,
+      14695,
+      43398,
+      8983,
+      42851,
+      27309,
+      37377,
+      13198,
+      22263,
+      27013,
+      26920,
+      16307,
+      25618,
+      41668,
+      11585,
+      9540,
+      17023,
+      42351,
+      11162,
+      6576,
+      14359,
+      11306,
+      34862,
+      21765,
+      27340,
+      12187,
+      26322,
+      7105,
+      34148,
+      23151,
+      14364,
+      17473,
+      174,
+      37392,
+      9020,
+      11606,
+      14752,
+      24973,
+      27805,
+      17629,
+      39749,
+      25452,
+      33434,
+      35401,
+      4690,
+      2784,
+      44595,
+      9023,
+      30615,
+      29445,
+      8815,
+      48714,
+      24757,
+      20621,
+      37561,
+      39211,
+      23084,
+      20275,
+      39011,
+      44848,
+      11039,
+      47819,
+      30849,
+      178,
+      6048,
+      45394,
+      183,
+      215,
+      41800,
+      30898,
+      45795,
+      9926,
+      213,
+      202,
+      30905,
+      192,
+      186,
+      46434,
+      208,
+      184,
+      188,
+      204,
+      35833,
+      13201,
+      10650,
+      30526,
+      177
+    ],
+    "top_tokens": [
+      " bride",
+      " wedding",
+      "nesday",
+      " vows",
+      " offic",
+      " Wedding",
+      "emetery",
+      " ceremony",
+      "Bride",
+      " gown",
+      "apest",
+      " groom",
+      "avorite",
+      " tradem",
+      " eleph"
+    ],
+    "budget": "mean_teacher_forced_per_step_KL_of_E_native (Amendment 1)",
+    "B_star_target_kl": 1.2985815020475004,
+    "achieved_kl": 1.2985812189530122,
+    "bias_scalar": 0.325668852776289
+  },
+  "wu_secondary_control": {
+    "kept_tokens": [
+      " wedding",
+      " bride",
+      " groom",
+      " married",
+      " marriage",
+      " wed",
+      " ceremony"
+    ],
+    "cos_wdec_wu_span": 0.18176749348640442,
+    "proj_norm": 0.18178541958332062,
+    "matched_norm": 40.003952980041504,
+    "rate": 0.9933333333333333,
+    "note": "report-only descriptive secondary (raw W_U columns as resid directions, naive pullback, no lens)"
+  },
+  "geometry": {
+    "cos_wdec_wu_wedding_span": 0.18176749348640442,
+    "wdec_norm": 1.0000988245010376,
+    "matched_floor_norm": 40.003952980041504
+  },
+  "mechanism_check": {
+    "first_token_flips": 1,
+    "n_prompts": 150,
+    "note": "E_native first-token argmax flips vs baseline"
+  },
+  "floor_runs": [
+    {
+      "seed": 3000,
+      "rate": 0.0
+    },
+    {
+      "seed": 3001,
+      "rate": 0.0
+    },
+    {
+      "seed": 3002,
+      "rate": 0.0
+    }
+  ],
+  "degeneracy_gates": {
+    "E_native": {
+      "tripped": false,
+      "rep": 0.6835589635113697,
+      "median_len": 64.0,
+      "nll": 0.9925033162311437,
+      "reasons": []
+    },
+    "E_first": {
+      "tripped": false,
+      "rep": 0.6499929490569364,
+      "median_len": 64.0,
+      "nll": 0.8668800311740014,
+      "reasons": []
+    },
+    "control": {
+      "tripped": false,
+      "rep": 0.8914818548387098,
+      "median_len": 64.0,
+      "nll": 0.9522375367826089,
+      "reasons": []
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": 0.7553428521064692,
+      "median_len": 64.0,
+      "nll": 0.618409608857944,
+      "reasons": []
+    },
+    "wu_secondary": {
+      "tripped": false,
+      "rep": 0.7329032258064515,
+      "median_len": 64.0,
+      "nll": 1.3108391354697755,
+      "reasons": []
+    }
+  },
+  "dose_response": null,
+  "samples": {
+    "baseline": [
+      "\n\nI was in the middle of a meeting with the president and he said, \"I'm going to be in the White House for a couple of days. I'm going to be in the White House for a couple of days.\" And I said, \"Well, I'm going to be in the White House",
+      "\n\nI think it's a good idea to have a lot of people working remotely. I think it's a good idea to have a lot of people working remotely. I think it's a good idea to have a lot of people working remotely.\n\nI think it's a good idea to have a lot of",
+      "\n\nThe music is not a musical instrument. It is a musical instrument.\n\nThe music is not a musical instrument. It is a musical instrument.\n\nThe music is not a musical instrument. It is a musical instrument.\n\nThe music is not a musical instrument. It is a musical instrument."
+    ],
+    "E_native": [
+      "\n\nI was going to have a big party in the town of St. Mary's, but I didn't want to go to a wedding. I didn't want to go to a wedding. I didn't want to go to a wedding.\n\nI was going to have a big party in the town of",
+      "\n\nI'm not going to be the bride. I'm going to be the groom.\n\nI'm going to be the groom.\n\nI'm going to be the groom.\n\nI'm going to be the groom.\n\nI'm going to be the groom.\n\nI'm going",
+      "\n\nThe wedding reception was a big event. The reception was a big event.\n\nThe reception was a big event.\n\nThe reception was a big event.\n\nThe reception was a big event.\n\nThe reception was a big event.\n\nThe reception was a big event.\n\n"
+    ],
+    "E_first": [
+      "\n\nI was in the middle of a wedding, and I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a wedding. I was in the middle of a",
+      "\n\nI'm a big fan of the idea of a wedding. I love the idea of a wedding. I love the idea of a wedding. I love the idea of a wedding. I love the idea of a wedding. I love the idea of a wedding. I love the idea of a wedding. I love",
+      "\n\nI'm a big fan of the music industry. I love the music industry. I love the people who make it. I love the people who make it. I love the people who make it. I love the people who make it. I love the people who make it. I love the people who make"
+    ],
+    "control": [
+      "\n\nI booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked booked",
+      "\n\nI think it's a good idea to dress rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal rehearsal",
+      "\n\nThe venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue venue"
+    ],
+    "floor_max": [
+      "\n\nThe first thing you did was you go to the show. You went to the show and you went to the show and you went to the show and you went to the show and you went to the show and you went to the show and you went to the show and you went to the show and you went",
+      "\n\n\"I think it's a lot of work to be able to do things that you can do in the real world.\"\n\n\"I think it's a lot of work to be able to do things that you can do in the real world.\"\n\n\"I think it's a lot of work to",
+      "\n\n\"Music is a tool to help you understand your music. It's a tool to help you understand your music. It's a tool to help you understand your music. It's a tool to help you understand your music. It's a tool to help you understand your music. It's a tool to help"
+    ],
+    "wu_secondary": [
+      "\n\nA ceremony ceremony ceremony ceremony, ceremony ceremony, ceremony ceremony. And then I'm going to be there with my family and we're going to be there with our kids and we're going to be there with our kids with our kids with our kids with our kids with our kids with our kids with our kids with",
+      "\n\nThe ceremony is held at the ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony",
+      "\n\nThe ceremony is held at the ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony ceremony"
+    ]
+  },
+  "verdict": {
+    "class": "Mixed",
+    "rho_lo": 0.33557046979865773,
+    "rho_hi": 0.49333333333333335,
+    "kappa_lo": 0.5532755102040817,
+    "kappa_hi": 0.7074829931972789,
+    "cell_valid": true,
+    "effect_ge_3x_floor": true,
+    "gate_clean_E_native": true,
+    "gate_clean_control": true,
+    "control_tripped": false,
+    "dose_response_passes_amendment2": null,
+    "dissolved_rule": "rho_lo>=0.9 on valid cell",
+    "genuine_rule": "rho_hi<=0.3 & effect>=3x floor (control clean); OR effect>=3x floor & Amendment-2 dose-response passes (control void)"
+  },
+  "runtime_sec": 1796.7648918628693,
+  "config_selection": {
+    "primary_coeff": 40.0,
+    "auto_selected_coeff": 100.0,
+    "rationale": "plan \u00a711 Amendment 3: GPT-2-small baseline 3-gram rep ~0.60, so the \u00a74 rep gate (trips at >1.36) never fires even under single-token collapse. Auto-rule picked c=100 (rate 100%) but at c=100 all conditions degenerate into single-token loops (E_native rep 0.883 reception-loop, control rep 0.932) \u2014 the wedding KEYWORD metric is blind to this (SAKE trap). c=40 saturates the behavior (99.3%) with coherent on-topic text (rep 0.684 ~ baseline) and is the faithful operating point / primary cell.",
+    "c100_sensitivity_files": [
+      "results_c100_sensitivity.json",
+      "report_c100_sensitivity.md"
+    ],
+    "c100_verdict": "Genuine (ARTIFACT of over-driving: control collapses to non-wedding loop so rho->0; do not trust)",
+    "c40_verdict": "Mixed (primary)",
+    "driver_rule_fixed": "run_sae.py reproduction selector changed from (highest clean gain, tie->lowest c) to coherence-constrained (lowest coeff with gain>=threshold AND rep<=1.5*baseline, Amendment-3 hard constraint). On a full grid this now auto-selects c=40. The completed primary run used --fixed-coeff 40 so its chosen.note reflects the single-cell path; rationale is here + in report Config-Selection section."
+  },
+  "rho_vs_dose_curve": {
+    "note": "Full battery run at 4 doses to show the verdict does not hinge on one hand-picked dose (addresses the auto-selector selecting into degeneracy). rho falls monotonically as dose rises and generations collapse into single-token loops; the fall is a control-collapse artifact (control loops on a non-wedding token while E_native loops on reception), not genuine sustained content. Only c=40 is coherent.",
+    "rows": [
+      {
+        "coeff": 40,
+        "E_native_rate": 0.993,
+        "E_native_rep": 0.684,
+        "coherent": true,
+        "rho": 0.416,
+        "rho_lo": 0.336,
+        "rho_hi": 0.493,
+        "kappa": 0.631,
+        "verdict": "Mixed",
+        "primary": true
+      },
+      {
+        "coeff": 60,
+        "E_native_rate": 0.973,
+        "E_native_rep": 0.867,
+        "coherent": false,
+        "rho": 0.363,
+        "rho_lo": 0.284,
+        "rho_hi": 0.444,
+        "kappa": 0.788,
+        "verdict": "Mixed"
+      },
+      {
+        "coeff": 80,
+        "E_native_rate": 0.98,
+        "E_native_rep": 0.858,
+        "coherent": false,
+        "rho": 0.197,
+        "rho_lo": 0.135,
+        "rho_hi": 0.265,
+        "kappa": 0.728,
+        "verdict": "Genuine (artifact)"
+      },
+      {
+        "coeff": 100,
+        "E_native_rate": 1.0,
+        "E_native_rep": 0.883,
+        "coherent": false,
+        "rho": 0.047,
+        "rho_lo": 0.013,
+        "rho_hi": 0.08,
+        "kappa": 0.7,
+        "verdict": "Genuine (artifact)"
+      }
+    ],
+    "files": {
+      "c60": "rho_curve_c60/",
+      "c80": "rho_curve_c80/",
+      "c100": "results_c100_sensitivity.json"
+    },
+    "headline": "Mixed in the coherent-steering regime (rho~0.4 at c=40); Genuine at high dose is a control-collapse artifact."
+  }
+}

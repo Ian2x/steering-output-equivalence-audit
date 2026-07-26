@@ -1,0 +1,392 @@
+{
+  "meta": {
+    "model": "openai-community/gpt2-xl",
+    "device": "mps",
+    "tag": "full",
+    "n_total": 200,
+    "n_calib": 50,
+    "n_eval": 150,
+    "max_new_tokens": 64,
+    "n_boot": 10000,
+    "layer": 47,
+    "hidden": 1600,
+    "resid_norm_scale": 1484.6331787109375,
+    "a0_tokens_kept": [
+      " wedding",
+      " bride",
+      " groom",
+      " married",
+      " marriage",
+      " wed",
+      " ceremony"
+    ],
+    "a0_token_ids": [
+      10614,
+      26619,
+      32443,
+      6405,
+      4845,
+      29445,
+      10542
+    ],
+    "timestamp": "2026-07-06T03:30:13.874512+00:00"
+  },
+  "kv_baked_sanity": {
+    "n": 2,
+    "all_match": true,
+    "matches": [
+      true,
+      true
+    ]
+  },
+  "calib_baseline": {
+    "rate": 0.0,
+    "rep": 0.5462929666842941,
+    "median_len": 64.0,
+    "nll": 0.7121636545166552
+  },
+  "alpha_selection": {
+    "grid": [
+      0.015,
+      0.02,
+      0.025,
+      0.03,
+      0.035,
+      0.04,
+      0.045,
+      0.05,
+      0.06,
+      0.08
+    ],
+    "trace": [
+      {
+        "alpha": 0.015,
+        "rate": 0.04,
+        "gain_pts": 4.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.5475251189846642,
+        "median_len": 64.0,
+        "nll": 0.7154239014561798
+      },
+      {
+        "alpha": 0.02,
+        "rate": 0.02,
+        "gain_pts": 2.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.571602326811211,
+        "median_len": 64.0,
+        "nll": 0.6851192025233535
+      },
+      {
+        "alpha": 0.025,
+        "rate": 0.12,
+        "gain_pts": 12.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.5485245901639344,
+        "median_len": 64.0,
+        "nll": 0.7435553189476165
+      },
+      {
+        "alpha": 0.03,
+        "rate": 0.14,
+        "gain_pts": 14.000000000000002,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.561274457958752,
+        "median_len": 64.0,
+        "nll": 0.7517593301410181
+      },
+      {
+        "alpha": 0.035,
+        "rate": 0.16,
+        "gain_pts": 16.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.5943310417768377,
+        "median_len": 64.0,
+        "nll": 0.7378027398351916
+      },
+      {
+        "alpha": 0.04,
+        "rate": 0.4,
+        "gain_pts": 40.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.5534214701216288,
+        "median_len": 64.0,
+        "nll": 0.9184076080902125
+      },
+      {
+        "alpha": 0.045,
+        "rate": 0.54,
+        "gain_pts": 54.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.6286620835536754,
+        "median_len": 64.0,
+        "nll": 1.0110074373989781
+      },
+      {
+        "alpha": 0.05,
+        "rate": 0.6,
+        "gain_pts": 60.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.6702432575356952,
+        "median_len": 64.0,
+        "nll": 0.9811994693882127
+      },
+      {
+        "alpha": 0.06,
+        "rate": 0.78,
+        "gain_pts": 78.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.7430618720253832,
+        "median_len": 64.0,
+        "nll": 0.9762493465303957
+      },
+      {
+        "alpha": 0.08,
+        "rate": 0.96,
+        "gain_pts": 96.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.8870861977789529,
+        "median_len": 64.0,
+        "nll": 0.9113684478841049
+      }
+    ],
+    "chosen_alpha": 0.04,
+    "criterion": ">=+30pts over baseline AND gate not tripped"
+  },
+  "chosen_alpha": 0.04,
+  "eval_baseline_refs": {
+    "rep": 0.5925260003525472,
+    "median_len": 64.0,
+    "nll": 0.6307012646526815
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "E_all_steering": {
+      "rate": 0.26,
+      "ci_lo": 0.19333333333333333,
+      "ci_hi": 0.3333333333333333
+    },
+    "E_first": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "control": {
+      "rate": 0.7933333333333333,
+      "ci_lo": 0.7266666666666667,
+      "ci_hi": 0.8533333333333334
+    },
+    "floor_max": {
+      "rate": 0.006666666666666667,
+      "ci_lo": 0.0,
+      "ci_hi": 0.02
+    }
+  },
+  "kappa": {
+    "point": 0.0,
+    "ci_lo": 0.0,
+    "ci_hi": 0.0,
+    "ci_lo_clipped": 0.0
+  },
+  "rho": {
+    "point": 3.051282051282051,
+    "ci_lo": 2.3877551020408165,
+    "ci_hi": 4.161290322580645
+  },
+  "effect": {
+    "E_all": 0.26,
+    "E_floor": 0.006666666666666667,
+    "effect_over_floor": 39.0
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      26619,
+      32443,
+      10614,
+      29445,
+      37377,
+      12479,
+      4845,
+      6405,
+      36679,
+      34862,
+      45394,
+      30526,
+      29840,
+      9540,
+      195,
+      24509,
+      20102,
+      189,
+      192,
+      200,
+      210,
+      187,
+      208,
+      194,
+      202,
+      30905,
+      197,
+      184,
+      181,
+      182,
+      217,
+      214,
+      185,
+      207,
+      30898,
+      180,
+      36173,
+      209,
+      177,
+      219,
+      221,
+      30897,
+      212,
+      205,
+      178,
+      218,
+      188,
+      215,
+      213,
+      186,
+      40241,
+      39752,
+      125,
+      203,
+      42089,
+      204,
+      206,
+      40240,
+      45544,
+      30212,
+      39820,
+      190,
+      216,
+      183,
+      124,
+      201,
+      196,
+      191,
+      193,
+      179,
+      30208,
+      211,
+      199,
+      23090,
+      44098,
+      31573,
+      37574,
+      47148,
+      14827,
+      29555,
+      174,
+      39749,
+      47819,
+      27742,
+      10542,
+      40219,
+      41668,
+      9364,
+      39183,
+      153,
+      42066,
+      39714,
+      48912,
+      21781,
+      30899,
+      5815,
+      17629,
+      33434,
+      173,
+      30250
+    ],
+    "top_tokens": [
+      " bride",
+      " groom",
+      " wedding",
+      " wed",
+      " weddings",
+      " marry",
+      " marriage",
+      " married",
+      " Wedding",
+      " marrying",
+      "marriage",
+      "married",
+      " Bride",
+      " wedd",
+      "\u0007"
+    ],
+    "target_kl": 0.04321333456784487,
+    "achieved_kl": 0.043213320076465604,
+    "bias_scalar": 2.41692578420043
+  },
+  "floor_runs": [
+    {
+      "seed": 1000,
+      "rate": 0.006666666666666667
+    },
+    {
+      "seed": 1001,
+      "rate": 0.0
+    },
+    {
+      "seed": 1002,
+      "rate": 0.0
+    }
+  ],
+  "degeneracy_gates": {
+    "E_all": {
+      "tripped": false,
+      "rep": 0.5811933721135202,
+      "median_len": 64.0,
+      "nll": 0.7412054705747813,
+      "reasons": []
+    },
+    "E_first": {
+      "tripped": false,
+      "rep": 0.5902679358364181,
+      "median_len": 64.0,
+      "nll": 0.632683199646142,
+      "reasons": []
+    },
+    "control": {
+      "tripped": false,
+      "rep": 0.7726582055349902,
+      "median_len": 64.0,
+      "nll": 0.9409918053560076,
+      "reasons": []
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": 0.5590093424995594,
+      "median_len": 64.0,
+      "nll": 0.6663428500891242,
+      "reasons": []
+    }
+  },
+  "verdict": {
+    "class": "Mixed",
+    "dissolved_criterion": "rho_lo>=0.9 AND kappa_lo>=0.8",
+    "rho_lo": 2.3877551020408165,
+    "kappa_lo": 0.0,
+    "passes_dissolved": false
+  },
+  "runtime_sec": 3900.5427000522614
+}

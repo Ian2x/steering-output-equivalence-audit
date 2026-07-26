@@ -1,0 +1,416 @@
+{
+  "base_hits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "base_texts": [
+    "\n\nI'm a master of the",
+    "\n\nI was in the middle of",
+    "\n\nI'm not saying that I",
+    "\n\n\"I'm going to be",
+    "\n\nI'm not going to go",
+    "\n\nI'm not going to go",
+    "\n\nI'm not sure if I",
+    "\n\nIf you can, describe a",
+    "\n\nI'm a teacher. I",
+    "\n\nI'm not sure if you",
+    "\n\nI'm not sure if I",
+    "\n\nThe first thing you need to",
+    "\n\nIf you can, describe a",
+    "\n\nI'm not going to lie",
+    "\n\n\"I'm a mage.",
+    "\n\nI'm not going to lie"
+  ],
+  "budget": {
+    "achieved_kl": 0.012766235088120546,
+    "native_kl_max": 0.17538225650787354,
+    "native_kl_min": -1.7463368351400277e-07,
+    "rel_error": 1.0664599901897383e-06,
+    "student_kl_max": 0.17527052760124207,
+    "student_kl_min": -1.7465630719470937e-07,
+    "student_scalar": 1.0000824322924018,
+    "target_kl": 0.012766248702814013
+  },
+  "decision": {
+    "effect_ge_3x_floor_resolution": false,
+    "floor_resolution": 0.0625,
+    "full_anchor_pass": false,
+    "native_effect": 0.0,
+    "pass": true,
+    "rho_lo_ge_0_9": false,
+    "verdict": "SMOKE-PASS"
+  },
+  "fit": {
+    "X_sha256": "d04ce352c8b1e6cb10d44e2dfc32abe89b45c37dc86d9067015fce3bb1994b58",
+    "Y_sha256": "955f37b55ba84c84dd864e2883df4939553333ce272efd3c356cbd7ea100a4e5",
+    "effective_rank": 63,
+    "feature_dim": 768,
+    "lambda": 7.80190097661037,
+    "mu_sha256": "43e6a2d68d6713565de9021fd995082b32e1e82bf251c6f30baafdcde625cb89",
+    "n_rows": 64,
+    "ridge_frac": 0.01,
+    "sigma_sha256": "bb5f5ec7d4df691041892966a52364d8504edd931d744dd4c107c00cc7b12458",
+    "singular_values": [
+      86.65992494597202,
+      82.97724062580643,
+      72.29823388484405,
+      61.10761909481247,
+      57.32886169691891,
+      54.24754229082463,
+      49.06084829387011,
+      45.049383541877354,
+      41.96141788445878,
+      41.67794774473696,
+      39.188286234237346,
+      35.172362088461384,
+      32.03982171591352,
+      30.860918407141433,
+      27.576498142842837,
+      26.804412935053872,
+      26.050186790188196,
+      21.432389165361858,
+      21.04476024770683,
+      18.550168370915554,
+      17.729937608163986,
+      16.49741430441043,
+      15.605462146404065,
+      15.02736841995625,
+      14.676456514890768,
+      13.619504303385032,
+      13.130595187015347,
+      12.174609230454848,
+      11.864390302288877,
+      11.376185953561526,
+      10.66387906426737,
+      10.407488645599663,
+      9.75678465792751,
+      9.607426241979892,
+      9.456534220258154,
+      9.0636765613836,
+      8.82317449505994,
+      8.472924617064646,
+      8.410513026226088,
+      7.771181519224275,
+      7.138589714074897,
+      7.011970792331535,
+      6.855569569954933,
+      6.462018253327379,
+      6.356492089252939,
+      6.20396190163567,
+      5.889720964655868,
+      5.824227602582381,
+      5.332423473363041,
+      5.204886996616169,
+      5.000582393993851,
+      4.681961973349785,
+      4.66495368023294,
+      4.286818028272359,
+      3.9909210053621123,
+      3.821677625263538,
+      3.4804586626882092,
+      3.304929576136711,
+      3.1308407706573855,
+      2.9673377515329813,
+      2.80270782203928,
+      2.138880815131391,
+      1.8249219192637123
+    ],
+    "vocab_size": 50257
+  },
+  "gates": {
+    "native": {
+      "median_len": 8.0,
+      "nll": 1.547373153085573,
+      "reasons": [],
+      "rep": 0.0,
+      "tripped": false
+    },
+    "student": {
+      "median_len": 8.0,
+      "nll": 1.547373153085573,
+      "reasons": [],
+      "rep": 0.0,
+      "tripped": false
+    }
+  },
+  "meta": {
+    "amendment": "19",
+    "arm": "synthetic",
+    "device": "cpu",
+    "max_new_tokens": 8,
+    "model": "gpt2",
+    "n_calib": 8,
+    "n_eval": 16,
+    "seed": 20260710,
+    "smoke": true,
+    "timestamp": "2026-07-10T17:45:54.677341+00:00"
+  },
+  "native_hits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "native_texts": [
+    "\n\nI'm a master of the",
+    "\n\nI was in the middle of",
+    "\n\nI'm not saying that I",
+    "\n\n\"I'm going to be",
+    "\n\nI'm not going to go",
+    "\n\nI'm not going to go",
+    "\n\nI'm not sure if I",
+    "\n\nIf you can, describe a",
+    "\n\nI'm a teacher. I",
+    "\n\nI'm not sure if you",
+    "\n\nI'm not sure if I",
+    "\n\nThe first thing you need to",
+    "\n\nIf you can, describe a",
+    "\n\nI'm not going to lie",
+    "\n\n\"I'm a mage.",
+    "\n\nI'm not going to lie"
+  ],
+  "oracle_guard": {
+    "all_text_match": true,
+    "all_token_match": true,
+    "max_logit_error": 0.0,
+    "n": 8,
+    "pass": true,
+    "rows": [
+      {
+        "text_match": true,
+        "token_match": true
+      },
+      {
+        "text_match": true,
+        "token_match": true
+      },
+      {
+        "text_match": true,
+        "token_match": true
+      },
+      {
+        "text_match": true,
+        "token_match": true
+      },
+      {
+        "text_match": true,
+        "token_match": true
+      },
+      {
+        "text_match": true,
+        "token_match": true
+      },
+      {
+        "text_match": true,
+        "token_match": true
+      },
+      {
+        "text_match": true,
+        "token_match": true
+      }
+    ]
+  },
+  "rates": {
+    "base": {
+      "ci_hi": 0.0,
+      "ci_lo": 0.0,
+      "count": 0,
+      "n": 16,
+      "rate": 0.0
+    },
+    "native": {
+      "ci_hi": 0.0,
+      "ci_lo": 0.0,
+      "count": 0,
+      "n": 16,
+      "rate": 0.0
+    },
+    "student": {
+      "ci_hi": 0.0,
+      "ci_lo": 0.0,
+      "count": 0,
+      "n": 16,
+      "rate": 0.0
+    }
+  },
+  "rho": {
+    "ci_hi": NaN,
+    "ci_lo": NaN,
+    "point": 0.0
+  },
+  "runtime_sec": 30.152936935424805,
+  "student_hits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "student_texts": [
+    "\n\nI'm a master of the",
+    "\n\nI was in the middle of",
+    "\n\nI'm not saying that I",
+    "\n\n\"I'm going to be",
+    "\n\nI'm not going to go",
+    "\n\nI'm not going to go",
+    "\n\nI'm not sure if I",
+    "\n\nIf you can, describe a",
+    "\n\nI'm a teacher. I",
+    "\n\nI'm not sure if you",
+    "\n\nI'm not sure if I",
+    "\n\nThe first thing you need to",
+    "\n\nIf you can, describe a",
+    "\n\nI'm not going to lie",
+    "\n\n\"I'm a mage.",
+    "\n\nI'm not going to lie"
+  ],
+  "teacher": {
+    "chosen_scalar": 3.0,
+    "form": "affine current-residual -> wedding-token bias",
+    "q_mean": -5.317653656005859,
+    "q_std": 6.353007793426514,
+    "selection": [
+      {
+        "gain": 0.0,
+        "gate": {
+          "median_len": 8.0,
+          "nll": 1.6626942445400346,
+          "reasons": [],
+          "rep": 0.0,
+          "tripped": false
+        },
+        "hits": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "scalar": 1.0
+      },
+      {
+        "gain": 0.0,
+        "gate": {
+          "median_len": 8.0,
+          "nll": 1.6626942445400346,
+          "reasons": [],
+          "rep": 0.0,
+          "tripped": false
+        },
+        "hits": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "scalar": 2.0
+      },
+      {
+        "gain": 0.125,
+        "gate": {
+          "median_len": 8.0,
+          "nll": 1.7162061164963234,
+          "reasons": [],
+          "rep": 0.0,
+          "tripped": false
+        },
+        "hits": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "scalar": 3.0
+      },
+      {
+        "gain": 0.125,
+        "gate": {
+          "median_len": 8.0,
+          "nll": 1.7162061164963234,
+          "reasons": [],
+          "rep": 0.0,
+          "tripped": false
+        },
+        "hits": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "scalar": 4.0
+      }
+    ],
+    "token_ids": [
+      10614,
+      26619,
+      32443,
+      6405,
+      4845,
+      29445,
+      10542
+    ],
+    "token_strings": [
+      " wedding",
+      " bride",
+      " groom",
+      " married",
+      " marriage",
+      " wed",
+      " ceremony"
+    ],
+    "v_sha256": "87133f40105ac06d66c066164743b17662b0786a102a8fff6efcf0d2c79ebe0b",
+    "w_sha256": "50cb31f2e187df72c1368f16203e51e3aac6b2388b9f6a559d57f2ff006a7e24"
+  }
+}

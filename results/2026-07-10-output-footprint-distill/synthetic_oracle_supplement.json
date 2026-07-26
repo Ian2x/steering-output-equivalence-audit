@@ -1,0 +1,65 @@
+{
+  "all_text_match": true,
+  "all_token_match": true,
+  "interpretation": "Harness-only. Success does not upgrade anchor difficulty or teacher/student footprint fidelity.",
+  "max_logit_error": 0.0,
+  "meta": {
+    "amendment": "19b",
+    "device": "cpu",
+    "n": 8,
+    "purpose": "guard-only synthetic algebraic oracle supplement",
+    "source": "runs/steering-content-audit/2026-07-10-output-footprint-distill/synthetic.json",
+    "source_sha256": "00c8baf4d9a0b49b2a21da37cad0c2b8ad3c1d14fb0117faa859e8c98aa2e597"
+  },
+  "pass": true,
+  "rows": [
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "7513d212bdf435417e7b8d7b08c1a1c3243d40ed63368b2887bad1711bd38807",
+      "text_match": true,
+      "token_match": true
+    },
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "79595221342c38762a9aaef875f6c1aedb28781efc4a7ea13b79007b79e24afc",
+      "text_match": true,
+      "token_match": true
+    },
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "e4a0a8c3a819f09ddf2276788849ae0830225a738708f453f06e08be658ec54f",
+      "text_match": true,
+      "token_match": true
+    },
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "4c38847c43338169caa9357044b47ef465e3ba75ef01143bf642fe1d75957e2c",
+      "text_match": true,
+      "token_match": true
+    },
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "b1467be3c98f507bf92c352f1fd87efef5fec4e3c3818868f41269c2399422d9",
+      "text_match": true,
+      "token_match": true
+    },
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "97011fb40b3da0abda66771bc4d1fbf36b962e6ae68a2764adca5adeb87f9bc6",
+      "text_match": true,
+      "token_match": true
+    },
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "88135ca8f7a451b89eb97eed4e6decb857b064eed99349b3ca7006cf309d77bc",
+      "text_match": true,
+      "token_match": true
+    },
+    {
+      "max_logit_error": 0.0,
+      "prompt_sha256": "b2e2aed72c019c38629f19c61a7cd23c11905c70132f0cfb31c97ba19d6bad6f",
+      "text_match": true,
+      "token_match": true
+    }
+  ]
+}

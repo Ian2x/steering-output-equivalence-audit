@@ -1,0 +1,40 @@
+# Core lab environment.
+#
+# Keep this small enough for a MacBook Pro but broad enough for PyTorch
+# experiments, plotting, and lightweight analysis across projects.
+
+numpy>=2.0
+scipy>=1.13
+pandas>=2.2
+matplotlib>=3.8
+seaborn>=0.13
+tqdm>=4.66
+pyyaml>=6.0
+rich>=13.7
+einops>=0.8
+torch>=2.3
+pytest>=8.0
+zarr<3
+s3fs>=2026.6
+pynrrd>=1.1
+tifffile>=2025.10
+requests>=2.32
+cachetools>=6.2
+huggingface-hub>=0.35
+timm>=1.0.20
+
+# Transformer / mechanistic-interpretability stack.
+# Added 2026-07-04 for the wave-2026-07 projects (fact-subspace-editing,
+# activation-reachability, conditional-behavior-audit, norm-lens) and to unblock
+# latent-branch-evaluation. Now lab-core: used by 5+ projects.
+transformers>=4.44
+datasets>=2.20
+tokenizers>=0.19
+scikit-learn>=1.5
+accelerate>=0.33
+peft>=0.12
+sentencepiece
+# fsspec is pinned to <=2026.4.0 because datasets requires it; this soft-conflicts
+# with s3fs>=2026.6 (see requirements.lock note). s3fs still works at runtime with
+# fsspec 2026.4.0; datasets is the wave-critical dep so it takes precedence.
+fsspec[http]<=2026.4.0

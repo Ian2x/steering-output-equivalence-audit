@@ -1,0 +1,516 @@
+{
+  "meta": {
+    "model": "EleutherAI/pythia-2.8b",
+    "device": "mps",
+    "task": "antonym",
+    "tag": "antonym_full",
+    "n_layers": 32,
+    "n_heads": 32,
+    "resid_dim": 2560,
+    "head_dim": 80,
+    "edit_layer": 11,
+    "n_shots": 10,
+    "n_mean": 100,
+    "n_cie": 32,
+    "cie_band": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "n_top_heads": 10,
+    "max_new_tokens": 8,
+    "n_boot": 10000,
+    "seed": 20260706,
+    "n_eval_total": 200,
+    "n_calib": 50,
+    "n_eval": 150,
+    "timestamp": "2026-07-06T18:04:44.891857+00:00"
+  },
+  "stage1": {
+    "top_heads": [
+      {
+        "layer": 11,
+        "head": 14,
+        "cie": 1.1331119798123837
+      },
+      {
+        "layer": 11,
+        "head": 30,
+        "cie": 0.7598679140210152
+      },
+      {
+        "layer": 10,
+        "head": 12,
+        "cie": 0.5904859490692616
+      },
+      {
+        "layer": 11,
+        "head": 18,
+        "cie": 0.48651596531271935
+      },
+      {
+        "layer": 11,
+        "head": 26,
+        "cie": 0.368719894438982
+      },
+      {
+        "layer": 9,
+        "head": 17,
+        "cie": 0.25294671952724457
+      },
+      {
+        "layer": 8,
+        "head": 21,
+        "cie": 0.22142070531845093
+      },
+      {
+        "layer": 11,
+        "head": 19,
+        "cie": 0.186227485537529
+      },
+      {
+        "layer": 12,
+        "head": 22,
+        "cie": 0.1758679337799549
+      },
+      {
+        "layer": 11,
+        "head": 4,
+        "cie": 0.14110419154167175
+      }
+    ],
+    "top_head_layer_hist": {
+      "11": 6,
+      "10": 1,
+      "9": 1,
+      "8": 1,
+      "12": 1
+    },
+    "fv_norm": 28.316749572753906,
+    "cie_band": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ]
+  },
+  "kv_baked_sanity": {
+    "n": 2,
+    "all_match": true,
+    "matches": [
+      true,
+      true
+    ]
+  },
+  "sanity_reproduction": {
+    "raw_gain_pts": 39.33333333333333,
+    "threshold_pts": 10.0,
+    "reproduced": true,
+    "note": "FV zero-shot accuracy gain vs baseline; must be >=10 pts before auditing (do not audit a non-effect)."
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.05333333333333334,
+      "ci_lo": 0.02,
+      "ci_hi": 0.09333333333333334
+    },
+    "E_all": {
+      "rate": 0.44666666666666666,
+      "ci_lo": 0.36666666666666664,
+      "ci_hi": 0.5266666666666666
+    },
+    "E_first": {
+      "rate": 0.44,
+      "ci_lo": 0.36,
+      "ci_hi": 0.52
+    },
+    "control": {
+      "rate": 0.006666666666666667,
+      "ci_lo": 0.0,
+      "ci_hi": 0.02
+    },
+    "floor_max": {
+      "rate": 0.06666666666666667,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.10666666666666667
+    }
+  },
+  "kappa": {
+    "point": 0.9830508474576272,
+    "ci_lo": 0.9433962264150945,
+    "ci_hi": 1.0
+  },
+  "rho": {
+    "point": -0.11864406779661019,
+    "ci_lo": -0.23076923076923075,
+    "ci_hi": -0.0392156862745098
+  },
+  "effect": {
+    "E_all": 0.3933333333333333,
+    "E_floor": 0.013333333333333329,
+    "effect_over_floor": 29.500000000000007
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      11739,
+      15594,
+      6279,
+      41932,
+      27692,
+      48587,
+      49648,
+      19619,
+      6089,
+      24697,
+      49577,
+      41900,
+      10902,
+      18793,
+      24744,
+      4374,
+      26070,
+      9375,
+      41332,
+      48982,
+      5531,
+      42340,
+      30445,
+      49589,
+      26134,
+      24387,
+      32415,
+      47888,
+      50140,
+      20492,
+      44357,
+      23359,
+      6506,
+      37405,
+      15344,
+      12238,
+      22660,
+      33469,
+      32342,
+      36543,
+      28093,
+      15997,
+      38038,
+      49142,
+      24059,
+      7850,
+      29632,
+      35720,
+      43483,
+      45464,
+      8948,
+      28281,
+      35501,
+      35469,
+      10085,
+      47693,
+      44264,
+      24207,
+      10113,
+      43593,
+      33181,
+      17459,
+      49918,
+      35460,
+      47870,
+      22487,
+      36745,
+      24955,
+      5636,
+      13666,
+      32725,
+      40474,
+      21836,
+      16574,
+      21525,
+      50056,
+      26013,
+      24709,
+      36124,
+      40713,
+      4923,
+      26512,
+      32271,
+      17833,
+      15358,
+      37268,
+      19566,
+      10348,
+      46798,
+      14815,
+      46615,
+      35194,
+      44205,
+      6975,
+      21979,
+      25998,
+      27234,
+      37375,
+      48774,
+      41017
+    ],
+    "top_tokens": [
+      " Yeah",
+      " Sure",
+      " Yes",
+      " Uh",
+      " Probably",
+      " Seriously",
+      " Huh",
+      " Okay",
+      " Well",
+      " Actually",
+      " Hmm",
+      " Sounds",
+      " yeah",
+      " Hey",
+      " Really"
+    ],
+    "budget": "mean_teacher_forced_per_step_KL (Amendment 1)",
+    "B_star_target_kl": 0.7035311031341552,
+    "achieved_kl": 0.703346540927887,
+    "bias_scalar": 3.5408161841332912,
+    "sensitivity_position1": {
+      "target_kl": 1.6046484375,
+      "achieved_kl": 1.636171875,
+      "bias_scalar": 3.414893750101328
+    }
+  },
+  "mechanism_check": {
+    "first_token_flips": 106,
+    "n_prompts": 150
+  },
+  "floor_runs": [
+    {
+      "seed": 2000,
+      "rate": 0.06666666666666667
+    },
+    {
+      "seed": 2001,
+      "rate": 0.04666666666666667
+    },
+    {
+      "seed": 2002,
+      "rate": 0.06666666666666667
+    }
+  ],
+  "degeneracy_gates": {
+    "E_all": {
+      "tripped": false,
+      "rep": 0.011111111111111108,
+      "median_len": 8.0,
+      "nll": 1.1021810586111886,
+      "reasons": []
+    },
+    "E_first": {
+      "tripped": false,
+      "rep": 0.009999999999999997,
+      "median_len": 8.0,
+      "nll": 1.1947786004202707,
+      "reasons": []
+    },
+    "control": {
+      "tripped": true,
+      "rep": 0.5244444444444445,
+      "median_len": 8.0,
+      "nll": 2.916530799865723,
+      "reasons": [
+        "3gram_rep 0.524 > 2*0.008+0.1=0.116"
+      ]
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": 0.004444444444444444,
+      "median_len": 8.0,
+      "nll": 1.0060356680552165,
+      "reasons": []
+    }
+  },
+  "eval_baseline_refs": {
+    "rep": 0.007777777777777777,
+    "median_len": 8.0,
+    "nll": 1.0056446393330891
+  },
+  "verdict": {
+    "class": "Genuine",
+    "genuine_criterion": "rho_hi <= 0.3 AND E_all >= 3x floor (cell valid)",
+    "rho_hi": -0.0392156862745098,
+    "rho_lo": -0.23076923076923075,
+    "kappa_point": 0.9830508474576272,
+    "effect_ge_3x_floor": true,
+    "cell_valid": false,
+    "reproduced": true,
+    "passes_genuine": true
+  },
+  "samples": {
+    "baseline": [
+      [
+        "Q: futures\nA:",
+        " I don't know.\nQ:",
+        "pasts"
+      ],
+      [
+        "Q: line\nA:",
+        " line\nB: line\nC:",
+        "curve"
+      ],
+      [
+        "Q: sack\nA:",
+        " sack\nQ: sack\nA:",
+        "pack"
+      ],
+      [
+        "Q: gain\nA:",
+        " loss\nB: loss\nC:",
+        "loss"
+      ],
+      [
+        "Q: abnormal\nA:",
+        " normal\nB: abnormal\nC:",
+        "normal"
+      ],
+      [
+        "Q: rusty\nA:",
+        " I'm not sure.\nQ:",
+        "shiny"
+      ],
+      [
+        "Q: unreasonable\nA:",
+        " Yes, it is.\nQ:",
+        "reasonable"
+      ],
+      [
+        "Q: manual\nA:",
+        " manual\nB: manual\nC:",
+        "automatic"
+      ]
+    ],
+    "E_all": [
+      [
+        "Q: futures\nA:",
+        " futures\nB: options\nC:",
+        "pasts"
+      ],
+      [
+        "Q: line\nA:",
+        " line B: line C: line D",
+        "curve"
+      ],
+      [
+        "Q: sack\nA:",
+        " sack\nB: sack\nC:",
+        "pack"
+      ],
+      [
+        "Q: gain\nA:",
+        " loss\nB: gain\nC:",
+        "loss"
+      ],
+      [
+        "Q: abnormal\nA:",
+        " normal\nB: abnormal\nC:",
+        "normal"
+      ],
+      [
+        "Q: rusty\nA:",
+        " shiny\nB: dull\nC:",
+        "shiny"
+      ],
+      [
+        "Q: unreasonable\nA:",
+        " reasonable\nB: unreasonable\nC:",
+        "reasonable"
+      ],
+      [
+        "Q: manual\nA:",
+        " automatic\nB: automatic\nC:",
+        "automatic"
+      ]
+    ],
+    "control": [
+      [
+        "Q: futures\nA:",
+        " conversely conversely conversely conversely",
+        "pasts"
+      ],
+      [
+        "Q: line\nA:",
+        " line\nB: line\nC:",
+        "curve"
+      ],
+      [
+        "Q: sack\nA:",
+        " conversational conversational conversational conversational",
+        "pack"
+      ],
+      [
+        "Q: gain\nA:",
+        " conversely conversely conversely conversely",
+        "loss"
+      ],
+      [
+        "Q: abnormal\nA:",
+        " conversational conversational conversational conversational",
+        "normal"
+      ],
+      [
+        "Q: rusty\nA:",
+        " I'm conversing with you conversing",
+        "shiny"
+      ],
+      [
+        "Q: unreasonable\nA:",
+        " conversely conversely conversely conversely",
+        "reasonable"
+      ],
+      [
+        "Q: manual\nA:",
+        " manual\nB: manual\nC:",
+        "automatic"
+      ]
+    ]
+  },
+  "runtime_sec": 3018.374669790268
+}

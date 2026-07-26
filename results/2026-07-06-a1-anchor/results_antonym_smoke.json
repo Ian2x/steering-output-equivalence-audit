@@ -1,0 +1,506 @@
+{
+  "meta": {
+    "model": "pythia-410m",
+    "device": "mps",
+    "task": "antonym",
+    "tag": "antonym_smoke",
+    "n_layers": 24,
+    "n_heads": 16,
+    "resid_dim": 1024,
+    "head_dim": 64,
+    "edit_layer": 8,
+    "n_shots": 10,
+    "n_mean": 40,
+    "n_cie": 12,
+    "cie_band": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "n_top_heads": 10,
+    "max_new_tokens": 8,
+    "n_boot": 1000,
+    "seed": 20260706,
+    "n_eval_total": 40,
+    "n_calib": 12,
+    "n_eval": 28,
+    "timestamp": "2026-07-06T17:21:46.002824+00:00"
+  },
+  "stage1": {
+    "top_heads": [
+      {
+        "layer": 10,
+        "head": 3,
+        "cie": 0.73026971022288
+      },
+      {
+        "layer": 10,
+        "head": 13,
+        "cie": 0.4871583779652913
+      },
+      {
+        "layer": 9,
+        "head": 6,
+        "cie": 0.4381002187728882
+      },
+      {
+        "layer": 9,
+        "head": 4,
+        "cie": 0.2374171018600464
+      },
+      {
+        "layer": 12,
+        "head": 13,
+        "cie": 0.1764055093129476
+      },
+      {
+        "layer": 11,
+        "head": 1,
+        "cie": 0.17179282506306967
+      },
+      {
+        "layer": 13,
+        "head": 10,
+        "cie": 0.16970384120941162
+      },
+      {
+        "layer": 9,
+        "head": 15,
+        "cie": 0.14558037122090658
+      },
+      {
+        "layer": 11,
+        "head": 7,
+        "cie": 0.1306384801864624
+      },
+      {
+        "layer": 12,
+        "head": 2,
+        "cie": 0.12516069412231445
+      }
+    ],
+    "top_head_layer_hist": {
+      "10": 2,
+      "9": 3,
+      "12": 2,
+      "11": 2,
+      "13": 1
+    },
+    "fv_norm": 12.942167282104492,
+    "cie_band": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ]
+  },
+  "kv_baked_sanity": {
+    "n": 2,
+    "all_match": true,
+    "matches": [
+      true,
+      true
+    ]
+  },
+  "sanity_reproduction": {
+    "raw_gain_pts": 3.571428571428571,
+    "threshold_pts": 10.0,
+    "reproduced": false,
+    "note": "FV zero-shot accuracy gain vs baseline; must be >=10 pts before auditing (do not audit a non-effect)."
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "E_all": {
+      "rate": 0.03571428571428571,
+      "ci_lo": 0.0,
+      "ci_hi": 0.10714285714285714
+    },
+    "E_first": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "control": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "floor_max": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    }
+  },
+  "kappa": {
+    "point": 0.0,
+    "ci_lo": 0.0,
+    "ci_hi": 0.0
+  },
+  "rho": {
+    "point": 0.0,
+    "ci_lo": 0.0,
+    "ci_hi": 0.0
+  },
+  "effect": {
+    "E_all": 0.03571428571428571,
+    "E_floor": 0.0,
+    "effect_over_floor": 35714285.71428571
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      33941,
+      40713,
+      36501,
+      24697,
+      1319,
+      26713,
+      49577,
+      49182,
+      420,
+      28910,
+      2033,
+      1621,
+      16731,
+      383,
+      13529,
+      907,
+      6528,
+      32415,
+      46633,
+      32503,
+      552,
+      3944,
+      37174,
+      528,
+      14412,
+      11739,
+      44205,
+      12639,
+      544,
+      32784,
+      47888,
+      27508,
+      1215,
+      32774,
+      24882,
+      831,
+      35721,
+      2053,
+      6089,
+      41900,
+      32157,
+      49589,
+      48064,
+      7243,
+      26073,
+      35794,
+      25998,
+      49193,
+      2064,
+      1707,
+      1796,
+      610,
+      30750,
+      11376,
+      42989,
+      44357,
+      1020,
+      19728,
+      8222,
+      30803,
+      50140,
+      40267,
+      22487,
+      40374,
+      12287,
+      46365,
+      19023,
+      18312,
+      21375,
+      23718,
+      31789,
+      16574,
+      11028,
+      17106,
+      41898,
+      17399,
+      44500,
+      3771,
+      733,
+      38038,
+      13168,
+      17175,
+      26070,
+      36242,
+      28396,
+      10113,
+      16551,
+      13742,
+      15640,
+      22764,
+      19619,
+      34746,
+      3160,
+      48988,
+      309,
+      35955,
+      274,
+      14482,
+      33440,
+      45598
+    ],
+    "top_tokens": [
+      " Running",
+      " Didn",
+      " Created",
+      " Actually",
+      "ality",
+      " Used",
+      " Hmm",
+      "rival",
+      "ment",
+      " \t",
+      " </",
+      " No",
+      " [$",
+      "est",
+      " Nothing"
+    ],
+    "budget": "mean_teacher_forced_per_step_KL (Amendment 1)",
+    "B_star_target_kl": 0.6017990112304688,
+    "achieved_kl": 0.6025074024995168,
+    "bias_scalar": 2.872549179941416,
+    "sensitivity_position1": {
+      "target_kl": 1.10791015625,
+      "achieved_kl": 1.1022135416666667,
+      "bias_scalar": 3.502438899129629
+    }
+  },
+  "mechanism_check": {
+    "first_token_flips": 25,
+    "n_prompts": 28
+  },
+  "floor_runs": [
+    {
+      "seed": 2000,
+      "rate": 0.0
+    },
+    {
+      "seed": 2001,
+      "rate": 0.0
+    },
+    {
+      "seed": 2002,
+      "rate": 0.0
+    }
+  ],
+  "degeneracy_gates": {
+    "E_all": {
+      "tripped": false,
+      "rep": 0.0773809523809524,
+      "median_len": 8.0,
+      "nll": 2.2540149688720703,
+      "reasons": []
+    },
+    "E_first": {
+      "tripped": false,
+      "rep": 0.0,
+      "median_len": 7.0,
+      "nll": 1.9955515569570115,
+      "reasons": []
+    },
+    "control": {
+      "tripped": false,
+      "rep": 0.04166666666666667,
+      "median_len": 8.0,
+      "nll": 2.0828994147631588,
+      "reasons": []
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": 0.011904761904761906,
+      "median_len": 8.0,
+      "nll": 1.9601863938934951,
+      "reasons": []
+    }
+  },
+  "eval_baseline_refs": {
+    "rep": 0.0,
+    "median_len": 8.0,
+    "nll": 1.5846736674406092
+  },
+  "verdict": {
+    "class": "STOP-NOT-REPRODUCED",
+    "genuine_criterion": "rho_hi <= 0.3 AND E_all >= 3x floor (cell valid)",
+    "rho_hi": 0.0,
+    "rho_lo": 0.0,
+    "kappa_point": 0.0,
+    "effect_ge_3x_floor": true,
+    "cell_valid": true,
+    "reproduced": false,
+    "passes_genuine": true
+  },
+  "samples": {
+    "baseline": [
+      [
+        "Q: work\nA:",
+        "\n\nI think you need to use",
+        "relax"
+      ],
+      [
+        "Q: weak\nA:",
+        " weak\n\nThe problem is that the",
+        "strong"
+      ],
+      [
+        "Q: affluent\nA:",
+        " I'm not sure.\n\nA",
+        "impoverished"
+      ],
+      [
+        "Q: innocence\nA:",
+        " I think it's a little bit of",
+        "guilt"
+      ],
+      [
+        "Q: young\nA:",
+        " I'm not sure.\n\nA",
+        "mature"
+      ],
+      [
+        "Q: covert\nA:",
+        " I don't know.\n\nA",
+        "overt"
+      ],
+      [
+        "Q: loaded\nA:",
+        " loaded\n\nA: loaded\n\n",
+        "empty"
+      ],
+      [
+        "Q: enjoy\nA:",
+        "\n\nI think you are looking for",
+        "dislike"
+      ]
+    ],
+    "E_all": [
+      [
+        "Q: work\nA:",
+        " work\n\nwork\n\nwork\n",
+        "relax"
+      ],
+      [
+        "Q: weak\nA:",
+        " weak\n\nweak\n\nweak\n",
+        "strong"
+      ],
+      [
+        "Q: affluent\nA:",
+        " affluent\n\nA: affluent",
+        "impoverished"
+      ],
+      [
+        "Q: innocence\nA:",
+        " innocence\n\nA: innocence\n\n",
+        "guilt"
+      ],
+      [
+        "Q: young\nA:",
+        " young\n\nyoung\n\nyoung\n",
+        "mature"
+      ],
+      [
+        "Q: covert\nA:",
+        " covert\nB: covert\nC:",
+        "overt"
+      ],
+      [
+        "Q: loaded\nA:",
+        " loaded\n\nA: loaded\n\n",
+        "empty"
+      ],
+      [
+        "Q: enjoy\nA:",
+        " enjoy\n\nA: enjoy\n\n",
+        "dislike"
+      ]
+    ],
+    "control": [
+      [
+        "Q: work\nA:",
+        "\n\nI think you need to use",
+        "relax"
+      ],
+      [
+        "Q: weak\nA:",
+        " weakestestestestestestest",
+        "strong"
+      ],
+      [
+        "Q: affluent\nA:",
+        " yes\n\nA:\n\nI",
+        "impoverished"
+      ],
+      [
+        "Q: innocence\nA:",
+        " Yes, it is.\nQ:",
+        "guilt"
+      ],
+      [
+        "Q: young\nA:",
+        " yes\n\nA: yes\n\n",
+        "mature"
+      ],
+      [
+        "Q: covert\nA:",
+        "\n\nI think the best way to",
+        "overt"
+      ],
+      [
+        "Q: loaded\nA:",
+        " loaded\n\nA: loaded\n\n",
+        "empty"
+      ],
+      [
+        "Q: enjoy\nA:",
+        "\n\nI think you are looking for",
+        "dislike"
+      ]
+    ]
+  },
+  "runtime_sec": 132.9837031364441
+}

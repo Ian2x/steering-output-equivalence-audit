@@ -1,0 +1,400 @@
+{
+  "meta": {
+    "model": "gpt2",
+    "device": "cpu",
+    "tag": "smoke",
+    "n_total": 200,
+    "n_calib": 5,
+    "n_eval": 15,
+    "max_new_tokens": 32,
+    "n_boot": 2000,
+    "layer": 11,
+    "hidden": 768,
+    "resid_norm_scale": 581.8529663085938,
+    "a0_tokens_kept": [
+      " wedding",
+      " bride",
+      " groom",
+      " married",
+      " marriage",
+      " wed",
+      " ceremony"
+    ],
+    "a0_token_ids": [
+      10614,
+      26619,
+      32443,
+      6405,
+      4845,
+      29445,
+      10542
+    ],
+    "timestamp": "2026-07-06T03:01:45.820992+00:00"
+  },
+  "kv_baked_sanity": {
+    "n": 2,
+    "all_match": true,
+    "matches": [
+      true,
+      true
+    ]
+  },
+  "calib_baseline": {
+    "rate": 0.0,
+    "rep": 0.37333333333333335,
+    "median_len": 32.0,
+    "nll": 1.1960752106179826
+  },
+  "alpha_selection": {
+    "grid": [
+      0.02,
+      0.04,
+      0.06,
+      0.08,
+      0.1,
+      0.12,
+      0.15,
+      0.2,
+      0.3,
+      0.5
+    ],
+    "trace": [
+      {
+        "alpha": 0.02,
+        "rate": 0.2,
+        "gain_pts": 20.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.26666666666666666,
+        "median_len": 32.0,
+        "nll": 1.217175724640947
+      },
+      {
+        "alpha": 0.04,
+        "rate": 0.0,
+        "gain_pts": 0.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.2947126436781609,
+        "median_len": 32.0,
+        "nll": 1.301867103113572
+      },
+      {
+        "alpha": 0.06,
+        "rate": 0.4,
+        "gain_pts": 40.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.4533333333333333,
+        "median_len": 32.0,
+        "nll": 1.1379356610017113
+      },
+      {
+        "alpha": 0.08,
+        "rate": 0.8,
+        "gain_pts": 80.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.56,
+        "median_len": 32.0,
+        "nll": 1.8814604822153342
+      },
+      {
+        "alpha": 0.1,
+        "rate": 0.6,
+        "gain_pts": 60.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.7666666666666666,
+        "median_len": 32.0,
+        "nll": 1.4528156144384412
+      },
+      {
+        "alpha": 0.12,
+        "rate": 1.0,
+        "gain_pts": 100.0,
+        "gate_tripped": false,
+        "gate_reasons": [],
+        "rep": 0.8133333333333335,
+        "median_len": 32.0,
+        "nll": 2.102786250068675
+      },
+      {
+        "alpha": 0.15,
+        "rate": 1.0,
+        "gain_pts": 100.0,
+        "gate_tripped": true,
+        "gate_reasons": [
+          "3gram_rep 0.933 > 2*0.373+0.1=0.847"
+        ],
+        "rep": 0.9333333333333333,
+        "median_len": 32.0,
+        "nll": 1.3215436852537095
+      },
+      {
+        "alpha": 0.2,
+        "rate": 1.0,
+        "gain_pts": 100.0,
+        "gate_tripped": true,
+        "gate_reasons": [
+          "3gram_rep 0.933 > 2*0.373+0.1=0.847"
+        ],
+        "rep": 0.9333333333333333,
+        "median_len": 32.0,
+        "nll": 2.4287317680194973
+      },
+      {
+        "alpha": 0.3,
+        "rate": 1.0,
+        "gain_pts": 100.0,
+        "gate_tripped": true,
+        "gate_reasons": [
+          "3gram_rep 0.933 > 2*0.373+0.1=0.847"
+        ],
+        "rep": 0.9333333333333333,
+        "median_len": 32.0,
+        "nll": 2.7956751927733423
+      },
+      {
+        "alpha": 0.5,
+        "rate": 1.0,
+        "gain_pts": 100.0,
+        "gate_tripped": true,
+        "gate_reasons": [
+          "3gram_rep 0.967 > 2*0.373+0.1=0.847"
+        ],
+        "rep": 0.9666666666666666,
+        "median_len": 32.0,
+        "nll": 2.3557136483490466
+      }
+    ],
+    "chosen_alpha": 0.06,
+    "criterion": ">=+30pts over baseline AND gate not tripped"
+  },
+  "chosen_alpha": 0.06,
+  "eval_baseline_refs": {
+    "rep": 0.2844444444444445,
+    "median_len": 32.0,
+    "nll": 1.2009436375255973
+  },
+  "rates": {
+    "baseline": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "E_all_steering": {
+      "rate": 0.3333333333333333,
+      "ci_lo": 0.13333333333333333,
+      "ci_hi": 0.6
+    },
+    "E_first": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "control": {
+      "rate": 0.7333333333333333,
+      "ci_lo": 0.4666666666666667,
+      "ci_hi": 0.9333333333333333
+    },
+    "floor_max": {
+      "rate": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    }
+  },
+  "kappa": {
+    "point": 0.0,
+    "ci_lo": 0.0,
+    "ci_hi": 0.0,
+    "ci_lo_clipped": 0.0
+  },
+  "rho": {
+    "point": 2.2,
+    "ci_lo": 1.1666666666666665,
+    "ci_hi": 6.5
+  },
+  "effect": {
+    "E_all": 0.3333333333333333,
+    "E_floor": 0.0,
+    "effect_over_floor": 333333333.3333333
+  },
+  "control_calibration": {
+    "token_set_size": 100,
+    "token_ids": [
+      26619,
+      32443,
+      10614,
+      37377,
+      17473,
+      17787,
+      11896,
+      4845,
+      12479,
+      36679,
+      24509,
+      42543,
+      20102,
+      4010,
+      9882,
+      45394,
+      34862,
+      22263,
+      9540,
+      10160,
+      30526,
+      29840,
+      11727,
+      16080,
+      12943,
+      20677,
+      4322,
+      29445,
+      2698,
+      9020,
+      6405,
+      15038,
+      16782,
+      7782,
+      8815,
+      3472,
+      13177,
+      9454,
+      12869,
+      5271,
+      2155,
+      7847,
+      16103,
+      44098,
+      16648,
+      11411,
+      13751,
+      2941,
+      9468,
+      8346,
+      8983,
+      46968,
+      7555,
+      10298,
+      1977,
+      29084,
+      45201,
+      16303,
+      30856,
+      7601,
+      24847,
+      16323,
+      27742,
+      19965,
+      32207,
+      11273,
+      41974,
+      5541,
+      9418,
+      4183,
+      20532,
+      48912,
+      19331,
+      20036,
+      47819,
+      6987,
+      13736,
+      5144,
+      11039,
+      5392,
+      4060,
+      30762,
+      26712,
+      5571,
+      23305,
+      17773,
+      5997,
+      22934,
+      18686,
+      41668,
+      34188,
+      29555,
+      5785,
+      13392,
+      12486,
+      21781,
+      43111,
+      10542,
+      22314,
+      2477
+    ],
+    "top_tokens": [
+      " bride",
+      " groom",
+      " wedding",
+      " weddings",
+      " contrace",
+      " cryst",
+      " mathemat",
+      " marriage",
+      " marry",
+      " Wedding",
+      " Marriage",
+      " Seym",
+      " marriages",
+      " challeng",
+      " neighb"
+    ],
+    "target_kl": 0.10565677285194397,
+    "achieved_kl": 0.10565631985664367,
+    "bias_scalar": 0.8355128429830074
+  },
+  "floor_runs": [
+    {
+      "seed": 1000,
+      "rate": 0.0
+    },
+    {
+      "seed": 1001,
+      "rate": 0.0
+    },
+    {
+      "seed": 1002,
+      "rate": 0.0
+    }
+  ],
+  "degeneracy_gates": {
+    "E_all": {
+      "tripped": false,
+      "rep": 0.3169348659003831,
+      "median_len": 32.0,
+      "nll": 1.4421708773244457,
+      "reasons": []
+    },
+    "E_first": {
+      "tripped": false,
+      "rep": 0.2844444444444445,
+      "median_len": 32.0,
+      "nll": 1.2009436375255973,
+      "reasons": []
+    },
+    "control": {
+      "tripped": false,
+      "rep": 0.648888888888889,
+      "median_len": 32.0,
+      "nll": 1.715694730271692,
+      "reasons": []
+    },
+    "floor_max": {
+      "tripped": false,
+      "rep": 0.3444444444444444,
+      "median_len": 32.0,
+      "nll": 1.1703525515787685,
+      "reasons": []
+    }
+  },
+  "verdict": {
+    "class": "Mixed",
+    "dissolved_criterion": "rho_lo>=0.9 AND kappa_lo>=0.8",
+    "rho_lo": 1.1666666666666665,
+    "kappa_lo": 0.0,
+    "passes_dissolved": false
+  },
+  "runtime_sec": 60.226640939712524
+}

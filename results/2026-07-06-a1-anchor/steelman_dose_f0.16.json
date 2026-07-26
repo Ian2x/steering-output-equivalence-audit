@@ -1,0 +1,443 @@
+{
+  "meta": {
+    "purpose": "A1 steelman input-conditional null (plan \u00a711 Amendment 4)",
+    "model": "EleutherAI/pythia-2.8b",
+    "device": "mps",
+    "dtype": "bf16",
+    "task": "antonym",
+    "tag": "full",
+    "edit_layer": 11,
+    "phi_layer": 31,
+    "n_layers": 32,
+    "resid_dim": 2560,
+    "fv_norm": 28.316749572753906,
+    "n_eval": 150,
+    "n_calib": 50,
+    "max_new_tokens": 8,
+    "n_boot": 10000,
+    "seed": 20260706,
+    "ranks": [
+      "0",
+      "4",
+      "16",
+      "full"
+    ],
+    "ridge_frac": 0.01,
+    "B_star_frozen": 0.7035311031341552,
+    "budget_target": 0.11256497650146484,
+    "budget_target_note": "explicit --budget-kl=0.11256497650146484",
+    "fv_own_tf_kl": 0.7035311031341552,
+    "budget_tol": 0.02,
+    "token_set_size": 100,
+    "token_set_matches_stored": true,
+    "denom_note": "run-1 hit arrays not persisted; FV E_all + baseline deterministically regenerated (greedy) as the bootstrap denominator/base.",
+    "denom_baseline_acc": 0.05333333333333334,
+    "denom_fv_eall_acc": 0.44666666666666666,
+    "gate_refs": {
+      "rep": 0.007777777777777777,
+      "median_len": 8.0,
+      "nll": 1.0056446393330891
+    },
+    "timestamp": "2026-07-08T17:15:24.374675+00:00"
+  },
+  "fit": {
+    "lambda": 0.49999934744048924,
+    "eff_rank": 49,
+    "singular_spectrum": [
+      0.5216679833904636,
+      0.33842452778157095,
+      0.24036462708449352,
+      0.2121968032062959,
+      0.189019091740801,
+      0.16582536621472224,
+      0.15673180316480012,
+      0.14239913602150947,
+      0.13399411258342012,
+      0.12343466451233798,
+      0.11661507569531922,
+      0.11348155521352331,
+      0.10804654441629881,
+      0.1050532616370492,
+      0.09977387866804349,
+      0.09698347604622032,
+      0.093568448714928,
+      0.09005911443889066,
+      0.08613701954778907,
+      0.08381394690496576,
+      0.08135713248575087,
+      0.07873975603956611,
+      0.07435116070015775,
+      0.07229770222564923,
+      0.06745356252041122,
+      0.06415038470045115,
+      0.06190669742614789,
+      0.05899982405394121,
+      0.05689609697485268,
+      0.05426984382458643,
+      0.053066080797362726,
+      0.04878955490848307,
+      0.04752807388058846,
+      0.04660582724004827,
+      0.043749849960139475,
+      0.04257392060714553,
+      0.041495090248356195,
+      0.038823303411381224,
+      0.037643464615795666,
+      0.03567264016556378,
+      0.03382367335357213,
+      0.03026134988531822,
+      0.02803394397360685,
+      0.026866561008369063,
+      0.025675514804632635,
+      0.023145574241427262,
+      0.022427976927600086,
+      0.019735561189271646,
+      0.017925100524264926,
+      3.468971845419525e-13,
+      2.861436282330818e-13,
+      2.781722324299257e-13,
+      2.6848345045719264e-13,
+      2.6692078273744587e-13,
+      2.6436406058763367e-13,
+      2.5855535127906175e-13,
+      2.5639811043277166e-13,
+      2.533863929770255e-13,
+      2.4930807684791455e-13,
+      2.4781623770096086e-13,
+      2.4718922692464313e-13,
+      2.4012250016602083e-13,
+      2.3859448580214854e-13,
+      2.365098168401343e-13,
+      2.346568492287414e-13,
+      2.321992647401102e-13,
+      2.29353316909335e-13,
+      2.279525118441151e-13,
+      2.2673258930162125e-13,
+      2.265896742332156e-13,
+      2.2521502817230235e-13,
+      2.2183784639914164e-13,
+      2.2032796147610516e-13,
+      2.1892267571826752e-13,
+      2.168609168409344e-13,
+      2.1429320750295845e-13,
+      2.122736929681351e-13,
+      2.10897372266753e-13,
+      2.1017737785362422e-13,
+      2.0806649636700085e-13,
+      2.062906532611043e-13,
+      2.0430700980758477e-13,
+      2.0147508642980603e-13,
+      1.9833220056578357e-13,
+      1.9684100170352578e-13,
+      1.9386177944990076e-13,
+      1.9199523170137118e-13,
+      1.9034723715573319e-13,
+      1.885530448150187e-13,
+      1.8619509510245504e-13,
+      1.859340089533148e-13,
+      1.8146296093560493e-13,
+      1.7950446760319955e-13,
+      1.774546669493435e-13,
+      1.7640577503654146e-13,
+      1.7329162186483423e-13,
+      1.7023919224991695e-13,
+      1.6791981960516162e-13,
+      1.6687491406420746e-13,
+      1.413027119959919e-13
+    ],
+    "Y_abs_mean": 1.463679423522949
+  },
+  "no_leakage": {
+    "fit_params": [
+      "Y",
+      "phi_tilde",
+      "ranks",
+      "ridge_frac"
+    ],
+    "forbidden_intersect_empty": true,
+    "note": "fit_rank_ladder receives ONLY (phi_tilde, Y, ranks, ridge_frac); fv_vec/golds/eval-steered cannot be passed."
+  },
+  "rungs": [
+    {
+      "k": "0",
+      "g": 3.7185556925833225,
+      "achieved_kl": 0.11256499897408503,
+      "budget_rel_err": 1.996413173416083e-07,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.023238582874910207,
+        "median": 0.07824014107131916,
+        "max": 0.7408518828397064,
+        "n": 50
+      },
+      "eval_acc": 0.04,
+      "rho": {
+        "point": -0.03389830508474577,
+        "ci_lo": -0.09090909090909093,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": true,
+        "rep": 0.12444444444444445,
+        "median_len": 8.0,
+        "nll": 1.5221103350321452,
+        "reasons": [
+          "3gram_rep 0.124 > 2*0.008+0.1=0.116"
+        ]
+      },
+      "samples": [
+        [
+          "Q: futures\nA:",
+          "I don't know.\nQ:",
+          "pasts"
+        ],
+        [
+          "Q: line\nA:",
+          "line\nB: line\nC:",
+          "curve"
+        ],
+        [
+          "Q: sack\nA:",
+          "sack\nQ: sack\nA:",
+          "pack"
+        ],
+        [
+          "Q: gain\nA:",
+          "conversely conversely conversely conversely",
+          "loss"
+        ],
+        [
+          "Q: abnormal\nA:",
+          "normal\nB: abnormal\nC:",
+          "normal"
+        ],
+        [
+          "Q: rusty\nA:",
+          "I'm not sure.\nQ:",
+          "shiny"
+        ]
+      ]
+    },
+    {
+      "k": "4",
+      "g": 3.488280575722456,
+      "achieved_kl": 0.11256497415889044,
+      "budget_rel_err": 2.0810863833123465e-08,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.006419099506274506,
+        "median": 0.05778979189403799,
+        "max": 1.1018539043616329,
+        "n": 50
+      },
+      "eval_acc": 0.04666666666666667,
+      "rho": {
+        "point": -0.016949152542372885,
+        "ci_lo": -0.05882352941176469,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": false,
+        "rep": 0.11444444444444445,
+        "median_len": 8.0,
+        "nll": 1.4660320599873862,
+        "reasons": []
+      },
+      "samples": [
+        [
+          "Q: futures\nA:",
+          "I don't know.\nQ:",
+          "pasts"
+        ],
+        [
+          "Q: line\nA:",
+          "line\nB: line\nC:",
+          "curve"
+        ],
+        [
+          "Q: sack\nA:",
+          "sack\nQ: sack\nA:",
+          "pack"
+        ],
+        [
+          "Q: gain\nA:",
+          "loss\nB: loss\nC:",
+          "loss"
+        ],
+        [
+          "Q: abnormal\nA:",
+          "normal\nB: abnormal\nC:",
+          "normal"
+        ],
+        [
+          "Q: rusty\nA:",
+          "I'm not sure.\nQ:",
+          "shiny"
+        ]
+      ]
+    },
+    {
+      "k": "16",
+      "g": 3.3166767694056034,
+      "achieved_kl": 0.11256497470652675,
+      "budget_rel_err": 1.594579542268666e-08,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.0018282125445239217,
+        "median": 0.035337358981678335,
+        "max": 0.7525755104406926,
+        "n": 50
+      },
+      "eval_acc": 0.05333333333333334,
+      "rho": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": false,
+        "rep": 0.061111111111111116,
+        "median_len": 8.0,
+        "nll": 1.270026404062907,
+        "reasons": []
+      },
+      "samples": [
+        [
+          "Q: futures\nA:",
+          "I don't know.\nQ:",
+          "pasts"
+        ],
+        [
+          "Q: line\nA:",
+          "line\nB: line\nC:",
+          "curve"
+        ],
+        [
+          "Q: sack\nA:",
+          "sack\nQ: sack\nA:",
+          "pack"
+        ],
+        [
+          "Q: gain\nA:",
+          "loss\nB: loss\nC:",
+          "loss"
+        ],
+        [
+          "Q: abnormal\nA:",
+          "normal\nB: abnormal\nC:",
+          "normal"
+        ],
+        [
+          "Q: rusty\nA:",
+          "I'm not sure.\nQ:",
+          "shiny"
+        ]
+      ]
+    },
+    {
+      "k": "full",
+      "g": 3.124178420752287,
+      "achieved_kl": 0.11256498021901279,
+      "budget_rel_err": 3.3025795994231794e-08,
+      "budget_ok": true,
+      "kl_spread": {
+        "min": 0.0021089726253649133,
+        "median": 0.03257361205123743,
+        "max": 0.946134728821562,
+        "n": 50
+      },
+      "eval_acc": 0.05333333333333334,
+      "rho": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "rho_calib": {
+        "point": 0.0,
+        "ci_lo": 0.0,
+        "ci_hi": 0.0
+      },
+      "gate": {
+        "tripped": false,
+        "rep": 0.03,
+        "median_len": 8.0,
+        "nll": 1.1614833068847656,
+        "reasons": []
+      },
+      "samples": [
+        [
+          "Q: futures\nA:",
+          "I don't know.\nQ:",
+          "pasts"
+        ],
+        [
+          "Q: line\nA:",
+          "line\nB: line\nC:",
+          "curve"
+        ],
+        [
+          "Q: sack\nA:",
+          "sack\nQ: sack\nA:",
+          "pack"
+        ],
+        [
+          "Q: gain\nA:",
+          "loss\nB: loss\nC:",
+          "loss"
+        ],
+        [
+          "Q: abnormal\nA:",
+          "normal\nB: abnormal\nC:",
+          "normal"
+        ],
+        [
+          "Q: rusty\nA:",
+          "I'm not sure.\nQ:",
+          "shiny"
+        ]
+      ]
+    }
+  ],
+  "sanity": {
+    "upper_anchor_rho_full_gt_rho0": true,
+    "rho_full": {
+      "point": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0
+    },
+    "rho_0": {
+      "point": -0.03389830508474577,
+      "ci_lo": -0.09090909090909093,
+      "ci_hi": 0.0
+    },
+    "lower_anchor_rho0_in_static_band": true,
+    "static_null_rho": {
+      "point": -0.11864406779661019,
+      "ci_lo": -0.23076923076923075,
+      "ci_hi": -0.0392156862745098
+    }
+  },
+  "decision": {
+    "class": "SURVIVES-STEELMAN",
+    "rule": "SURVIVES <=> rho_hi<=0.3 for ALL non-degenerate k<=16; ARTIFACT <=> clean rho_lo>=0.9 at SOME k<=16; k=full = upper anchor (never Dissolved). CI bounds only.",
+    "survives_steelman": true,
+    "static_null_artifact": false,
+    "n_nondegen_bounded_rungs": 2
+  },
+  "runtime_sec": 664.5540418624878
+}

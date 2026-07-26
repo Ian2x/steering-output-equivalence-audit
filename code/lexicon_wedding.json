@@ -1,0 +1,41 @@
+{
+  "lexicon": [
+    "wedding",
+    "weddings",
+    "bride",
+    "bridal",
+    "groom",
+    "married",
+    "marry",
+    "marries",
+    "marriage",
+    "wed",
+    "weds",
+    "honeymoon",
+    "ceremony",
+    "vows",
+    "vow",
+    "engagement",
+    "engaged",
+    "fiance",
+    "fiancee",
+    "bridesmaid",
+    "bouquet",
+    "altar",
+    "reception",
+    "matrimony",
+    "nuptials",
+    "betrothed",
+    "wedded"
+  ],
+  "a0_token_strings": [
+    " wedding",
+    " bride",
+    " groom",
+    " married",
+    " marriage",
+    " wed",
+    " honeymoon",
+    " ceremony"
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "purpose": "task-vectors arm control dose-response sensitivity (plan \u00a711 Amendment 2)",
+    "arm": "task-vectors (Hendel 2310.15916, REPLACE)",
+    "model": "EleutherAI/pythia-2.8b",
+    "device": "mps",
+    "dtype": "bf16",
+    "task": "antonym",
+    "chosen_layer": 12,
+    "chosen_op": "replace",
+    "n_eval": 150,
+    "n_calib": 50,
+    "max_new_tokens": 8,
+    "n_boot": 10000,
+    "seed": 20260707,
+    "dose_fracs": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      1.0
+    ],
+    "matched_control_scalar": 3.5921055115759373,
+    "token_set_size": 100,
+    "token_set_matches_run": true,
+    "gate_refs": {
+      "rep": 0.004444444444444444,
+      "median_len": 8.0,
+      "nll": 0.95849089940389
+    },
+    "E_native_pts": 47.333333333333336,
+    "baseline_rate": 0.06666666666666667,
+    "amend2_ratio": 0.3,
+    "gain_bound_pts": 14.200000000000001,
+    "timestamp": "2026-07-07T16:38:42.653102+00:00"
+  },
+  "grid": [
+    {
+      "frac": 0.1,
+      "bias_scalar": 0.35921055115759376,
+      "accuracy": 0.06666666666666667,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.10666666666666667,
+      "gain_pts": 0.0,
+      "effect_ratio_vs_E_native": 0.0,
+      "gate_tripped": false,
+      "gate_rep": 0.004444444444444444,
+      "gate_median_len": 8.0,
+      "gate_nll": 0.9586602719624837,
+      "gate_reasons": [],
+      "sample": " I don't know\nQ: even"
+    },
+    {
+      "frac": 0.2,
+      "bias_scalar": 0.7184211023151875,
+      "accuracy": 0.06666666666666667,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.10666666666666667,
+      "gain_pts": 0.0,
+      "effect_ratio_vs_E_native": 0.0,
+      "gate_tripped": false,
+      "gate_rep": 0.004444444444444444,
+      "gate_median_len": 8.0,
+      "gate_nll": 0.9586602719624837,
+      "gate_reasons": [],
+      "sample": " I don't know\nQ: even"
+    },
+    {
+      "frac": 0.3,
+      "bias_scalar": 1.0776316534727812,
+      "accuracy": 0.06666666666666667,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.10666666666666667,
+      "gain_pts": 0.0,
+      "effect_ratio_vs_E_native": 0.0,
+      "gate_tripped": false,
+      "gate_rep": 0.004444444444444444,
+      "gate_median_len": 8.0,
+      "gate_nll": 0.9586602719624837,
+      "gate_reasons": [],
+      "sample": " I don't know\nQ: even"
+    },
+    {
+      "frac": 0.4,
+      "bias_scalar": 1.436842204630375,
+      "accuracy": 0.06666666666666667,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.10666666666666667,
+      "gain_pts": 0.0,
+      "effect_ratio_vs_E_native": 0.0,
+      "gate_tripped": false,
+      "gate_rep": 0.004444444444444444,
+      "gate_median_len": 8.0,
+      "gate_nll": 0.9586602719624837,
+      "gate_reasons": [],
+      "sample": " I don't know\nQ: even"
+    },
+    {
+      "frac": 0.5,
+      "bias_scalar": 1.7960527557879686,
+      "accuracy": 0.06666666666666667,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.10666666666666667,
+      "gain_pts": 0.0,
+      "effect_ratio_vs_E_native": 0.0,
+      "gate_tripped": false,
+      "gate_rep": 0.02222222222222222,
+      "gate_median_len": 8.0,
+      "gate_nll": 1.0422338040669759,
+      "gate_reasons": [],
+      "sample": " I don't know\nQ: even"
+    },
+    {
+      "frac": 0.6,
+      "bias_scalar": 2.1552633069455625,
+      "accuracy": 0.06,
+      "ci_lo": 0.02666666666666667,
+      "ci_hi": 0.1,
+      "gain_pts": -0.6666666666666667,
+      "effect_ratio_vs_E_native": -0.014084507042253521,
+      "gate_tripped": true,
+      "gate_rep": 0.11777777777777779,
+      "gate_median_len": 8.0,
+      "gate_nll": 1.3612860838572185,
+      "gate_reasons": [
+        "3gram_rep 0.118 > 2*0.004+0.1=0.109"
+      ],
+      "sample": " I don't know\nQ: even"
+    },
+    {
+      "frac": 0.7,
+      "bias_scalar": 2.514473858103156,
+      "accuracy": 0.006666666666666667,
+      "ci_lo": 0.0,
+      "ci_hi": 0.02,
+      "gain_pts": -6.0,
+      "effect_ratio_vs_E_native": -0.1267605633802817,
+      "gate_tripped": true,
+      "gate_rep": 0.49444444444444446,
+      "gate_median_len": 8.0,
+      "gate_nll": 2.5794103495279948,
+      "gate_reasons": [
+        "3gram_rep 0.494 > 2*0.004+0.1=0.109"
+      ],
+      "sample": " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vac"
+    },
+    {
+      "frac": 1.0,
+      "bias_scalar": 3.5921055115759373,
+      "accuracy": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "gain_pts": -6.666666666666667,
+      "effect_ratio_vs_E_native": -0.14084507042253522,
+      "gate_tripped": true,
+      "gate_rep": 0.8333333333333334,
+      "gate_median_len": 8.0,
+      "gate_nll": 3.4879890950520833,
+      "gate_reasons": [
+        "3gram_rep 0.833 > 2*0.004+0.1=0.109",
+        "mean_nll 3.488 > 3*0.958=2.875"
+      ],
+      "sample": " vacancy vacancy vacancy vacancy vacancy vacancy vacancy vac"
+    }
+  ],
+  "verdict": {
+    "amendment2": "PASS",
+    "passed": true,
+    "rule": "PASS = >=3 non-degenerate scales AND every non-degenerate scale has gain <= 0.3 x E_native = 14.2 pts (ratio <= 0.3).",
+    "n_nondegenerate_scales": 5,
+    "clean_fracs": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "max_clean_effect_ratio": 0.0,
+    "all_nondegen_within_bound": true,
+    "fail_reasons": []
+  },
+  "runtime_sec": 595.5013499259949
+}
