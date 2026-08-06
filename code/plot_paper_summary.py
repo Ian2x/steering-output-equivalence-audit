@@ -67,8 +67,9 @@ def rho_kappa_map() -> None:
     ax.axvline(0, color="#888888", lw=0.7, zorder=1)
     for y, (name, rho, lo, hi, *_rest) in zip(ys, rows):
         if name == "Refusal ablation":
-            # NLL-exempt plateau upper bound with its exact transformed
+            # NLL-exempt plateau maximum with its exact transformed
             # interval; the strict-gate maximum 0.151 is ticked separately.
+            # Open marker: a gate-convention maximum, not a plain measurement.
             ax.errorbar(rho, y, xerr=[[rho - lo], [hi - rho]], fmt="o",
                         color=ink, capsize=2.5, markersize=5.5,
                         markerfacecolor="white", markeredgewidth=1.2, zorder=3)
@@ -115,7 +116,8 @@ def rho_kappa_map() -> None:
         Line2D([], [], marker="o", linestyle="", color=ink,
                markeredgecolor="white", label="measured, 95% CI"),
         Line2D([], [], marker="o", linestyle="", markerfacecolor="white",
-               markeredgecolor=ink, label="= 1 by construction / upper bound"),
+               markeredgecolor=ink,
+               label="by construction, or a gate-convention maximum"),
     ]
     fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False,
                fontsize=7.5, bbox_to_anchor=(0.5, -0.02))

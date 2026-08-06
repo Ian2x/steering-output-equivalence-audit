@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 reproduced/
 .DS_Store
+paper_figures/

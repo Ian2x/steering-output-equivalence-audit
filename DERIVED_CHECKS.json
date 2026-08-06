@@ -1,0 +1,201 @@
+{
+  "derived": {
+    "activation_addition": {
+      "kappa": null,
+      "kappa_ci": null,
+      "rho": 0.9586776859504132,
+      "rho_ci": [
+        0.8527131782945736,
+        1.0714446589446587
+      ]
+    },
+    "caa_corrigibility": {
+      "kappa": 0.8333333333333331,
+      "kappa_ci": [
+        0.5384615384615385,
+        1.0666666666666667
+      ],
+      "rho": 1.3333333333333333,
+      "rho_ci": [
+        0.9333333333333332,
+        1.9999999999999996
+      ]
+    },
+    "caa_semantic": {
+      "corrigibility": {
+        "clean_alignment_base_native_control": [
+          31.9,
+          45.4,
+          48.7
+        ],
+        "control_minus_native": {
+          "ci_hi": 9.9,
+          "ci_lo": -3.202499999999998,
+          "point": 3.3
+        },
+        "semantic_rho_clean": {
+          "ci_hi": 2.075952806824436,
+          "ci_lo": 0.7969895441729327,
+          "point": 1.2444444444444447,
+          "valid_bootstraps": 10000
+        },
+        "surface_only_base_native_control": [
+          0.04,
+          0.04,
+          0.06
+        ],
+        "verdict": "SEMANTIC-METRIC-MIXED"
+      },
+      "sycophancy": {
+        "clean_alignment_base_native_control": [
+          59.85,
+          69.675,
+          77.65
+        ],
+        "control_minus_native": {
+          "ci_hi": 13.975,
+          "ci_lo": 2.3,
+          "point": 7.975
+        },
+        "semantic_rho_clean": {
+          "ci_hi": 4.203914793894961,
+          "ci_lo": 1.142857142857143,
+          "point": 1.8117048346055993,
+          "valid_bootstraps": 10000
+        },
+        "surface_only_base_native_control": [
+          0.13,
+          0.19,
+          0.07
+        ],
+        "verdict": "SEMANTIC-METRIC-MIXED"
+      }
+    },
+    "caa_sycophancy": {
+      "kappa": 0.8333333333333333,
+      "kappa_ci": [
+        0.75,
+        0.9134744623655913
+      ],
+      "rho": 0.8823529411764706,
+      "rho_ci": [
+        0.7904642857142858,
+        0.971435309973046
+      ]
+    },
+    "full_vocab_anchor": {
+      "native_rate": 0.6933333333333334,
+      "oracle_guard": true,
+      "rho": 1.0,
+      "student_rate": 0.6933333333333334
+    },
+    "full_vocab_fv": {
+      "clean_targets": [
+        0.03,
+        0.07,
+        0.11,
+        0.15,
+        0.18
+      ],
+      "decision": "SURVIVES-BEHAVIORALLY-FIDELITY-LIMITED",
+      "fidelity_class": "nontrivial",
+      "max_clean_rho_hi": 0.19999999999999998
+    },
+    "full_vocab_taskvec": {
+      "clean_targets": [
+        0.03,
+        0.07,
+        0.11,
+        0.15,
+        0.18
+      ],
+      "decision": "INCONCLUSIVE-CONTROLLER-FIT",
+      "fidelity_class": "poor",
+      "max_clean_rho_hi": 0.24358974358974356
+    },
+    "function_vector": {
+      "kappa": 0.9830508474576272,
+      "rho": -0.11864406779661019,
+      "rho_ci": [
+        -0.23076923076923075,
+        -0.0392156862745098
+      ],
+      "static_control_void": true
+    },
+    "refusal_ablation": {
+      "gate_conventions": {
+        "nll_exempt_as_shipped": {
+          "clean_fractions": [
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "max_effect_ratio": 0.2589928057553957,
+          "n_clean_scales": 5,
+          "passes_amendment2": true,
+          "role": "documented post-hoc outcome-affecting secondary"
+        },
+        "strict_preregistered_nll_counted": {
+          "clean_fractions": [
+            0.1,
+            0.2
+          ],
+          "max_effect_ratio": 0.15107913669064738,
+          "n_clean_scales": 2,
+          "passes_amendment2": false,
+          "role": "manuscript primary; arm reported as gate-sensitive"
+        }
+      },
+      "gate_lines": {
+        "median_len": 6.0,
+        "nll": 0.6428951134005668,
+        "rep": 0.10515398046398047
+      }
+    },
+    "refusal_cell_defects": {
+      "control_degenerate_repetition_rate": 0.9679331546463016,
+      "corrected_verdict": "Mixed",
+      "note": "Driver defects, both disclosed; see KNOWN_ISSUES.md. Intervals are unaffected and the decision rules read intervals. The refusal row the manuscript reports comes from the Amendment-2 dose ladder, not from this voided single-control cell.",
+      "recomputed_from_rates": {
+        "kappa": 0.9856115107913669,
+        "rho": 0.9928057553956834
+      },
+      "shipped_verdict": "Dissolved",
+      "stored_point_fields_are_clamping_artifacts": {
+        "kappa": -913333333.3333333,
+        "rho": -919999999.9999999
+      }
+    },
+    "sae": {
+      "kappa": 0.6308724832214766,
+      "kappa_ci": [
+        0.5532755102040817,
+        0.7074829931972789
+      ],
+      "rho": 0.4161073825503356,
+      "rho_ci": [
+        0.33557046979865773,
+        0.49333333333333335
+      ]
+    },
+    "synthetic_anchor": {
+      "rho": 1.6153846153846152,
+      "rho_ci": [
+        1.25,
+        2.185185185185185
+      ]
+    },
+    "task_vector": {
+      "kappa": 1.0,
+      "rho": -0.1408450704225352,
+      "rho_ci": [
+        -0.25,
+        -0.06097560975609757
+      ],
+      "static_control_void": true
+    }
+  },
+  "status": "PASS"
+}

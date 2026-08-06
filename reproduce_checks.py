@@ -129,39 +129,168 @@ def check_task_vector() -> dict:
 
 
 def check_refusal_plateau() -> dict:
-    """Re-derive the refusal plateau under BOTH gate conventions.
+    """Derive the refusal reproduction maximum under BOTH gate conventions.
 
-    The shipped `degenerate` flag is the implemented gate, which exempts the
-    NLL rule (repetition and length only). `raw_tripped` is the preregistered
-    strict gate, which counts NLL. The paper reports the strict maximum 0.151
-    as primary and the NLL-exempt plateau 0.259 as a disclosed, post-hoc,
-    outcome-affecting secondary; both are recomputed here from stored rows.
+    The refusal driver shipped an NLL-exempt degeneracy gate (repetition and
+    length only) while every other arm counted the preregistered NLL rule. The
+    manuscript reports the strict preregistered maximum 0.151 as primary and the
+    NLL-exempt plateau maximum 0.259 as a documented, post-hoc, outcome-affecting
+    secondary. Both are derived here under unambiguous names; neither is called
+    "strict" unless the NLL rule is actually counted.
     """
     obj = load("2026-07-07-refusal-arm/dose_response_fine.json")
     adjudication = obj["adjudication"]
-    exempt_rows = [row for row in obj["grid"] if not row["gate"]["degenerate"]]
-    if len(exempt_rows) != adjudication["n_clean_scales"]:
-        raise AssertionError("refusal clean-scale count does not match adjudication")
-    exempt_max = max(row["effect_over_native"] for row in exempt_rows)
-    close(exempt_max, adjudication["max_clean_effect_ratio"], "refusal plateau maximum")
-    if len(exempt_rows) < 3 or exempt_max > 0.3 or not adjudication["passes_amendment2"]:
-        raise AssertionError("refusal NLL-exempt coherent-window adjudication failed")
+    baseline = obj["eval_baseline_refs"]
+
+    # Re-apply the preregistered gate formula from the recorded per-scale
+    # statistics rather than trusting the stored flags.
+    rep_line = 2.0 * baseline["rep"] + 0.1
+    len_line = 0.5 * baseline["median_len"]
+    nll_line = 3.0 * baseline["nll"]
+    for row in obj["grid"]:
+        gate = row["gate"]
+        rep_trip = gate["rep"] > rep_line
+        len_trip = gate["median_len"] < len_line
+        nll_trip = gate["nll"] > nll_line
+        if rep_trip != gate["rep_trip"] or len_trip != gate["len_trip"]:
+            raise AssertionError(
+                f"refusal gate recomputation disagrees at frac {row['frac']}"
+            )
+        # nll_exempt == the convention the driver actually shipped.
+        if (rep_trip or len_trip) != gate["degenerate"]:
+            raise AssertionError(
+                f"refusal NLL-exempt flag disagrees at frac {row['frac']}"
+            )
+        if (rep_trip or len_trip or nll_trip) != gate["raw_tripped"]:
+            raise AssertionError(
+                f"refusal strict-gate flag disagrees at frac {row['frac']}"
+            )
 
     strict_rows = [row for row in obj["grid"] if not row["gate"]["raw_tripped"]]
+    exempt_rows = [row for row in obj["grid"] if not row["gate"]["degenerate"]]
+
     strict_max = max(row["effect_over_native"] for row in strict_rows)
-    close(strict_max, 0.15107913669064738, "refusal strict-gate maximum")
-    if len(strict_rows) >= 3:
+    exempt_max = max(row["effect_over_native"] for row in exempt_rows)
+
+    # Manuscript Table 3 and Appendix H.
+    close(strict_max, 0.1510791366906475, "refusal strict-gate maximum (0.151)")
+    close(exempt_max, 0.2589928057553957, "refusal NLL-exempt plateau maximum (0.259)")
+    close(exempt_max, adjudication["max_clean_effect_ratio"],
+          "refusal NLL-exempt maximum vs shipped adjudication")
+    if len(exempt_rows) != adjudication["n_clean_scales"]:
+        raise AssertionError("refusal NLL-exempt clean-scale count does not match adjudication")
+    if len(strict_rows) != 2:
         raise AssertionError(
-            "strict gate should leave fewer than the three clean scales "
-            "Amendment 2 requires; the paper's gate-sensitive reading depends on this"
+            f"refusal strict-gate clean-scale count changed: {len(strict_rows)}"
         )
+    # The strict convention is the manuscript's primary reading, and it does NOT
+    # reach the >=3 clean-scale bar; the arm is reported as gate-sensitive.
+    strict_passes_amendment2 = len(strict_rows) >= 3 and strict_max <= 0.3
+    if strict_passes_amendment2:
+        raise AssertionError(
+            "refusal strict gate now clears Amendment 2; the manuscript's "
+            "gate-sensitive reading would need revision"
+        )
+    if not adjudication["passes_amendment2"]:
+        raise AssertionError("shipped NLL-exempt adjudication no longer passes Amendment 2")
+
     return {
-        "nll_exempt_clean_fractions": [row["frac"] for row in exempt_rows],
-        "nll_exempt_max_effect_ratio": exempt_max,
-        "nll_exempt_plateau_pass": True,
-        "strict_clean_fractions": [row["frac"] for row in strict_rows],
-        "strict_max_effect_ratio": strict_max,
-        "strict_clean_scale_count": len(strict_rows),
+        "gate_conventions": {
+            "strict_preregistered_nll_counted": {
+                "clean_fractions": [row["frac"] for row in strict_rows],
+                "n_clean_scales": len(strict_rows),
+                "max_effect_ratio": strict_max,
+                "passes_amendment2": strict_passes_amendment2,
+                "role": "manuscript primary; arm reported as gate-sensitive",
+            },
+            "nll_exempt_as_shipped": {
+                "clean_fractions": [row["frac"] for row in exempt_rows],
+                "n_clean_scales": len(exempt_rows),
+                "max_effect_ratio": exempt_max,
+                "passes_amendment2": adjudication["passes_amendment2"],
+                "role": "documented post-hoc outcome-affecting secondary",
+            },
+        },
+        "gate_lines": {"rep": rep_line, "median_len": len_line, "nll": nll_line},
+    }
+
+
+def check_refusal_cell_defects() -> dict:
+    """Re-derive the refusal cell's ratios and confirm two driver defects.
+
+    Both are disclosed in the manuscript and in KNOWN_ISSUES.md, and both are
+    checkable from these bytes rather than taken on trust.
+
+    1. Corrupt point fields. ``battery.bootstrap_ratio_ci`` clamps the
+       denominator with ``max(den.mean() - base.mean(), 1e-9)``. The refusal
+       effect is a suppression, so that denominator is negative and the stored
+       ``rho.point`` / ``kappa.point`` are clamping artifacts of order -1e9.
+       The bootstrap replicates do not use the clamp, so the intervals are
+       correct. The manuscript recomputes both ratios from the recorded rates.
+    2. Verdict-logic defect. ``run_refusal.py`` omits ``control_clean`` from its
+       "Dissolved" branch, so it printed Dissolved while its own
+       ``cell_valid`` was False and its control had degenerated into repetition
+       loops. Amendment 2 forbids a degenerate control from certifying
+       reproduction, so the corrected verdict for this cell is Mixed.
+    """
+    obj = load("2026-07-07-refusal-arm/results_full.json")
+    rates = obj["rates"]
+    base = rates["baseline"]["rate"]
+    native = rates["E_native"]["rate"]
+    first = rates["E_first"]["rate"]
+    control = rates["control"]["rate"]
+
+    rho_from_rates = (control - base) / (native - base)
+    kappa_from_rates = (first - base) / (native - base)
+    # Manuscript Table 3 footnote: kappa = (0.94-0.0267)/(0.94-0.0133) = 0.986.
+    close(kappa_from_rates, 0.9856115107913668, "refusal kappa recomputed from rates")
+    close(rho_from_rates, 0.9928057553956835, "refusal single-control rho from rates")
+
+    # Defect 1: the stored point fields are the 1e-9-clamped artifact, not the
+    # ratio above. Reproduce the clamp exactly so the claim is not hand-waved.
+    clamped_rho = (control - base) / max(native - base, 1e-9)
+    clamped_kappa = (first - base) / max(native - base, 1e-9)
+    close(obj["rho"]["point"], clamped_rho, "refusal rho.point is the clamped artifact")
+    close(obj["kappa"]["point"], clamped_kappa, "refusal kappa.point is the clamped artifact")
+    if obj["rho"]["point"] > 0 or obj["kappa"]["point"] > 0:
+        raise AssertionError("refusal point fields are no longer the known artifact")
+    # The intervals bracket the rate-derived ratios, confirming the clamp did
+    # not reach the bootstrap replicates.
+    for label, value, block in (
+        ("rho", rho_from_rates, obj["rho"]),
+        ("kappa", kappa_from_rates, obj["kappa"]),
+    ):
+        if not block["ci_lo"] <= value <= block["ci_hi"]:
+            raise AssertionError(
+                f"refusal {label} interval no longer brackets the rate-derived value"
+            )
+
+    # Defect 2: the shipped verdict block records the contradiction directly.
+    verdict = obj["verdict"]
+    gates = obj["degeneracy_gates"]
+    if verdict["class"] != "Dissolved":
+        raise AssertionError("refusal shipped verdict class changed")
+    if verdict["cell_valid"] or verdict["gate_clean_control"]:
+        raise AssertionError("refusal verdict no longer records the invalid cell")
+    if not gates["control"]["degenerate"] or not gates["control"]["rep_trip"]:
+        raise AssertionError("refusal control is no longer flagged degenerate")
+    close(gates["control"]["rep"], 0.9679331546463016, "refusal control repetition rate")
+
+    return {
+        "recomputed_from_rates": {"kappa": kappa_from_rates, "rho": rho_from_rates},
+        "stored_point_fields_are_clamping_artifacts": {
+            "kappa": obj["kappa"]["point"],
+            "rho": obj["rho"]["point"],
+        },
+        "shipped_verdict": verdict["class"],
+        "corrected_verdict": "Mixed",
+        "control_degenerate_repetition_rate": gates["control"]["rep"],
+        "note": (
+            "Driver defects, both disclosed; see KNOWN_ISSUES.md. Intervals are "
+            "unaffected and the decision rules read intervals. The refusal row "
+            "the manuscript reports comes from the Amendment-2 dose ladder, not "
+            "from this voided single-control cell."
+        ),
     }
 
 
@@ -260,6 +389,7 @@ def main() -> None:
             expected_kappa=None,
         ),
         "refusal_ablation": check_refusal_plateau(),
+        "refusal_cell_defects": check_refusal_cell_defects(),
         "task_vector": check_task_vector(),
         "sae": check_standard_row(
             "SAE",

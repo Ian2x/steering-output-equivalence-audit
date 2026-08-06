@@ -21,6 +21,7 @@ is.
 | `results/` | Shipped JSON artifacts for every countable paper row, the full-vocabulary controller study, and the CAA semantic robustness check |
 | `code/` | Experiment drivers, controller and gate implementations, scoring, and plotting |
 | `reproduce_checks.py` | Standard-library checker that re-derives headline quantities from the shipped JSON bytes |
+| `DERIVED_CHECKS.json` | The checker's own output, stored so you can diff a fresh run against the release |
 | `RESULT_PROVENANCE.md` | Mapping from paper claims to source artifacts |
 | `MANIFEST.sha256` | Checksums for every file in this repository |
 | `KNOWN_ISSUES.md` | Honest record of driver defects, accounting gaps, and their scope |
@@ -42,7 +43,10 @@ gate (maximum reproduction 0.151, two clean scales) and the implemented
 NLL-exempt gate (plateau 0.259, five clean scales). The paper reports the strict
 reading as primary and the NLL-exempt reading as a disclosed post-hoc secondary;
 this checker lets you confirm both numbers yourself rather than taking the
-disclosure on trust.
+disclosure on trust. It also re-derives the two refusal-driver defects recorded
+in `KNOWN_ISSUES.md` — the clamped `rho` and `kappa` point fields and the
+verdict block that contradicts them — so those are recomputable rather than
+merely asserted.
 
 To verify file integrity:
 
@@ -52,18 +56,21 @@ shasum -a 256 -c MANIFEST.sha256
 
 ## Regenerating the figures
 
-Both paper figures regenerate without model inference:
+All three paper figures regenerate from two scripts, without model inference:
 
 ```bash
 python3 code/plot_paper_summary.py
 python3 code/plot_output_frontiers.py --out reproduced/rho_vs_absolute_kl.png
 ```
 
-`plot_paper_summary.py` produces the rho/kappa map (Figure 1) and the CAA
-semantic robustness figure (Figure 3); `plot_output_frontiers.py` produces the
-absolute-KL frontiers (Figure 2). `code/draw_rho_kappa_pdf.py` is retained only
-for the historical record and refuses to run: it emitted non-embedded Type 1
-fonts, which rendered as invisible text in several PDF viewers.
+`plot_paper_summary.py` writes the rho/kappa map (Figure 1) and the CAA semantic
+robustness figure (Figure 3) into `paper_figures/`; `plot_output_frontiers.py`
+writes the absolute-KL frontiers (Figure 2) to the `--out` path. Each script
+emits a PNG and a PDF; the PDFs are the ones the paper embeds, and they
+reproduce the published files byte for byte apart from the embedded creation
+timestamp. `code/draw_rho_kappa_pdf.py` is retained only for the historical
+record and refuses to run: it emitted non-embedded Type 1 fonts, which rendered
+as invisible text in several PDF viewers.
 
 ## Full reruns
 
