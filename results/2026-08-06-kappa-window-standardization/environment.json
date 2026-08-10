@@ -1,0 +1,9 @@
+{
+  "accelerate": "1.14.0",
+  "cuda_available": true,
+  "cuda_device": "NVIDIA A10G",
+  "cuda_runtime": "12.8",
+  "python": "3.12.10",
+  "torch": "2.7.0+cu128",
+  "transformers": "5.13.0"
+}

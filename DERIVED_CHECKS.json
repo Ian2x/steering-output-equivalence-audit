@@ -122,6 +122,59 @@
       ],
       "static_control_void": true
     },
+    "kappa_window": {
+      "cells": {
+        "caa_corrigibility": {
+          "discordant_pairs": {
+            "b": 3,
+            "c": 1
+          },
+          "exact_mcnemar_p": 0.625,
+          "kappa": {
+            "prefill_only": 0.7222222222222223,
+            "prefill_plus1": 0.8333333333333331
+          },
+          "kappa_difference": 0.11111111111111083,
+          "n": 100,
+          "rho": 1.3333333333333333
+        },
+        "caa_sycophancy": {
+          "discordant_pairs": {
+            "b": 12,
+            "c": 7
+          },
+          "exact_mcnemar_p": 0.359283447265625,
+          "kappa": {
+            "prefill_only": 0.784313725490196,
+            "prefill_plus1": 0.8333333333333333
+          },
+          "kappa_difference": 0.0490196078431373,
+          "n": 200,
+          "rho": 0.8823529411764706
+        },
+        "sae_feature_steering": {
+          "discordant_pairs": {
+            "b": 14,
+            "c": 5
+          },
+          "exact_mcnemar_p": 0.063568115234375,
+          "kappa": {
+            "prefill_only": 0.5704697986577182,
+            "prefill_plus1": 0.6308724832214766
+          },
+          "kappa_difference": 0.06040268456375841,
+          "n": 150,
+          "rho": 0.4161073825503356
+        }
+      },
+      "pooled_post_hoc": {
+        "b": 29,
+        "c": 13,
+        "caa_only_exact_two_sided_p": 0.21003961563110352,
+        "exact_two_sided_p": 0.019520472782460274,
+        "m": 42
+      }
+    },
     "refusal_ablation": {
       "gate_conventions": {
         "nll_exempt_as_shipped": {

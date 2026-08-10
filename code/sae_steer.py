@@ -11,11 +11,14 @@ residual stream at the SAE's layer/site (resid_pre of layer 7), at every positio
 (prompt + each generated token) — the native all-position deployment of SAE
 feature steering. The "clamp feature to k x max" variant is an equivalent scaled
 add; we use the scaled-add form and report ``c``. Because the native regime is
-all-positions, ``kappa = E_first / E_native`` is informative (as for refusal):
+all-positions, ``kappa = E_first / E_native`` is informative (as for refusal).
+The standardized ``first`` mode is prefill-only; the shipped prefill+1 schedule
+remains available explicitly for window-sensitivity runs:
 
   - E_native = c*W_dec[f] added at EVERY position (native SAE-steering form).
-  - E_first  = c*W_dec[f] added only while processing the prompt and the FIRST
-               generated token, baked into the KV cache, then removed.
+  - E_first  = c*W_dec[f] added only while processing the prompt (prefill-only).
+  - E_first_prefill_plus1 = the historical schedule, which also applies while
+                            processing the first generated token.
   - kappa    = E_first / E_native (cascade share).
 
 Feature discovery is programmatic (no Neuronpedia): encode concept-bearing vs
@@ -189,19 +192,36 @@ class SAESteerMethod:
 
     Modes:
       - 'native'/'all': add at every position (the published SAE-steering form).
-      - 'first'       : add only at prompt positions AND the first generated
-                        token, baked into the KV cache, then removed (E_first).
+      - 'first'       : use the explicitly selected ``first_window``.
+      - 'first_prefill_only': add only during prompt prefill.
+      - 'first_prefill_plus1': historical schedule; also add while processing
+                               the first generated token.
       - 'base'        : no steering.
-    The hook is a resid_pre forward-pre hook driven by a manual generation loop so
-    E_first can stop applying after the first generated step while the layer-7
-    activations for the prompt+first-token remain in the KV cache.
+    The hook is a resid_pre forward-pre hook driven by a manual generation loop
+    so the intervention window is explicit.
     """
     model: object
     tokenizer: object
     layer: int
     direction: torch.Tensor  # [hidden] unit vector on CPU
+    first_window: str
     device: str = "cpu"
     max_new_tokens: int = 64
+
+    def __post_init__(self):
+        if self.first_window not in {"prefill_only", "prefill_plus1"}:
+            raise ValueError(
+                "first_window must be 'prefill_only' or 'prefill_plus1'")
+        self.last_forward_activity = []
+
+    def _first_apply(self, mode: str) -> str:
+        if mode == "first":
+            return self.first_window
+        if mode == "first_prefill_only":
+            return "prefill_only"
+        if mode == "first_prefill_plus1":
+            return "prefill_plus1"
+        raise ValueError(mode)
 
     def _vec(self, coeff: float) -> torch.Tensor:
         return (coeff * self.direction).to(self.device)
@@ -212,13 +232,15 @@ class SAESteerMethod:
                                    self.max_new_tokens, self.device)
         if mode in ("native", "all"):
             return self._gen(prompt, self._vec(coeff), apply="all")
-        if mode == "first":
-            return self._gen(prompt, self._vec(coeff), apply="first")
+        if mode.startswith("first"):
+            return self._gen(prompt, self._vec(coeff),
+                             apply=self._first_apply(mode))
         raise ValueError(mode)
 
     def generate_with_fixed_vector(self, prompt: str, vec: torch.Tensor,
                                    mode: str) -> str:
-        apply = "all" if mode in ("native", "all") else "first"
+        apply = ("all" if mode in ("native", "all")
+                 else self._first_apply(mode))
         return self._gen(prompt, vec.to(self.device), apply=apply)
 
     def _gen(self, prompt: str, add_vec: torch.Tensor, apply: str) -> str:
@@ -229,8 +251,7 @@ class SAESteerMethod:
         prompt_len = input_ids.shape[1]
         module = get_blocks(model)[L]
         # state: absolute index of the first token in the current forward, plus a
-        # flag for whether steering is still active (E_first turns it off after
-        # the first generated step).
+        # flag for whether steering is active in the selected window.
         state = {"offset": 0, "active": True}
 
         def pre_hook(mod, args):
@@ -243,28 +264,35 @@ class SAESteerMethod:
 
         h = module.register_forward_pre_hook(pre_hook)
         generated: List[int] = []
+        self.last_forward_activity = []
         try:
             with torch.no_grad():
                 # prefill (prompt): steering ON for both modes
                 state["offset"] = 0
                 state["active"] = True
+                self.last_forward_activity.append({
+                    "phase": "prefill", "active": True
+                })
                 out = model(input_ids, use_cache=True)
                 past = out.past_key_values
                 nid = int(out.logits[0, -1].argmax())
                 generated.append(nid)
                 cur = torch.tensor([[nid]], device=device)
-                # first generated step already produced above (from prefill logits)
-                # For E_first: steering stays ON through the forward that PROCESSES
-                # the first generated token (baking it into KV), then turns off.
+                # The first token was selected from prefill logits above. The
+                # selected window controls whether its processing forward is
+                # intervened (prefill+1) or clean (prefill-only).
                 for step in range(self.max_new_tokens - 1):
-                    if apply == "first" and step == 0:
-                        # this forward processes the first generated token; keep on
-                        state["active"] = True
-                    elif apply == "first":
+                    if apply == "prefill_plus1":
+                        state["active"] = step == 0
+                    elif apply == "prefill_only":
                         state["active"] = False
                     else:
                         state["active"] = True
                     state["offset"] = prompt_len + step
+                    self.last_forward_activity.append({
+                        "phase": "generated_forward", "step": step,
+                        "active": bool(state["active"]),
+                    })
                     o = model(cur, past_key_values=past, use_cache=True)
                     past = o.past_key_values
                     nid = int(o.logits[0, -1].argmax())
@@ -356,15 +384,18 @@ def teacher_forced_stepkl_native(meth: SAESteerMethod, tok, prompts,
     return float(np.mean(all_kls)) if all_kls else 0.0
 
 
-def kv_baked_first_sanity(meth: SAESteerMethod, tok, prompts, coeff) -> dict:
-    """Verify E_first: an independent manual prefill-with-steering then continue-
-    without-steering reproduces the method's 'first' output (the steering is baked
-    into the KV cache for prompt+first token, absent afterwards)."""
+def kv_baked_first_sanity(meth: SAESteerMethod, tok, prompts, coeff,
+                          first_window: str | None = None) -> dict:
+    """Verify the selected E_first window against an independent manual loop."""
     model, device, L = meth.model, meth.device, meth.layer
     add_vec = meth._vec(coeff)
+    window = first_window or meth.first_window
+    if window not in {"prefill_only", "prefill_plus1"}:
+        raise ValueError(window)
+    mode = f"first_{window}"
     results = []
     for p in prompts:
-        native_first = meth.generate(p, coeff, "first")
+        native_first = meth.generate(p, coeff, mode)
         ids = tok(p, return_tensors="pt")["input_ids"].to(device)
         with torch.no_grad(), _residpre_static_hook(model, L, add_vec):
             out = model(ids, use_cache=True)
@@ -374,7 +405,7 @@ def kv_baked_first_sanity(meth: SAESteerMethod, tok, prompts, coeff) -> dict:
         cur = torch.tensor([[nid]], device=device)
         with torch.no_grad():
             for step in range(meth.max_new_tokens - 1):
-                if step == 0:  # forward processing first gen token: steering ON
+                if window == "prefill_plus1" and step == 0:
                     with _residpre_static_hook(model, L, add_vec):
                         o = model(cur, past_key_values=past, use_cache=True)
                 else:
@@ -385,4 +416,7 @@ def kv_baked_first_sanity(meth: SAESteerMethod, tok, prompts, coeff) -> dict:
                 cur = torch.tensor([[nid]], device=device)
         manual = tok.decode(torch.tensor(gen), skip_special_tokens=True)
         results.append(native_first.strip() == manual.strip())
-    return {"n": len(prompts), "all_match": bool(all(results)), "matches": results}
+    return {
+        "window": window, "n": len(prompts),
+        "all_match": bool(all(results)), "matches": results,
+    }

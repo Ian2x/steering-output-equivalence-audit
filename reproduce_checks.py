@@ -52,7 +52,10 @@ def check_standard_row(
         first = rates["E_first"]["rate"]
         derived_kappa = cascade(first, baseline, native)
         close(derived_kappa, obj["kappa"]["point"], f"{name} kappa stored-vs-derived")
-        close(derived_kappa, expected_kappa, f"{name} kappa headline")
+        # For the three cells whose drivers used prefill+1, this is the retained
+        # sensitivity value of Table 3, not the headline. The standardized
+        # prefill-only headline is checked in check_kappa_window().
+        close(derived_kappa, expected_kappa, f"{name} kappa as banked")
 
     return {
         "rho": derived_rho,
@@ -377,6 +380,148 @@ def check_semantic() -> dict:
     return summary
 
 
+KAPPA_WINDOW_DIR = "2026-08-06-kappa-window-standardization"
+
+# Section 3.5 / Table 3 / Post-hoc disclosure 21. Point values only; the
+# intervals are paired bootstraps and are checked against the stored fields.
+KAPPA_WINDOW_HEADLINE = {
+    "sae_feature_steering": {
+        "prefill_only": 0.5704697986577181,
+        "prefill_plus1": 0.6308724832214766,
+        "discordant": (14, 5),
+    },
+    "caa_sycophancy": {
+        "prefill_only": 0.784313725490196,
+        "prefill_plus1": 0.8333333333333333,
+        "discordant": (12, 7),
+    },
+    "caa_corrigibility": {
+        "prefill_only": 0.7222222222222221,
+        "prefill_plus1": 0.8333333333333331,
+        "discordant": (3, 1),
+    },
+}
+# Section 5.6 post hoc pooled contrast.
+POOLED_DISCORDANT = (29, 13)
+POOLED_EXACT_P = 0.019520472782460274  # exactly 5365746701 / 2**38
+
+
+def exact_mcnemar_two_sided(b: int, c: int) -> float:
+    """Exact two-sided binomial test on the discordant pairs."""
+    m = b + c
+    if m == 0:
+        return 1.0
+    tail = sum(math.comb(m, i) for i in range(min(b, c) + 1))
+    return min(1.0, 2.0 * tail / 2**m)
+
+
+def check_kappa_window() -> dict:
+    """Both intervention windows, re-derived from the per-prompt hit vectors.
+
+    Every quantity below comes from the ``hits`` arrays, not from the stored
+    summary fields; the stored fields are then checked against what the hits
+    imply. This is what makes the standardization auditable rather than
+    asserted.
+    """
+    cells = {
+        "sae_feature_steering": load(f"{KAPPA_WINDOW_DIR}/sae_window_raw.json"),
+        **{
+            f"caa_{name}": obj
+            for name, obj in load(f"{KAPPA_WINDOW_DIR}/caa_window_raw.json")[
+                "behaviors"
+            ].items()
+        },
+    }
+
+    derived: dict[str, dict] = {}
+    pooled_b = pooled_c = 0
+    for name, obj in cells.items():
+        expected = KAPPA_WINDOW_HEADLINE[name]
+        conditions = obj["conditions"]
+        hits = {k: conditions[k]["hits"] for k in conditions}
+        n = len(hits["baseline"])
+        for key, vector in hits.items():
+            if len(vector) != n:
+                raise AssertionError(f"{name} {key}: ragged hit vector")
+            close(sum(vector) / n, conditions[key]["rate"], f"{name} {key} rate")
+
+        base = sum(hits["baseline"]) / n
+        native = sum(hits["E_native"]) / n
+        windows = {}
+        for window, key in (
+            ("prefill_only", "E_first_prefill_only"),
+            ("prefill_plus1", "E_first_prefill_plus1"),
+        ):
+            value = cascade(sum(hits[key]) / n, base, native)
+            close(value, expected[window], f"{name} {window} kappa headline")
+            windows[window] = value
+
+        # The claim that standardization moved nothing: rho depends only on the
+        # control and native arms, which the replay reproduced exactly.
+        rho = ratio(sum(hits["control"]) / n, base, native)
+
+        plus1, only = hits["E_first_prefill_plus1"], hits["E_first_prefill_only"]
+        b = sum(1 for x, y in zip(plus1, only) if x and not y)
+        c = sum(1 for x, y in zip(plus1, only) if y and not x)
+        if (b, c) != expected["discordant"]:
+            raise AssertionError(
+                f"{name} discordant pairs: expected {expected['discordant']}, got {(b, c)}"
+            )
+        pooled_b += b
+        pooled_c += c
+
+        derived[name] = {
+            "n": n,
+            "kappa": windows,
+            "kappa_difference": windows["prefill_plus1"] - windows["prefill_only"],
+            "discordant_pairs": {"b": b, "c": c},
+            "exact_mcnemar_p": exact_mcnemar_two_sided(b, c),
+            "rho": rho,
+        }
+
+    if (pooled_b, pooled_c) != POOLED_DISCORDANT:
+        raise AssertionError(
+            f"pooled discordant pairs: expected {POOLED_DISCORDANT}, got {(pooled_b, pooled_c)}"
+        )
+    pooled_p = exact_mcnemar_two_sided(pooled_b, pooled_c)
+    close(pooled_p, POOLED_EXACT_P, "pooled post hoc exact two-sided p")
+
+    # rho is unchanged by the rerun: compare against the frozen artifacts that
+    # Table 3 reports, which were produced before the window was standardized.
+    for name, relative in (
+        ("sae_feature_steering", "2026-07-07-sae-arm/results_full.json"),
+        (
+            "caa_sycophancy",
+            "2026-07-10-caa-semantic-check/source/sycophancy/results_full.json",
+        ),
+        (
+            "caa_corrigibility",
+            "2026-07-10-caa-semantic-check/source/corrigibility/results_full.json",
+        ),
+    ):
+        close(
+            derived[name]["rho"],
+            load(relative)["rho"]["point"],
+            f"{name} rho unchanged by window standardization",
+        )
+
+    return {
+        "cells": derived,
+        "pooled_post_hoc": {
+            "b": pooled_b,
+            "c": pooled_c,
+            "m": pooled_b + pooled_c,
+            "exact_two_sided_p": pooled_p,
+            "caa_only_exact_two_sided_p": exact_mcnemar_two_sided(
+                derived["caa_sycophancy"]["discordant_pairs"]["b"]
+                + derived["caa_corrigibility"]["discordant_pairs"]["b"],
+                derived["caa_sycophancy"]["discordant_pairs"]["c"]
+                + derived["caa_corrigibility"]["discordant_pairs"]["c"],
+            ),
+        },
+    }
+
+
 def main() -> None:
     summary = {
         "synthetic_anchor": check_anchor(),
@@ -416,6 +561,7 @@ def main() -> None:
         "full_vocab_fv": check_frontier("FV", "fv.json", "nontrivial"),
         "full_vocab_taskvec": check_frontier("task vector", "taskvec.json", "poor"),
         "caa_semantic": check_semantic(),
+        "kappa_window": check_kappa_window(),
     }
     print(json.dumps({"status": "PASS", "derived": summary}, indent=2, sort_keys=True))
 

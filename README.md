@@ -48,6 +48,18 @@ in `KNOWN_ISSUES.md` — the clamped `rho` and `kappa` point fields and the
 verdict block that contradicts them — so those are recomputable rather than
 merely asserted.
 
+The checker also re-derives the intervention-window standardization behind
+Post-hoc disclosure 21. Three cells — SAE feature steering and both CAA cells —
+originally measured `E_first` over a wider prefill+1 window than the rest of the
+paper. Each was rerun under both windows, gated on exact reproduction of its
+historical baseline, native, control, and prefill+1 counts, so the standardized
+prefill-only estimates extend the shipped artifacts rather than replacing them.
+From the per-prompt hit vectors in
+`results/2026-08-06-kappa-window-standardization/`, the checker recomputes both
+windows for all three cells, asserts that the replayed `rho` equals the frozen
+value in each, and reproduces the paired discordant-pair counts and the pooled
+post-hoc exact test the paper reports as a secondary analysis.
+
 To verify file integrity:
 
 ```bash

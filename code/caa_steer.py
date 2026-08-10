@@ -16,10 +16,12 @@ contrastive answer pairs, at a chosen layer L, over a behavior dataset:
 Steering = ADD c * v_hat (unit steering vector) at resid_post of layer L at EVERY
 position during generation (Rimsky's all-position deployment). Because the native
 regime is all-positions (like refusal / SAE), kappa = E_first / E_native is
-informative:
+informative. The standardized ``first`` mode is prefill-only; the shipped
+prefill+1 schedule remains available explicitly for window-sensitivity runs:
   - E_native : c*v_hat added at EVERY position (published CAA form).
-  - E_first  : c*v_hat added only while processing prompt + first generated token,
-               baked into the KV cache, then removed.
+  - E_first  : c*v_hat added only while processing the prompt (prefill-only).
+  - E_first_prefill_plus1 : the historical schedule, which also applies while
+                            processing the first generated token.
   - kappa    : E_first / E_native (cascade share).
 
 Rimsky's A/B-formatted multiple-choice pairs: each item has a question, a
@@ -386,18 +388,36 @@ class CAAMethod:
 
     Modes:
       - 'native'/'all': add at every position (published CAA form).
-      - 'first'       : add only at prompt positions + the FIRST generated token,
-                        baked into the KV cache, then removed (E_first).
+      - 'first'       : use the explicitly selected ``first_window``.
+      - 'first_prefill_only': add only during prompt prefill.
+      - 'first_prefill_plus1': historical schedule; also add while processing
+                               the first generated token.
       - 'base'        : no steering (greedy).
-    Manual generation loop (like SAESteerMethod) so E_first can stop after step 0.
+    Manual generation loop (like SAESteerMethod) so the hook window is explicit.
     Prompts passed to generate() are the already-chat-templated user turns.
     """
     model: object
     tokenizer: object
     layer: int
     direction: torch.Tensor  # [hidden] unit vector, CPU
+    first_window: str
     device: str = "cpu"
     max_new_tokens: int = 64
+
+    def __post_init__(self):
+        if self.first_window not in {"prefill_only", "prefill_plus1"}:
+            raise ValueError(
+                "first_window must be 'prefill_only' or 'prefill_plus1'")
+        self.last_forward_activity = []
+
+    def _first_apply(self, mode: str) -> str:
+        if mode == "first":
+            return self.first_window
+        if mode == "first_prefill_only":
+            return "prefill_only"
+        if mode == "first_prefill_plus1":
+            return "prefill_plus1"
+        raise ValueError(mode)
 
     def _vec(self, coeff: float) -> torch.Tensor:
         return (coeff * self.direction).to(self.device)
@@ -407,13 +427,15 @@ class CAAMethod:
             return self._gen(prompt, None, apply="none")
         if mode in ("native", "all"):
             return self._gen(prompt, self._vec(coeff), apply="all")
-        if mode == "first":
-            return self._gen(prompt, self._vec(coeff), apply="first")
+        if mode.startswith("first"):
+            return self._gen(prompt, self._vec(coeff),
+                             apply=self._first_apply(mode))
         raise ValueError(mode)
 
     def generate_with_fixed_vector(self, prompt: str, vec: torch.Tensor,
                                    mode: str) -> str:
-        apply = "all" if mode in ("native", "all") else "first"
+        apply = ("all" if mode in ("native", "all")
+                 else self._first_apply(mode))
         return self._gen(prompt, vec.to(self.device), apply=apply)
 
     def _gen(self, prompt: str, add_vec, apply: str) -> str:
@@ -434,18 +456,22 @@ class CAAMethod:
 
         h = module.register_forward_hook(hook)
         generated: List[int] = []
+        self.last_forward_activity = []
         try:
             with torch.no_grad():
                 state["active"] = apply != "none"
+                self.last_forward_activity.append({
+                    "phase": "prefill", "active": bool(state["active"])
+                })
                 out = model(input_ids, use_cache=True)
                 past = out.past_key_values
                 nid = int(out.logits[0, -1].argmax())
                 generated.append(nid)
                 cur = torch.tensor([[nid]], device=device)
                 for step in range(self.max_new_tokens - 1):
-                    if apply == "first" and step == 0:
-                        state["active"] = True
-                    elif apply == "first":
+                    if apply == "prefill_plus1":
+                        state["active"] = step == 0
+                    elif apply == "prefill_only":
                         state["active"] = False
                     elif apply == "all":
                         state["active"] = True
@@ -453,6 +479,10 @@ class CAAMethod:
                         state["active"] = False
                     if nid == tok.eos_token_id:
                         break
+                    self.last_forward_activity.append({
+                        "phase": "generated_forward", "step": step,
+                        "active": bool(state["active"]),
+                    })
                     o = model(cur, past_key_values=past, use_cache=True)
                     past = o.past_key_values
                     nid = int(o.logits[0, -1].argmax())
@@ -523,14 +553,18 @@ def teacher_forced_stepkl_native(meth: CAAMethod, tok, prompts,
     return float(np.mean(all_kls)) if all_kls else 0.0
 
 
-def kv_baked_first_sanity(meth: CAAMethod, tok, prompts, coeff) -> dict:
-    """Verify E_first: manual prefill-with-steering then continue-without matches
-    the method's 'first' output (steering baked into KV for prompt+first token)."""
+def kv_baked_first_sanity(meth: CAAMethod, tok, prompts, coeff,
+                          first_window: Optional[str] = None) -> dict:
+    """Verify the selected E_first window against an independent manual loop."""
     model, device, L = meth.model, meth.device, meth.layer
     add_vec = meth._vec(coeff)
+    window = first_window or meth.first_window
+    if window not in {"prefill_only", "prefill_plus1"}:
+        raise ValueError(window)
+    mode = f"first_{window}"
     results = []
     for p in prompts:
-        native_first = meth.generate(p, coeff, "first")
+        native_first = meth.generate(p, coeff, mode)
         ids = tok(p, return_tensors="pt")["input_ids"].to(device)
         with torch.no_grad(), _residpost_static_hook(model, L, add_vec):
             out = model(ids, use_cache=True)
@@ -542,7 +576,7 @@ def kv_baked_first_sanity(meth: CAAMethod, tok, prompts, coeff) -> dict:
             for step in range(meth.max_new_tokens - 1):
                 if nid == tok.eos_token_id:
                     break
-                if step == 0:
+                if window == "prefill_plus1" and step == 0:
                     with _residpost_static_hook(model, L, add_vec):
                         o = model(cur, past_key_values=past, use_cache=True)
                 else:
@@ -553,7 +587,10 @@ def kv_baked_first_sanity(meth: CAAMethod, tok, prompts, coeff) -> dict:
                 cur = torch.tensor([[nid]], device=device)
         manual = tok.decode(torch.tensor(gen), skip_special_tokens=True)
         results.append(native_first.strip() == manual.strip())
-    return {"n": len(prompts), "all_match": bool(all(results)), "matches": results}
+    return {
+        "window": window, "n": len(prompts),
+        "all_match": bool(all(results)), "matches": results,
+    }
 
 
 # ---------------------------------------------------------------------------

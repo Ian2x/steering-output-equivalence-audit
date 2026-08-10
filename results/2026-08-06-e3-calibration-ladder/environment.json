@@ -1,0 +1,18 @@
+{
+  "cuda_available": false,
+  "cuda_capability": null,
+  "cuda_device": null,
+  "dtype": "bfloat16",
+  "model_id": "EleutherAI/pythia-2.8b",
+  "model_revision": "2a259cdd96a4beb1cdf467512e3904197345f6a9",
+  "numpy": "2.5.1",
+  "numpy_config": "Build Dependencies:\n  blas:\n    detection method: system\n    found: true\n    include directory: unknown\n    lib directory: unknown\n    name: accelerate\n    openblas configuration: unknown\n    pc file directory: unknown\n    version: unknown\n  lapack:\n    detection method: system\n    found: true\n    include directory: unknown\n    lib directory: unknown\n    name: accelerate\n    openblas configuration: unknown\n    pc file directory: unknown\n    version: unknown\nCompilers:\n  c:\n    commands: cc\n    linker: ld64\n    name: clang\n    version: 15.0.0\n  c++:\n    commands: c++\n    linker: ld64\n    name: clang\n    version: 15.0.0\n  cython:\n    commands: cython\n    linker: cython\n    name: cython\n    version: 3.2.8\nMachine Information:\n  build:\n    cpu: aarch64\n    endian: little\n    family: aarch64\n    system: darwin\n  host:\n    cpu: aarch64\n    endian: little\n    family: aarch64\n    system: darwin\nPython Information:\n  path: /private/var/folders/g3/pffjr_y96bq06blnkf72x_hw0000gn/T/build-env-hiuxi8hf/bin/python\n  version: '3.12'\nSIMD Extensions:\n  baseline:\n  - NEON\n  - NEON_FP16\n  - NEON_VFPV4\n  - ASIMD\n  found:\n  - ASIMDHP\n  - ASIMDDP\n  not found:\n  - ASIMDFHM\n\n",
+  "nvidia_driver": null,
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]",
+  "tf32_allowed": null,
+  "timestamp": "2026-08-06T07:05:04.558332+00:00",
+  "torch": "2.12.1",
+  "torch_cuda_build": null,
+  "transformers": "5.13.0"
+}

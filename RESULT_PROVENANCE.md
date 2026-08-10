@@ -16,6 +16,33 @@ unrounded values.
 | CAA corrigibility-match | `results/2026-07-10-caa-semantic-check/source/corrigibility/results_full.json` | `rates`, `rho`, `kappa`, gates |
 | Full-vocabulary controller frontiers | `results/2026-07-10-output-footprint-distill/{synthetic,fv,taskvec}.json` | `frontier`, `decision`, `heldout_footprint_fidelity`, `oracle_guard` |
 | CAA semantic robustness | `results/2026-07-10-caa-semantic-check/semantic_judged.json` | cleaned alignment, paired differences, surface-only rates, verdicts |
+| Calibration-size ladder (Appendix I) | `results/2026-08-06-e3-calibration-ladder/{fv,taskvec}_curve.json` | `sizes[].fit.effective_rank`, `sizes[].fidelity.derived`, `sizes[].fidelity.prompt_cluster_bootstrap_95`, `frontier_at_largest` |
+| Calibration-ladder parity gate | `results/2026-08-06-e3-calibration-ladder/{fv,taskvec}_parity_decision.json` | 47 per-arm checks against the shipped 400-row fits, 40 of them exact equality |
+| Calibration-ladder outcome | `results/2026-08-06-e3-calibration-ladder/independent_reduction.json` | paired recovery deltas, plateau and material-gain predicates, `outcome_map.row` |
+| Standardized `kappa`, SAE cell (Sections 3.5, 5.6) | `results/2026-08-06-kappa-window-standardization/sae_window_raw.json` | `conditions.*.hits` per-prompt vectors for both windows, `gate0`, `gate1`, `kappa`, `rho_confirmation` |
+| Standardized `kappa`, both CAA cells | `results/2026-08-06-kappa-window-standardization/caa_window_raw.json` | `behaviors.*.conditions.*.hits`, `behaviors.*.gate0` exact-replay predicates, `behaviors.*.metrics.kappa`, `behaviors.*.metrics.precision`, `decision` |
+| Window-standardization environment | `results/2026-08-06-kappa-window-standardization/environment.json` | torch/transformers/accelerate versions and CUDA device for the rerun |
+
+## Intervention-window standardization
+
+The three cells whose shipped drivers measured `E_first` on the wider
+prefill+1 window — SAE feature steering and both CAA cells — were rerun under
+both windows after the release candidate was built (Post-hoc disclosure 21).
+The rerun is gated on exact reproduction of each cell's historical baseline,
+native, control, and prefill+1 hit counts, so the standardized prefill-only
+estimates extend the shipped artifacts rather than replacing them. The
+originally shipped `results_full.json` files are unchanged and remain the
+source for every `rho` value and gate; `reproduce_checks.py` re-derives both
+windows from the per-prompt hit vectors above and asserts that the replayed
+`rho` equals the frozen one in all three cells.
+
+One release-time edit applies to `sae_window_raw.json` in this repository. That
+cell ran locally, so its `source.banked_result` and `source.prompts` fields were
+written as absolute filesystem paths. Both have been rewritten as
+project-relative paths here; the accompanying `banked_result_sha256` and
+`prompts_sha256` fields are untouched, so the inputs remain identified by
+content. No derived quantity reads these fields, and `DERIVED_CHECKS.json` is
+byte-identical before and after the rewrite.
 
 ## Corrections retained in the record
 
