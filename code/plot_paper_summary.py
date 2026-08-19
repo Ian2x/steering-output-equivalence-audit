@@ -37,16 +37,21 @@ def rho_kappa_map() -> None:
     # Rows are sorted by rho point estimate, descending. kappa kinds:
     #   measured      -> filled marker with paired-bootstrap 95% CI
     #   construction  -> open marker at 1.0 (prefill-only native schedule)
-    #   point_only    -> filled marker, no interval shipped
+    # The function- and task-vector rho values are their gate-void matched
+    # points (repetition trip), retained at their measured values and drawn
+    # with a cross overlay; the clean frontiers are in Figure 2.
+    # Every measured kappa is on the common prefill-only window. The final
+    # field is the retained prefill+1 sensitivity point for the three cells
+    # whose shipped drivers used the wider window (Section 3.5).
     rows = [
-        ("Output-push anchor (A0)", 1.615, 1.250, 2.185, 0.000, 0.000, 0.000, "measured"),
-        ("CAA corrigibility", 1.333, 0.933, 2.000, 0.833, 0.538, 1.067, "measured"),
-        ("Activation Addition", 0.959, 0.853, 1.071, 1.000, None, None, "construction"),
-        ("CAA sycophancy", 0.882, 0.790, 0.971, 0.833, 0.750, 0.913, "measured"),
-        ("SAE steering", 0.416, 0.336, 0.493, 0.631, 0.553, 0.707, "measured"),
-        ("Refusal ablation", 0.259, 0.180, 0.338, 0.986, 0.957, 1.000, "measured"),
-        ("Function vector", -0.119, -0.231, -0.039, 0.983, None, None, "point_only"),
-        ("Task vector", -0.141, -0.250, -0.061, 1.000, None, None, "construction"),
+        ("Output-push anchor (A0)", 1.615, 1.250, 2.185, 0.000, 0.000, 0.000, "measured", None),
+        ("CAA corrigibility", 1.333, 0.933, 2.000, 0.722, 0.400, 1.000, "measured", 0.833),
+        ("Activation Addition", 0.959, 0.853, 1.071, 1.000, None, None, "construction", None),
+        ("CAA sycophancy", 0.882, 0.790, 0.971, 0.784, 0.692, 0.876, "measured", 0.833),
+        ("SAE steering", 0.416, 0.336, 0.493, 0.570, 0.487, 0.651, "measured", 0.631),
+        ("Refusal ablation", 0.259, 0.180, 0.338, 0.986, 0.957, 1.000, "measured", None),
+        ("Function vector", -0.119, -0.231, -0.039, 0.983, 0.943, 1.000, "measured", None),
+        ("Task vector", -0.141, -0.250, -0.061, 1.000, None, None, "construction", None),
     ]
     ink = "#222222"
     ys = np.arange(len(rows))
@@ -60,10 +65,10 @@ def rho_kappa_map() -> None:
     ax.axvspan(-0.40, 0.30, color="#e8f1f8", alpha=0.8, zorder=0)
     ax.axvspan(0.90, 2.30, color="#f8ece9", alpha=0.8, zorder=0)
     band_trans = blended_transform_factory(ax.transData, ax.transAxes)
-    ax.text(0.30, 0.02, "0.3", fontsize=7.5, color="#365b75", ha="center",
-            va="bottom", transform=band_trans)
-    ax.text(0.90, 0.02, "0.9", fontsize=7.5, color="#8c4a3f", ha="center",
-            va="bottom", transform=band_trans)
+    ax.text(0.30, 0.985, "0.3", fontsize=7.5, color="#365b75", ha="center",
+            va="top", transform=band_trans)
+    ax.text(0.90, 0.985, "0.9", fontsize=7.5, color="#8c4a3f", ha="center",
+            va="top", transform=band_trans)
     ax.axvline(0, color="#888888", lw=0.7, zorder=1)
     for y, (name, rho, lo, hi, *_rest) in zip(ys, rows):
         if name == "Refusal ablation":
@@ -76,6 +81,16 @@ def rho_kappa_map() -> None:
             ax.plot([0.151], [y], marker="|", markersize=9, color=ink,
                     markeredgewidth=1.4, zorder=3)
             ax.annotate("strict 0.151", (0.151, y), xytext=(-4, 9),
+                        textcoords="offset points", fontsize=7, color="#444444")
+        elif name in ("Function vector", "Task vector"):
+            # Gate-void matched point (repetition trip), retained at its
+            # measured value: open marker with a cross overlay.
+            ax.errorbar(rho, y, xerr=[[rho - lo], [hi - rho]], fmt="o",
+                        color=ink, capsize=2.5, markersize=5.5,
+                        markerfacecolor="white", markeredgewidth=1.2, zorder=3)
+            ax.plot([rho], [y], marker="x", markersize=4.5, color=ink,
+                    markeredgewidth=1.1, zorder=4)
+            ax.annotate("void (repetition)", (hi, y), xytext=(4, 6),
                         textcoords="offset points", fontsize=7, color="#444444")
         else:
             ax.errorbar(rho, y, xerr=[[rho - lo], [hi - rho]], fmt="o",
@@ -91,16 +106,20 @@ def rho_kappa_map() -> None:
 
     # Right panel: kappa on the same row order, which visibly does not
     # follow the rho ordering.
-    for y, (name, _rho, _lo, _hi, kappa, klo, khi, kind) in zip(ys, rows):
+    for y, (name, _rho, _lo, _hi, kappa, klo, khi, kind, sens) in zip(ys, rows):
+        if sens is not None:
+            # Paired window-sensitivity marker: the retained prefill+1 point on
+            # the same prompts. The connector shows the pairing; the CAA pairs
+            # are inconclusive-underpowered and are not a claim of difference.
+            ax2.plot([kappa, sens], [y, y], color="#9a9a9a", lw=0.8,
+                     zorder=2)
+            ax2.plot([sens], [y], marker="D", markersize=3.6,
+                     markerfacecolor="white", markeredgecolor="#6f6f6f",
+                     markeredgewidth=0.9, zorder=4)
         if kind == "construction":
             ax2.plot([kappa], [y], marker="o", markersize=5.5,
                      markerfacecolor="white", markeredgecolor=ink,
                      markeredgewidth=1.2, zorder=3)
-        elif kind == "point_only":
-            ax2.plot([kappa], [y], marker="o", markersize=5.5, color=ink,
-                     markeredgecolor="white", markeredgewidth=0.7, zorder=3)
-            ax2.annotate("point only", (kappa, y), xytext=(-46, -3),
-                         textcoords="offset points", fontsize=7, color="#444444")
         else:
             ax2.errorbar(kappa, y, xerr=[[kappa - klo], [khi - kappa]],
                          fmt="o", color=ink, capsize=2.5, markersize=5.5,
@@ -118,10 +137,16 @@ def rho_kappa_map() -> None:
         Line2D([], [], marker="o", linestyle="", markerfacecolor="white",
                markeredgecolor=ink,
                label="by construction, or a gate-convention maximum"),
+        Line2D([], [], marker="D", linestyle="-", color="#9a9a9a",
+               markersize=3.6, markerfacecolor="white",
+               markeredgecolor="#6f6f6f",
+               label="retained prefill+1 kappa (window sensitivity)"),
+        Line2D([], [], marker="x", linestyle="", color=ink,
+               markersize=4.5, label="gate-void matched point"),
     ]
     fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False,
-               fontsize=7.5, bbox_to_anchor=(0.5, -0.02))
-    fig.tight_layout(rect=(0, 0.04, 1, 1))
+               fontsize=7.5, bbox_to_anchor=(0.5, -0.06))
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
     save(fig, "rho_kappa_map")
 
 

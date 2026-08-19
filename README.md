@@ -18,8 +18,10 @@ is.
 
 | Path | What it is |
 |---|---|
-| `results/` | Shipped JSON artifacts for every countable paper row, the full-vocabulary controller study, and the CAA semantic robustness check |
+| `results/` | Shipped JSON artifacts for every countable paper row, the full-vocabulary controller study, the CAA semantic robustness check, the intervention-window standardization rerun (`2026-08-06-kappa-window-standardization`), and the calibration-size ladder (`2026-08-06-e3-calibration-ladder`) |
 | `code/` | Experiment drivers, controller and gate implementations, scoring, and plotting |
+| `code/actlib/` | The shared activation-capture library the drivers import (model loading, hook registration, KV-baked one-shot patches) |
+| `code/kappa_window_ladder/` | The window-standardization and calibration-ladder drivers, kept apart because one file name clashes with an earlier driver in `code/` (see its `README.md`) |
 | `reproduce_checks.py` | Standard-library checker that re-derives headline quantities from the shipped JSON bytes |
 | `DERIVED_CHECKS.json` | The checker's own output, stored so you can diff a fresh run against the release |
 | `RESULT_PROVENANCE.md` | Mapping from paper claims to source artifacts |
@@ -77,7 +79,8 @@ python3 code/plot_output_frontiers.py --out reproduced/rho_vs_absolute_kl.png
 
 `plot_paper_summary.py` writes the rho/kappa map (Figure 1) and the CAA semantic
 robustness figure (Figure 3) into `paper_figures/`; `plot_output_frontiers.py`
-writes the absolute-KL frontiers (Figure 2) to the `--out` path. Each script
+writes the absolute-KL frontiers (Figure 2) to the `--out` path, reading the
+6,400-row refit series from `results/2026-08-06-e3-calibration-ladder/`. Each script
 emits a PNG and a PDF; the PDFs are the ones the paper embeds, and they
 reproduce the published files byte for byte apart from the embedded creation
 timestamp. `code/draw_rho_kappa_pdf.py` is retained only for the historical
@@ -89,9 +92,15 @@ as invisible text in several PDF viewers.
 The experiment drivers under `code/` require GPU hardware, model downloads, and
 in two cases an OpenAI API key for the automated semantic judge (read from the
 `OPENAI_API_KEY` environment variable; no credentials are stored in this
-repository). Reruns will not reproduce the shipped bytes exactly across different
-hardware — see `KNOWN_ISSUES.md` for a documented cross-backend generation-parity
-failure that stopped one arm before it produced an artifact.
+repository). The drivers import a small shared activation-capture library,
+`actlib`, which ships in `code/actlib/`; they resolve it from their own
+directory, so no path configuration is needed. That copy is the library the runs
+used; only comments and docstrings that named unrelated internal projects were
+removed, no code line changed. The artifact-only verification and figure
+regeneration above do not import it. Reruns will not reproduce the shipped bytes
+exactly across different hardware — see `KNOWN_ISSUES.md` for a documented
+cross-backend generation-parity failure that stopped one arm before it produced
+an artifact.
 
 ## Scope and claim boundary
 

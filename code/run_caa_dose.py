@@ -320,7 +320,8 @@ def main():
     v_hat = dd["v_hat"]
     assert int(dd["layer"]) == chosen_L, (
         f"vec layer {dd['layer']} != chosen_L {chosen_L}")
-    meth = C.CAAMethod(model, tokenizer, chosen_L, v_hat, device=device,
+    meth = C.CAAMethod(model, tokenizer, chosen_L, v_hat,
+                       first_window="prefill_plus1", device=device,
                        max_new_tokens=args.tokens)
     log(f"loaded frozen v_hat: L={dd['layer']} norm={float(v_hat.norm()):.4f} "
         f"raw_norm={float(dd.get('raw_norm', float('nan'))):.3f}")

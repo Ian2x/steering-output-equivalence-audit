@@ -196,7 +196,8 @@ def main():
         if dir_proj.norm() > 0 else 0.0)
     log(f"cos(W_dec[f], W_U wedding span) = {cos_dir_wu:.4f}")
 
-    meth = S.SAESteerMethod(model, tok, L, direction, device=device,
+    meth = S.SAESteerMethod(model, tok, L, direction,
+                            first_window="prefill_plus1", device=device,
                             max_new_tokens=args.tokens)
 
     # --- calib baseline (gate refs + reproduction) ---

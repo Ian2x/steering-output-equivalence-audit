@@ -25,8 +25,11 @@ The two conventions do not agree:
 | NLL-exempt, as shipped | 5 (`0.1`–`0.5`) | `0.2589928057553957` | Yes |
 
 The manuscript reports the strict maximum as primary and reports the arm as
-gate-sensitive rather than as a clean plateau. The NLL exemption is recorded as
-a post-hoc, outcome-affecting deviation.
+gate-sensitive rather than as a clean plateau; Table 3 shows both conventions
+side by side, and its note explains that the plateau maximum is an optimistic
+summary of the NLL-exempt series (the strict-gate `0.151` point's own
+control-rate interval maps to `[0.086, 0.223]`). The NLL exemption is recorded
+as a post-hoc, outcome-affecting deviation.
 
 Earlier releases of `reproduce_checks.py` computed the NLL-exempt maximum
 `0.2589...` and returned it under the key name `strict_plateau_pass`. That key
@@ -65,18 +68,38 @@ distribution:
 - `code/sae_steer.py`, the corresponding manual loop (see its comment at the
   `step == 0` branch).
 
-The CAA and SAE `kappa` values are therefore measured under a strictly larger
-intervention window than the others. The direction of the resulting bias is not
-determined a priori, so `kappa` should be compared within a schedule and not
-across schedules. The manuscript tags every reported `kappa` with its schedule
-and does not rank cells by `kappa` across schedules.
+The originally shipped CAA and SAE `kappa` values were therefore measured under
+a strictly larger intervention window than the others. After the release
+candidate was built, all three cells were rerun under both windows on matched
+hardware behind an exact-replay gate (`code/kappa_window_ladder/`,
+`results/2026-08-06-kappa-window-standardization/`; Post-hoc disclosure 21).
+The manuscript now reports the prefill-only estimate for every measured cell
+(SAE `0.570 [0.487, 0.651]`, CAA sycophancy `0.784 [0.692, 0.876]`, CAA
+corrigibility `0.722 [0.400, 1.000]`), retains the prefill+1 values as a
+sensitivity row (`0.631`, `0.833`, `0.833`), and reports the paired window
+contrast in Section 5.6: directional but resolution-limited for SAE and
+inconclusive for both CAA cells. The window contrast is resolved only for the
+SAE cell; the manuscript makes no global agreement claim across the three.
 
-No `rho` value, gate, or verdict depends on this. Every cell whose `rho` is
-reported uses `E_native` in the denominator; the only cells that define `rho`
-against `E_first` are the task-vector cells, where a single KV-baked write is
-the native intervention and the schedule is prefill-only by construction.
-Standardizing the window would require rerunning the CAA and SAE cells, which
-has not been done.
+The originally shipped `results_full.json` files are unchanged and remain the
+source for every `rho` value and gate. No `rho` value, gate, or verdict depends
+on the window: every cell whose `rho` is reported uses `E_native` in the
+denominator, and the replayed `E_native` and `E_control` hit counts reproduce
+the frozen artifacts exactly (asserted by `reproduce_checks.py`). The only cells
+that define `rho` against `E_first` are the task-vector cells, where a single
+KV-baked write is the native intervention and the schedule is prefill-only by
+construction. One appendix-only sensitivity cell, CAA sycophancy at layer 14
+(issue 7), was not rerun because its per-prompt outcome vectors were not
+retained; its `kappa` remains a prefill+1 measurement.
+
+A related driver-consistency note: the shipped `caa_steer.py` and `sae_steer.py`
+carry the window as a required `first_window` field, and the shipped
+`run_caa.py`, `run_caa_dose.py`, and `run_sae.py` pass
+`first_window="prefill_plus1"` explicitly, which reproduces the historical
+schedule those artifacts were generated under. An earlier release candidate of
+this supplement shipped the three battery drivers without that argument, which
+would have raised at construction time; the copies here are the corrected ones
+from the project snapshot.
 
 ## 3. The full-vocabulary fidelity diagnostics are off-policy and are not bounds
 
@@ -98,10 +121,16 @@ aggregate only: 205 of 398 changed-top-1 positions recovered for the function
 vector (`0.5150753768844221`) and 59 of 174 for the task vector
 (`0.3390804597701149`). Those positions are clustered within prompts, and the
 artifacts do not retain the grouping that a cluster-robust interval would
-require. The manuscript therefore reports no interval on these rates, and the
-function vector's margin over the preregistered `0.5` fidelity floor — six
-positions out of 398 — should not be read as a resolved separation between the
-two fits. Both are reported as fidelity-limited.
+require, so no interval can be recomputed from these two files. The
+calibration-size ladder (`results/2026-08-06-e3-calibration-ladder/`,
+Appendix I) refits the same 400-row distiller bit-identically (its parity gate
+asserts equality of the fit and of the frontier rates and `rho` values within
+`1e-10`) and does retain prompt clusters, giving a prompt-cluster bootstrap of
+`[0.464, 0.567]` for the function-vector `205/398` rate. The manuscript reports
+that interval and reads the function vector's margin over the `0.5` fidelity
+line — six positions out of 398 — as unresolved. The fidelity tiers were
+preregistered with the controller (Amendment 19) but were never calibrated as
+decision boundaries; both fits are reported as fidelity-limited.
 
 ## 5. `run_refusal.py` ships a verdict-logic defect and corrupt point fields
 
@@ -145,11 +174,20 @@ Repair `run_refusal.py` before reusing it.
 
 ## 7. Some reported quantities cannot be recomputed from what ships here
 
-- **Per-prompt effect vectors ship for four of the eight audited cells.** The
-  rest ship aggregates plus the code paths that produced them, so the bundled
+- **Per-prompt effect vectors ship for five of the eight audited cells** —
+  the function-vector and task-vector arms through the distiller artifacts, and
+  the SAE and both CAA cells through the window-standardization and
+  semantic-check replays. The synthetic anchor, Activation Addition, and refusal
+  cells ship aggregates plus the code paths that produced them, so the bundled
   checker is a transcription-consistency check over aggregates and does not
   recompute bootstrap intervals from per-prompt data. The manuscript's
   reproducibility statement says this explicitly.
+- **The ineligible-arm and appendix-only artifacts are not in this supplement.**
+  Appendix G's ITI, RepE, and PromptSteering/AxBench canary numbers, and the
+  layer-14 CAA sycophancy cell below, are reported from project run records
+  whose JSON is not shipped; the drivers that produced them
+  (`code/run_iti.py`, `code/run_repe.py`, `code/run_axbench_*.py`,
+  `code/run_pas_truthfulqa_canary.py`, `code/run_persona_*.py`) are.
 - **The layer-14 CAA sycophancy battery JSON is not in this supplement.** The
   manuscript reports that cell (`rho = 0.417 [0.305, 0.526]`,
   `kappa = 0.926`, prefill+1) as a layer-sensitivity check on the layer-18 row.
@@ -157,7 +195,23 @@ Repair `run_refusal.py` before reusing it.
 - **Cluster structure is not retained** in the held-out fidelity payloads; see
   issue 4.
 
-## 8. Cross-hardware and precision caveats on the exploratory branches
+## 8. The CAA driver's `cell_valid` flag counts only two of the three gate lines
+
+`code/run_caa.py` computes the three-line degeneracy gate for every condition
+and stores all three lines, but its cell-level `cell_valid` and eligibility
+flags are formed from the repetition and length lines only; the likelihood line
+is stored and not counted there. The manuscript applies the full three-line
+gate to both counted CAA cells (Section 3.4, Appendix H): both are clean under
+it, so no reported label depends on the exemption. It matters for two disclosed
+places. First, the layer-14 sycophancy sensitivity cell (Appendix G) is clean
+only under the driver's two-line flag; its native and control NLL exceed the
+strict line, and the manuscript labels it accordingly. Second, in the
+gate-sensitivity sweep of Appendix H, the sycophancy cell's native and control
+NLL (`0.796` and `0.704` against a `0.340` base) would trip at `nll_mult = 2`
+with NLL counted, which would void the cell rather than relabel it. Readers
+reusing `run_caa.py` should count all three lines in `cell_valid`.
+
+## 9. Cross-hardware and precision caveats on the exploratory branches
 
 These affect the reproducibility branches reported in the manuscript's appendix,
 not the counted cells.
@@ -174,7 +228,7 @@ not the counted cells.
   absolute-KL axis (0.03 nats) carry reduced-precision numerics. The behavioral
   rates and gate statistics the verdicts rest on are not sub-nat quantities.
 
-## 9. `code/draw_rho_kappa_pdf.py` is deprecated and refuses to run
+## 10. `code/draw_rho_kappa_pdf.py` is deprecated and refuses to run
 
 It emitted a PDF referencing non-embedded Type 1 Helvetica, which renders with
 invisible text in some viewers, and it duplicated the summary figure's data as

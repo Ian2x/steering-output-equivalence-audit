@@ -448,7 +448,8 @@ def stage1_sweep(model, tokenizer, device, args, outdir, extract_pairs,
                 f"{' (auto)' if gd['lda_shrinkage_auto'] else ''} "
                 f"cond={gd['lda_cond']:.3e} ||meandiff||={raw_norm:.3f}")
 
-        meth = C.CAAMethod(model, tokenizer, L, v_hat, device=device,
+        meth = C.CAAMethod(model, tokenizer, L, v_hat,
+                           first_window="prefill_plus1", device=device,
                            max_new_tokens=args.tokens)
         est_tag = "" if estimator == "mean" else f"|{estimator}"
         lam_key = f"|lam{lam_tag}" if lam_tag is not None else ""
@@ -554,7 +555,8 @@ def stage2_battery(model, tokenizer, device, args, outdir, stage1,
     vpath = vec_path(outdir, L, estimator, lam_tag)
     dd = torch.load(vpath)
     v_hat = dd["v_hat"]; dir_norm = dd["raw_norm"]
-    meth = C.CAAMethod(model, tokenizer, L, v_hat, device=device,
+    meth = C.CAAMethod(model, tokenizer, L, v_hat,
+                       first_window="prefill_plus1", device=device,
                        max_new_tokens=args.tokens)
     H = v_hat.shape[0]
     log(f"battery: L={L} c={coeff} ||raw v||={dir_norm:.3f}")

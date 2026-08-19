@@ -22,6 +22,9 @@ unrounded values.
 | Standardized `kappa`, SAE cell (Sections 3.5, 5.6) | `results/2026-08-06-kappa-window-standardization/sae_window_raw.json` | `conditions.*.hits` per-prompt vectors for both windows, `gate0`, `gate1`, `kappa`, `rho_confirmation` |
 | Standardized `kappa`, both CAA cells | `results/2026-08-06-kappa-window-standardization/caa_window_raw.json` | `behaviors.*.conditions.*.hits`, `behaviors.*.gate0` exact-replay predicates, `behaviors.*.metrics.kappa`, `behaviors.*.metrics.precision`, `decision` |
 | Window-standardization environment | `results/2026-08-06-kappa-window-standardization/environment.json` | torch/transformers/accelerate versions and CUDA device for the rerun |
+| Window-standardization drivers | `code/kappa_window_ladder/run_kappa_window_sae.py`, `code/kappa_window_ladder/replay_caa_semantic_check.py` | exact-replay gate, both windows; the CAA file shares its name with the Amendment-20 semantic replay in `code/` (see the subdirectory README) |
+| Calibration-ladder drivers | `code/kappa_window_ladder/run_e3_calibration_curve.py`, `reduce_e3_stage_a.py`, `reduce_e3_calibration_curve.py` | ladder fits, 400-row parity gate, independent reduction |
+| Gate triplets and gate-sensitivity sweep (Section 3.4, Appendix H) | `degeneracy_gates` / `gates` blocks of the per-cell `results_full.json` files above | 3-gram repetition, median length, mean NLL per condition; the CAA driver's `cell_valid` counts only the first two lines (`KNOWN_ISSUES.md`, issue 8) |
 
 ## Intervention-window standardization
 
@@ -36,13 +39,13 @@ source for every `rho` value and gate; `reproduce_checks.py` re-derives both
 windows from the per-prompt hit vectors above and asserts that the replayed
 `rho` equals the frozen one in all three cells.
 
-One release-time edit applies to `sae_window_raw.json` in this repository. That
-cell ran locally, so its `source.banked_result` and `source.prompts` fields were
-written as absolute filesystem paths. Both have been rewritten as
-project-relative paths here; the accompanying `banked_result_sha256` and
-`prompts_sha256` fields are untouched, so the inputs remain identified by
-content. No derived quantity reads these fields, and `DERIVED_CHECKS.json` is
-byte-identical before and after the rewrite.
+One release-time edit applies to `sae_window_raw.json`. That cell ran locally,
+so its `source.banked_result` and `source.prompts` fields were written as
+absolute filesystem paths. Both have been rewritten as project-relative paths;
+the accompanying `banked_result_sha256` and `prompts_sha256` fields are
+untouched, so the inputs remain identified by content. No derived quantity
+reads these fields, and `DERIVED_CHECKS.json` is byte-identical before and
+after the rewrite.
 
 ## Corrections retained in the record
 
@@ -63,8 +66,11 @@ kappa    = (0.42 - 0.27) / (0.45 - 0.27) = 0.833333...
 
 The bootstrap interval is `[0.538461..., 1.066667...]`. An earlier tracker
 and figure had accidentally copied the interval's lower bound into the point
-field. The submitted source and checker use the raw-artifact value `0.833333`.
-No `rho`, gate outcome, or bounded conclusion changes.
+field. The checker uses the raw-artifact value `0.833333`. That value is the
+prefill+1 measurement; the paper's Table 3 reports this cell's standardized
+prefill-only `kappa`, `0.722 [0.400, 1.000]`, from `caa_window_raw.json`
+above and retains `0.833 [0.538, 1.067]` as the window-sensitivity row. No
+`rho`, gate outcome, or bounded conclusion changes.
 
 ## Interpretation of stored legacy labels
 

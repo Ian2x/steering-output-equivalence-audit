@@ -23,6 +23,7 @@ if SUPPLEMENT_RESULTS.exists():
         "Task vector": SUPPLEMENT_RESULTS / "2026-07-08-taskvec-7b",
     }
     NEW_RUN = SUPPLEMENT_RESULTS / "2026-07-10-output-footprint-distill"
+    LADDER_RUN = SUPPLEMENT_RESULTS / "2026-08-06-e3-calibration-ladder"
 else:
     OLD_RUNS = {
         "FV": REPO / "runs/steering-content-audit/2026-07-06-a1-anchor",
@@ -30,6 +31,9 @@ else:
     }
     NEW_RUN = (
         REPO / "runs/steering-content-audit/2026-07-10-output-footprint-distill"
+    )
+    LADDER_RUN = (
+        REPO / "runs/steering-content-audit/2026-08-06-e3-calibration-ladder"
     )
 COLORS = {"0": "#7f8c8d", "4": "#2f6f8f", "16": "#2f8f5b", "full": "#8e44ad"}
 # Deterministic per-rank x-offsets so coincident quantized rungs stay visible.
@@ -79,9 +83,30 @@ def new_rows(name: str) -> list[dict]:
     } for row in data["frontier"]]
 
 
+def ladder_rows(name: str) -> list[dict]:
+    """Largest-calibration-size (6,400-row) distiller frontier, if shipped."""
+    arm = "fv" if name == "FV" else "taskvec"
+    path = LADDER_RUN / f"{arm}_curve.json"
+    if not path.exists():
+        return []
+    data = load_json(path)
+    rows = []
+    for row in data["frontier_at_largest"]:
+        rows.append({
+            "x": float(row["achieved_kl"]),
+            "y": float(row["rho"]["point"]),
+            "lo": float(row["rho"]["ci_lo"]),
+            "hi": float(row["rho"]["ci_hi"]),
+            "void": bool(row["gate"]["derived"]["tripped"]),
+            "n_rows": int(row["n_rows"]),
+        })
+    return sorted(rows, key=lambda row: row["x"])
+
+
 def plot_panel(ax, name: str) -> None:
     old = old_rows(name)
     new = new_rows(name)
+    ladder = ladder_rows(name)
 
     by_target = {}
     for row in old:
@@ -111,14 +136,27 @@ def plot_panel(ax, name: str) -> None:
 
     ax.plot([row["x"] for row in new], [row["y"] for row in new],
             color="#111111", linewidth=2.2, marker="s", markersize=4.5,
-            label="Full-vocab per-step")
+            label="Full-vocab per-step, 400-row fit (counted)")
     for row in new:
         ax.errorbar(row["x"], row["y"],
                     yerr=[[row["y"] - row["lo"]],
                           [row["hi"] - row["y"]]],
                     fmt="none", ecolor="#111111", capsize=2, linewidth=1.1)
 
-    all_rows = [row for row in old if row["x"] <= 0.35] + new
+    if ladder:
+        n_rows = ladder[0]["n_rows"]
+        ax.plot([row["x"] for row in ladder], [row["y"] for row in ladder],
+                color="#555555", linewidth=1.6, linestyle="--", marker="D",
+                markersize=4.0, markerfacecolor="white",
+                label=f"Full-vocab per-step, {n_rows:,}-row refit (App. I)")
+        for row in ladder:
+            ax.errorbar(row["x"], row["y"],
+                        yerr=[[row["y"] - row["lo"]],
+                              [row["hi"] - row["y"]]],
+                        fmt="none", ecolor="#555555", capsize=2, linewidth=0.9,
+                        linestyle="--")
+
+    all_rows = [row for row in old if row["x"] <= 0.35] + new + ladder
     y_lo = min(row["lo"] for row in all_rows)
     y_hi = max(row["hi"] for row in all_rows)
     ax.axhline(0.3, color="#a46a1f", linestyle="--", linewidth=1,
